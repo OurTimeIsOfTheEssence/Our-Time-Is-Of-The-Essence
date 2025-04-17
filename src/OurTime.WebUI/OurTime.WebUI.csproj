@@ -4,7 +4,6 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <RootNamespace>Our_Time_Is_Of_The_Essence</RootNamespace>
   </PropertyGroup>
 
 </Project>
