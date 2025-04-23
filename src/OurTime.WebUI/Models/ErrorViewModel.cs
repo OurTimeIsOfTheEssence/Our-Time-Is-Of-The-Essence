@@ -1,4 +1,4 @@
-namespace Our_Time_Is_Of_The_Essence.Models;
+namespace OurTime.WebUI.Models;
 
 public class ErrorViewModel
 {

@@ -1,0 +1,78 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #FFFFFF;     /* Vit bakgrund */
+  color: #121212;                /* Nästan svart text */
+}
+
+header {
+  background-color: #121212;     /* Djupsvart header */
+  color: white;
+  padding: 1em;
+  text-align: center;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  gap: 1em;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+}
+
+nav a:hover {
+  color: #C62828;                /* Röd hover på länkar */
+}
+
+.hero {
+  background-color: #F5F5F5;     /* Ljusgrå hero-sektion */
+  text-align: center;
+  padding: 2em 1em;
+}
+
+.products {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2em;
+  padding: 2em;
+}
+
+.product-card {
+  border: 1px solid #E0E0E0;     /* Ljus kant */
+  padding: 1em;
+  text-align: center;
+  width: 200px;
+  background: white;
+}
+
+.product-card img {
+  width: 100%;
+  height: auto;
+}
+
+button {
+  background-color: #C62828;     /* Röd knapp */
+  color: white;
+  border: none;
+  padding: 0.5em 1em;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #A61B1B;     /* Mörkröd vid hover */
+}
+
+footer {
+  background-color: #121212;
+  color: white;
+  text-align: center;
+  padding: 1em;
+  margin-top: 2em;
+}
