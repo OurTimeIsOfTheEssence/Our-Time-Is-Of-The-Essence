@@ -1,0 +1,58 @@
+﻿@{
+    ViewData["Title"] = "Home";
+}
+
+<header>
+    <div class="logo-container">
+        <img src="/images/OT.png" alt="Logotyp för OurTime">
+
+    </div>
+
+    <h1>Watch the Watch</h1>
+    <p class="slogan">Time You Can Wear</p>
+
+    <nav>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Watches</a></li>
+            <li><a href="#">About us</a></li>
+            <li><a href="#">Contact</a></li>
+            <li><a href="#">Privacy</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <section class="hero">
+        <h2>Time is of the Essence – wear it wisely</h2>
+        <p>Explore our exclusive watches</p>
+    </section>
+
+    <section class="products">
+        <article class="product-card">
+            <img src="@Url.Content("~/images/Trailmaster.jpg")" alt="Watch 1" />
+            <h3>OT Trailmaster</h3>
+            <p>Pris: 49 999 SEK</p>
+            <button>Buy now</button>
+        </article>
+
+        <article class="product-card">
+            <img src="@Url.Content("~/images/Treck.jpg")" alt="Watch 2" />
+            <h3>OT<br>Treck</h3>
+            <p>Pris: 89 895 SEK</p>
+            <button>Buy now</button>
+        </article>
+
+         <article class="product-card">
+    <img src="@Url.Content("~/images/Velour.png")" alt="Watch 3" />
+    <h3>OT<br>Velour</h3>
+    <p>Pris: 29 995 SEK</p>
+    <button>Buy now</button>
+</article>
+
+    </section>
+</main>
+
+<footer>
+    <p>&copy; 2025 OurTime</p>
+</footer>

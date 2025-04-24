@@ -1,8 +1,8 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using Our_Time_Is_Of_The_Essence.Models;
+using OurTime.WebUI.Models;
 
-namespace Our_Time_Is_Of_The_Essence.Controllers;
+namespace OurTime.WebUI.Controllers;
 
 public class HomeController : Controller
 {
