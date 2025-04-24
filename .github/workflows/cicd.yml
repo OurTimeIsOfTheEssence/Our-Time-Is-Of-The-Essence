@@ -19,7 +19,7 @@ jobs:
 
     - name: Build and Publish
       run: |
-        dotnet restore src/OurTime_WebUI/OurTime_WebUI.csproj
+        dotnet restore src/OurTime.WebUI/OurTime.WebUI.csproj
         dotnet publish src/OurTime.WebUI/OurTime.WebUI.csproj -c Release -o published
 
     - name: Deploy to VM via SCP
