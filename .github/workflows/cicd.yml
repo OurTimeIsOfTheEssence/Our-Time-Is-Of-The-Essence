@@ -19,7 +19,7 @@ jobs:
 
     - name: Build and Publish
       run: |
-        dotnet publish OurTime.WebUI/OurTime.WebUI.csproj -c Release -o published --no-restore
+        dotnet publish src/OurTime.WebUI/OurTime.WebUI.csproj -c Release -o published --no-restore
 
     - name: Deploy to VM via SCP
       uses: appleboy/scp-action@v0.1.6
