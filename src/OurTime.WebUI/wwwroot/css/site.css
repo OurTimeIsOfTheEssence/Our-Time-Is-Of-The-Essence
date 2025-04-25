@@ -3,7 +3,7 @@ body {
   margin: 0;
   padding: 0;
   background-color: #FFFFFF;
-  color: #121212;
+  color: #000000;
 }
 
 header {
@@ -80,10 +80,3 @@ button:hover {
   background-color: #A61B1B;
 }
 
-footer {
-  background-color: #121212;
-  color: white;
-  text-align: center;
-  padding: 1em;
-  margin-top: 2em;
-}
