@@ -1,0 +1,46 @@
+name: Deploy OurTime to Azure VM
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 8.0.x
+
+    - name: Build and Publish
+      run: |
+        dotnet restore src/OurTime.WebUI/OurTime.WebUI.csproj
+        dotnet publish src/OurTime.WebUI/OurTime.WebUI.csproj -c Release -o published
+
+    - name: Deploy to VM via SCP
+      uses: appleboy/scp-action@v0.1.6
+      with:
+        host: ${{ secrets.VM_IP }}
+        username: ${{ secrets.VM_USERNAME }}
+        password: ${{ secrets.VM_PASSWORD }}
+        port: 22
+        source: "published/*"
+        target: "/var/www/ourtime"
+
+    - name: Restart OurTime Service
+      uses: appleboy/ssh-action@v0.1.10
+      with:
+        host: ${{ secrets.VM_IP }}
+        username: ${{ secrets.VM_USERNAME }}
+        password: ${{ secrets.VM_PASSWORD }}
+        port: 22
+        script: |
+          sudo systemctl stop myapp.service
+          sudo systemctl daemon-reload
+          sudo systemctl start myapp.service
+          echo "OurTime.WebUI deployed and service restarted!"
