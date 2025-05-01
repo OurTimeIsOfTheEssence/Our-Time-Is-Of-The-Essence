@@ -12,7 +12,6 @@ namespace OurTime.WebUI.Controllers
         {
             _logger = logger;
         }
-
         public IActionResult Index() => View();
         public IActionResult Privacy() => View();
         public IActionResult Watches() => View();
