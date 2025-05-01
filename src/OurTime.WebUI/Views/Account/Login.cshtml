@@ -1,26 +1,30 @@
 ﻿@{
-    ViewBag.Title = "Logga in";
-   
-    var returnUrl = ViewData[""] as string ?? "/";
+    ViewData["Title"] = "Logga in";
+    var returnUrl = ViewData["ReturnUrl"] as string ?? "/";
 }
 
-<h2>@ViewBag.Title</h2>
-
-<form asp-action="Login" method="post">
-    <input type="hidden" name="returnUrl" value="@returnUrl" />
-
-    <div>
-        <label for="username">Användarnamn</label>
-        <input type="text" name="username" id="username" />
+<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh; background: url('~/images/OT.jpg') no-repeat center center; background-size: cover;">
+    <div class="card shadow-lg" style="width: 360px;">
+        <div class="card-body">
+            <h3 class="card-title text-center mb-4">Logga in</h3>
+            <form asp-action="Login" method="post">
+                <input type="hidden" name="returnUrl" value="@returnUrl" />
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="floatingUsername" name="username" placeholder="Användarnamn" autofocus>
+                    <label for="floatingUsername">Användarnamn</label>
+                </div>
+                <div class="form-floating mb-4">
+                    <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Lösenord">
+                    <label for="floatingPassword">Lösenord</label>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Logga in</button>
+            </form>
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div class="alert alert-danger mt-3" role="alert">
+                    Fel användarnamn eller lösenord.
+                </div>
+            }
+        </div>
     </div>
-    <div>
-        <label for="password">Lösenord</label>
-        <input type="password" name="password" id="password" />
-    </div>
-    <button type="submit">Logga in</button>
-</form>
-
-@if (!ViewData.ModelState.IsValid)
-{
-    <p style="color:red;">Fel användarnamn eller lösenord</p>
-}
+</div>
