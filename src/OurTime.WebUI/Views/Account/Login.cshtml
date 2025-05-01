@@ -1,0 +1,26 @@
+﻿@{
+    ViewBag.Title = "Logga in";
+   
+    var returnUrl = ViewData[""] as string ?? "/";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<form asp-action="Login" method="post">
+    <input type="hidden" name="returnUrl" value="@returnUrl" />
+
+    <div>
+        <label for="username">Användarnamn</label>
+        <input type="text" name="username" id="username" />
+    </div>
+    <div>
+        <label for="password">Lösenord</label>
+        <input type="password" name="password" id="password" />
+    </div>
+    <button type="submit">Logga in</button>
+</form>
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <p style="color:red;">Fel användarnamn eller lösenord</p>
+}
