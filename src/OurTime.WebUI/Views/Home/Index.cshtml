@@ -7,6 +7,24 @@
         <h2>Time is of the Essence – wear it wisely</h2>
         <p>Explore our exclusive watches</p>
     </section>
+
+
+     <!-- Produkterna -->
+    <section class="products">
+        <!-- Trailmaster-kort -->
+        <article class="product-card">
+            <!-- Klickbar bild + titel -->
+            <a asp-controller="Home" asp-action="Vector">
+                <img src="@Url.Content("~/images/VectorV1.png")" alt="OT Vector" />
+                <h3>OT Vector</h3>
+            </a>
+            <p>Pris: 49 999 SEK</p>
+            <!-- Klickbar knapp -->
+            <a asp-controller="Home" asp-action="Vector">
+                <button>More information</button>
+            </a>
+        </article>
+
 </main>
 
 <footer>
