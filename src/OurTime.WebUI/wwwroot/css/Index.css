@@ -1,0 +1,27 @@
+.hero {
+    background-color: #F5F5F5;
+    text-align: center;
+    padding: 2em 1em;
+  }
+  
+  .products {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2em;
+    padding: 2em;
+  }
+  
+  .product-card {
+    border: 1px solid #E0E0E0;
+    padding: 1em;
+    text-align: center;
+    width: 400px;
+    background: white;
+  }
+  
+  .product-card img {
+    width: 100%;
+    height: auto;
+  }
+  

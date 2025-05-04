@@ -1,0 +1,40 @@
+/* Bakgrundsbild och struktur */
+body {
+    background-image: url('/images/background2.jpg'); /* byt till blob-URL senare */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+    flex: 1;
+}
+
+/* Vattenstämpel med logga */
+body::before {
+    content: "";
+    background-image: url('/images/OT.jpg'); /* byt till blob-URL senare */
+    background-size: 300px;
+    background-position: center center;
+    background-repeat: no-repeat;
+    opacity: 0.15;
+    position: fixed;
+    top: 120px;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* Innehåll ovanpå loggan */
+header, main, footer {
+    position: relative;
+    z-index: 1;
+}
+
+/* Main-innehåll */
+main {
+    padding: 2em;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
