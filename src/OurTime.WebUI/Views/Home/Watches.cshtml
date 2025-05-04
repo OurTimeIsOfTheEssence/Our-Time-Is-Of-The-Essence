@@ -3,28 +3,48 @@
 }
 
 <main>
-    <!-- Samma hero-sektion som på startsidan -->
     <section class="hero">
         <h2>OT Watches</h2>
         <p>Utforska våra exklusiva klockmodeller nedan.</p>
     </section>
 
-    <!-- Produkterna -->
     <section class="products">
-        <!-- Trailmaster-kort -->
+        <!-- Trailmaster -->
         <article class="product-card">
-            <!-- Klickbar bild + titel -->
-            <a asp-controller="Home" asp-action="Vector">
-                <img src="@Url.Content("~/images/VectorV1.png")" alt="OT Vector" />
+            <a asp-controller="Home" asp-action="Trailmaster">
+                <img src="@Url.Content("~/images/Trailmaster A1.png")" alt="OT Trailmaster" />
                 <h3>OT Trailmaster</h3>
             </a>
             <p>Pris: 49 999 SEK</p>
-            <!-- Klickbar knapp -->
-            <a asp-controller="Home" asp-action="Vector">
+            <a asp-controller="Home" asp-action="Trailmaster">
                 <button>More information</button>
+                <button>Buy now</button>
             </a>
         </article>
 
+        <!-- Velour -->
+        <article class="product-card">
+            <a asp-controller="Home" asp-action="Velour">
+                <img src="@Url.Content("~/images/Velour.png")" alt="OT Velour" />
+                <h3>OT Velour</h3>
+            </a>
+            <p>Pris: 19 999 SEK</p>
+            <a asp-controller="Home" asp-action="Velour">
+                <button>More information</button>
+                <button>Buy now</button>
+            </a>
+        </article>
+
+        <!-- Trek -->
+        <article class="product-card">
+            <a asp-controller="Home" asp-action="Trek">
+                <img src="@Url.Content("~/images/Trek A1.png")" alt="OT Trek" />
+                <h3>OT Trek</h3>
+            </a>
+            <p>Pris: 39 999 SEK</p>
+            <a asp-controller="Home" asp-action="Trek">
+                <button>More information</button>
+                <button>Buy now</button>
             </a>
         </article>
     </section>
