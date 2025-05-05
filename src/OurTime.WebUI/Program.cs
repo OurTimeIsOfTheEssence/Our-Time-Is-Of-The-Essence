@@ -1,10 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using OurTime.WebUI.Data;
+using OurTime.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // 1) Lägg till EF Core med din connection string
+builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("DefaultConnection")));
