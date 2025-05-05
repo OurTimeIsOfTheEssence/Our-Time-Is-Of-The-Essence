@@ -8,29 +8,24 @@
         <p>Explore our exclusive watches</p>
     </section>
 
+
+     <!-- Produkterna -->
     <section class="products">
+        <!-- Trailmaster-kort -->
         <article class="product-card">
-            <img src="@Url.Content("~/images/Trailmaster.jpg")" alt="Watch 1" />
-            <h3>OT Trailmaster</h3>
+            <!-- Klickbar bild + titel -->
+            <a asp-controller="Home" asp-action="Vector">
+                <img src="@Url.Content("~/images/VectorV1.png")" alt="OT Vector" />
+                <h3>OT Vector</h3>
+            </a>
             <p>Pris: 49 999 SEK</p>
-            <button>Buy now</button>
+            <!-- Klickbar knapp -->
+            <a asp-controller="Home" asp-action="Vector">
+                <button>More information</button>
+                <button>Buy now</button>
+            </a>
         </article>
 
-        <article class="product-card">
-            <img src="@Url.Content("~/images/Treck.jpg")" alt="Watch 2" />
-            <h3>OT<br>Treck</h3>
-            <p>Pris: 89 895 SEK</p>
-            <button>Buy now</button>
-        </article>
-
-         <article class="product-card">
-    <img src="@Url.Content("~/images/Velour.png")" alt="Watch 3" />
-    <h3>OT<br>Velour</h3>
-    <p>Pris: 29 995 SEK</p>
-    <button>Buy now</button>
-</article>
-
-    </section>
 </main>
 
 <footer>
