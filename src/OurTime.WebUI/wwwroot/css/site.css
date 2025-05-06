@@ -2,16 +2,22 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #FFFFFF;
+  background-image: url('/images/Background.jpg'); /* eller rätt filnamn */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   color: #000000;
 }
 
+
 header {
-  background-color: #121212;
+  background-color: #353434;
   color: white;
   padding: 1em;
   text-align: center;
 }
+
+
 
 /* 🛠️ Flytta detta UTANFÖR header */
 .logo-container {
@@ -22,7 +28,9 @@ header {
 .logo-container img {
   max-width: 250px;
   height: auto;
+  margin-bottom: 1em;
 }
+
 
 nav ul {
   list-style: none;
@@ -33,7 +41,7 @@ nav ul {
 }
 
 nav a {
-  color: white;
+  color: rgb(247, 9, 9);
   text-decoration: none;
 }
 
@@ -42,10 +50,11 @@ nav a:hover {
 }
 
 .hero {
-  background-color: #F5F5F5;
+  background-color: transparent;
+  padding: 1em;
   text-align: center;
-  padding: 2em 1em;
 }
+
 
 .products {
   display: flex;
