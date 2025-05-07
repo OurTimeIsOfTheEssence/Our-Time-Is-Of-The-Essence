@@ -3,33 +3,49 @@
 }
 
 <main>
+    <!-- Hero-sektion -->
     <section class="hero">
-        <h2>Time is of the Essence – wear it wisely</h2>
-        <p>Explore our exclusive watches</p>
+        <h2>OT Watches</h2>
+        <p>Utforska våra exklusiva klockmodeller nedan.</p>
     </section>
 
+    <!-- Produktkort -->
     <section class="products">
+        <!-- Trailmaster -->
         <article class="product-card">
-            <img src="@Url.Content("~/images/Trailmaster.jpg")" alt="Watch 1" />
+            <img src="~/images/Trailmaster.jpg" alt="OT Trailmaster" />
             <h3>OT Trailmaster</h3>
             <p>Pris: 49 999 SEK</p>
-            <button>Buy now</button>
+            <button type="button"
+                    class="buy-now-button"
+                    onclick="addToCart('Trailmaster')">
+                Köp nu
+            </button>
         </article>
 
+        <!-- Treck -->
         <article class="product-card">
-            <img src="@Url.Content("~/images/Treck.jpg")" alt="Watch 2" />
-            <h3>OT<br>Treck</h3>
+            <img src="~/images/Treck.jpg" alt="OT Treck" />
+            <h3>OT Treck</h3>
             <p>Pris: 89 895 SEK</p>
-            <button>Buy now</button>
+            <button type="button"
+                    class="buy-now-button"
+                    onclick="addToCart('Treck')">
+                Köp nu
+            </button>
         </article>
 
-         <article class="product-card">
-    <img src="@Url.Content("~/images/Velour.png")" alt="Watch 3" />
-    <h3>OT<br>Velour</h3>
-    <p>Pris: 29 995 SEK</p>
-    <button>Buy now</button>
-</article>
-
+        <!-- Velour -->
+        <article class="product-card">
+            <img src="~/images/Velour.png" alt="OT Velour" />
+            <h3>OT Velour</h3>
+            <p>Pris: 29 995 SEK</p>
+            <button type="button"
+                    class="buy-now-button"
+                    onclick="addToCart('Velour')">
+                Köp nu
+            </button>
+        </article>
     </section>
 </main>
 

@@ -1,82 +1,222 @@
+/* ================================
+   Global Styles
+   ================================ */
 body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: #FFFFFF;
-  color: #000000;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #FFFFFF;
+    color: #000000;
 }
 
 header {
-  background-color: #121212;
-  color: white;
-  padding: 1em;
-  text-align: center;
+    background-color: #121212;
+    color: white;
+    padding: 1em;
+    text-align: center;
 }
 
-/* 🛠️ Flytta detta UTANFÖR header */
+
 .logo-container {
-  text-align: center;
-  margin-top: 20px;
+    text-align: center;
+    margin-top: 20px;
 }
 
-.logo-container img {
-  max-width: 250px;
-  height: auto;
-}
+    .logo-container img {
+        max-width: 250px;
+        height: auto;
+    }
 
 nav ul {
-  list-style: none;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  gap: 1em;
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    gap: 1em;
 }
 
 nav a {
-  color: white;
-  text-decoration: none;
+    color: white;
+    text-decoration: none;
 }
 
-nav a:hover {
-  color: #C62828;
-}
+    nav a:hover {
+        color: #C62828;
+    }
 
 .hero {
-  background-color: #F5F5F5;
-  text-align: center;
-  padding: 2em 1em;
+    background-color: #F5F5F5;
+    text-align: center;
+    padding: 2em 1em;
 }
 
 .products {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 2em;
-  padding: 2em;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2em;
+    padding: 2em;
 }
 
+/* 
+   Produktkort
+*/
 .product-card {
-  border: 1px solid #E0E0E0;
-  padding: 1em;
-  text-align: center;
-  width: 200px;
-  background: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px solid #E0E0E0;
+    padding: 1em;
+    width: 200px;
+    background: white;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.product-card img {
-  width: 100%;
-  height: auto;
+    .product-card img {
+        max-height: 200px;
+        object-fit: cover;
+    }
+
+    .product-card h3 {
+        margin: 0.5em 0;
+        flex-shrink: 0;
+    }
+
+    .product-card p {
+        margin: 0.5em 0 1em;
+        flex-shrink: 0;
+    }
+
+    /* 
+   STYLINGEN FÖR "KÖP NU"-KNAPPARNA
+    */
+    .product-card button {
+        display: inline-block;
+        background-color: #dc3545; /* Bootstrap ’danger’–röd */
+        color: #fff; /* Vit text */
+        font-weight: 600; /* Kraftigare text */
+        font-size: 1rem; /* Lagom storlek */
+        padding: 0.6rem 1.2rem; /* Mer luft runt texten */
+        border: none;
+        border-radius: 0.35rem; /* Rundade hörn */
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        cursor: pointer;
+        transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+    }
+
+        .product-card button:hover {
+            background-color: #c82333; /* Mörkare röd på hover */
+            transform: translateY(-2px); /* Lätt lyft‐effekt */
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+
+        .product-card button:active {
+            background-color: #bd2130; /* Ännu mörkare vid click */
+            transform: translateY(0); /* Sänks tillbaka */
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+        }
+
+        .product-card button:focus {
+            outline: none;
+            box-shadow: 0 0 0 0.2rem rgba(220,53,69,0.5); /* Fin fokus‐ring */
+        }
+
+
+/*
+   Kundkorgs-modal-styling
+ */
+#cartModal .modal-content {
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.08);
 }
 
-button {
-  background-color: #C62828;
-  color: white;
-  border: none;
-  padding: 0.5em 1em;
-  cursor: pointer;
+#cartModal .modal-header {
+    border-bottom: none;
+    padding: 1.5rem 1.5rem 0.75rem;
 }
 
-button:hover {
-  background-color: #A61B1B;
+#cartModal .modal-title {
+    font-size: 1.25rem;
+    font-weight: 600;
 }
 
+#cartModal .btn-close {
+    opacity: 0.6;
+    transition: opacity 0.2s ease;
+}
+
+    #cartModal .btn-close:hover {
+        opacity: 1;
+    }
+
+#cartModal .modal-body {
+    padding: 0.75rem 1.5rem 1.5rem;
+}
+
+#cartModalBody .list-group {
+    border: none;
+}
+
+#cartModalBody .list-group-item {
+    border: none;
+    padding: 1rem 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+    #cartModalBody .list-group-item + .list-group-item {
+        border-top: 1px solid #E5E5EA; /* Svagt grå linje */
+    }
+
+/* Endast pris‐badger inne i kundkorgsmodalen */
+#cartModal .modal-body .badge.bg-primary {
+    background-color: #dc3545 !important; /* samma röda */
+    color: #fff !important; /* ändra till vit text */
+    border-radius: 0.25rem;
+    border: 1px solid #a71d2a;
+}
+
+
+/* 
+   Harmonisera kassaknappen med Köp nu
+ */
+#cartModal .modal-footer .btn-primary {
+    background-color: #dc3545 !important; /* Samma röd */
+    border: none !important;
+    color: #fff !important; /* Vit text */
+}
+
+    #cartModal .modal-footer .btn-primary:hover {
+        background-color: #c82333 !important; /* Samma mörkare hover */
+    }
+
+#cartModal .modal-footer {
+    border-top: none;
+    padding: 0.5rem 1.5rem 1.5rem;
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+}
+
+    #cartModal .modal-footer .btn-secondary {
+        background-color: #f2f2f7;
+        color: #000;
+        font-weight: 500;
+    }
+
+        #cartModal .modal-footer .btn-secondary:hover {
+            background-color: #e1e1e6;
+        }
+
+@media (max-width: 576px) {
+    #cartModal .modal-dialog {
+        margin: 1rem;
+    }
+
+    #cartModal .modal-content {
+        box-shadow: none;
+    }
+}

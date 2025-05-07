@@ -3,50 +3,48 @@
 }
 
 <main>
-    <!-- Samma hero-sektion som på startsidan -->
+    <!-- Hero-sektion -->
     <section class="hero">
         <h2>OT Watches</h2>
         <p>Utforska våra exklusiva klockmodeller nedan.</p>
     </section>
 
-    <!-- Produkterna -->
+    <!-- Produktkort -->
     <section class="products">
-        <!-- Trailmaster-kort -->
+        <!-- Trailmaster -->
         <article class="product-card">
-            <!-- Klickbar bild + titel -->
-            <a asp-controller="Home" asp-action="Trailmaster">
-                <img src="@Url.Content("~/images/Trailmaster.jpg")" alt="OT Trailmaster" />
-                <h3>OT Trailmaster</h3>
-            </a>
+            <img src="~/images/Trailmaster.jpg" alt="OT Trailmaster" />
+            <h3>OT Trailmaster</h3>
             <p>Pris: 49 999 SEK</p>
-            <!-- Klickbar knapp -->
-            <a asp-controller="Home" asp-action="Trailmaster">
-                <button>Buy now</button>
-            </a>
+            <button type="button"
+                    class="buy-now-button"
+                    onclick="addToCart('Trailmaster')">
+                Köp nu
+            </button>
         </article>
 
-        <!-- Treck-kort -->
+        <!-- Treck -->
         <article class="product-card">
-            <a asp-controller="Home" asp-action="Treck">
-                <img src="@Url.Content("~/images/Treck.jpg")" alt="OT Treck" />
-                <h3>OT Treck</h3>
-            </a>
+            <img src="~/images/Treck.jpg" alt="OT Treck" />
+            <h3>OT Treck</h3>
             <p>Pris: 89 895 SEK</p>
-            <a asp-controller="Home" asp-action="Treck">
-                <button>Buy now</button>
-            </a>
+            <button type="button"
+                    class="buy-now-button"
+                    onclick="addToCart('Treck')">
+                Köp nu
+            </button>
         </article>
 
-        <!-- Velour-kort -->
+        <!-- Velour -->
         <article class="product-card">
-            <a asp-controller="Home" asp-action="Velour">
-                <img src="@Url.Content("~/images/Velour.png")" alt="OT Velour" />
-                <h3>OT Velour</h3>
-            </a>
+            <img src="~/images/Velour.png" alt="OT Velour" />
+            <h3>OT Velour</h3>
             <p>Pris: 29 995 SEK</p>
-            <a asp-controller="Home" asp-action="Velour">
-                <button>Buy now</button>
-            </a>
+            <button type="button"
+                    class="buy-now-button"
+                    onclick="addToCart('Velour')">
+                Köp nu
+            </button>
         </article>
     </section>
 </main>
