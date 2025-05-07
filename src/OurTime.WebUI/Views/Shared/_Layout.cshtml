@@ -52,6 +52,25 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    
+    <script>
+    function toggleInfo(id) {
+        const info = document.getElementById(id);
+        const button = document.querySelector(`button[onclick="toggleInfo('${id}')"]`);
+        
+        // Om texten är öppen
+        if (info.style.maxHeight && info.style.maxHeight !== "0px") {
+            info.style.maxHeight = "0px";
+            button.textContent = "More information";
+        } 
+        // Om texten är stängd
+        else {
+            info.style.maxHeight = info.scrollHeight + "px";
+            button.textContent = "Less information";
+        }
+    }
+    </script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

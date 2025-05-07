@@ -34,7 +34,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Textcentrering och maxbredd för innehållet på alla sidor */
 .section-content {
-  text-align: center; /* Centrerar all text i denna sektion */
+  text-align: center;
   max-width: 800px;
   margin: 0 auto;
   padding: 2em;
@@ -43,10 +43,10 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Specifik styling för paragrafer (brödtext) inom .section-content */
 .section-content p {
-  font-size: 24px; /* Tydligare textstorlek */
+  font-size: 24px;
   line-height: 1.8;
-  color: #111111; /* Tydlig textfärg */
-  text-align: center; /* Centrerad text */
+  color: #111111;
+  text-align: center;
 }
 
 /* Gemensam styling för navigation */
@@ -97,10 +97,10 @@ footer {
 
 /* Styling för kontaktinformationen (textstorlek och centrering) */
 .contact-info {
-  list-style: none; /* Ta bort punktlistan */
+  list-style: none;
   padding: 0;
-  text-align: center; /* Centrera texten */
-  font-size: 24px; /* Större textstorlek */
+  text-align: center;
+  font-size: 24px;
   color: #111111;
 }
 
@@ -109,13 +109,45 @@ footer {
 }
 
 .contact-info a {
-  text-decoration: none; /* Ingen understrykning */
-  color: #C62828; /* Färg på e-post och telefonnummer */
-  font-weight: bold; /* Gör texten tydligare */
+  text-decoration: none;
+  color: #C62828;
+  font-weight: bold;
 }
 
 .contact-info a:hover {
-  text-decoration: underline; /* Understrykning vid hover */
-  color: #A61B1B; /* Lite mörkare färg vid hover */
+  text-decoration: underline;
+  color: #A61B1B;
 }
 
+/* Styling för produktinformation (ut- och infällbar text) */
+.product-info {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease; /* Smidig animation när texten öppnas/stängs */
+}
+
+/* Texten i produktinformationen */
+.product-info p {
+  font-size: 18px;
+  line-height: 1.6;
+  margin: 0.5em 0;
+  color: #111111;
+}
+
+/* Specifik styling för knappen "More information" */
+button.toggle-info {
+  background-color: #C62828;
+  color: white;
+  border: none;
+  padding: 0.8em 1.5em;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  display: inline-block;
+  margin-top: 0.5em;
+}
+
+button.toggle-info:hover {
+  background-color: #A61B1B;
+}
