@@ -1,29 +1,36 @@
 ﻿@{
-    ViewData["Title"] = "Logga in";
+    ViewData["Title"] = "Log in";
     var returnUrl = ViewData["ReturnUrl"] as string ?? "/";
 }
 
 <div class="d-flex justify-content-center align-items-center" style="min-height: 80vh; background: url('~/images/OT.jpg') no-repeat center center; background-size: cover;">
     <div class="card shadow-lg" style="width: 360px;">
         <div class="card-body">
-            <h3 class="card-title text-center mb-4">Logga in</h3>
+            <h3 class="card-title text-center mb-4">Log in</h3>
             <form asp-action="Login" method="post">
                 <input type="hidden" name="returnUrl" value="@returnUrl" />
+                
+                <!-- Username -->
                 <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="floatingUsername" name="username" placeholder="Användarnamn" autofocus>
-                    <label for="floatingUsername">Användarnamn</label>
+                    <input type="text" class="form-control" id="floatingUsername" name="username" placeholder="Username" autofocus>
+                    <label for="floatingUsername">Username</label>
                 </div>
+                
+                <!-- Password -->
                 <div class="form-floating mb-4">
-                    <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Lösenord">
-                    <label for="floatingPassword">Lösenord</label>
+                    <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Password">
+                    <label for="floatingPassword">Password</label>
                 </div>
-                <button type="submit" class="btn btn-dark text-danger w-100">Logga in</button>
-
+                
+                <!-- Submit button -->
+                <button type="submit" class="btn btn-dark text-danger w-100">Log in</button>
             </form>
+            
+            <!-- Error message for invalid login -->
             @if (!ViewData.ModelState.IsValid)
             {
                 <div class="alert alert-danger mt-3" role="alert">
-                    Fel användarnamn eller lösenord.
+                    Incorrect username or password.
                 </div>
             }
         </div>
