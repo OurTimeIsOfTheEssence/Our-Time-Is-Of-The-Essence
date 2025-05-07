@@ -1,103 +1,121 @@
+/* Gemensam styling för alla sidor (text och layout) */
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background-image: url('/images/Background.jpg');
+  background-image: url('/images/GRÅ1.png');
   background-size: cover;
-  background-position: top right; /* Klockan i hörnet */
+  background-position: top right;
   background-repeat: no-repeat;
   background-attachment: fixed;
   color: #0f0f0f;
+  line-height: 1.6;
 }
 
-
-
+/* Header-styling */
 header {
   background-color: #353434;
   color: white;
-  padding: 1em;
+  padding: 1.5em;
   text-align: center;
+  font-size: 24px;
+  font-weight: bold;
 }
 
-
-
-/* 🛠️ Flytta detta UTANFÖR header */
-.logo-container {
+/* Gemensam styling för alla rubriker (centrerade och samma storlek) */
+h1, h2, h3, h4, h5, h6 {
   text-align: center;
-  margin-top: 20px;
+  font-size: 36px;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+  color: #111111;
+  font-weight: 700;
 }
 
-.logo-container img {
-  max-width: 250px;
-  height: auto;
-  margin-bottom: 1em;
+/* Textcentrering och maxbredd för innehållet på alla sidor */
+.section-content {
+  text-align: center; /* Centrerar all text i denna sektion */
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2em;
+  color: #111111;
 }
 
+/* Specifik styling för paragrafer (brödtext) inom .section-content */
+.section-content p {
+  font-size: 24px; /* Tydligare textstorlek */
+  line-height: 1.8;
+  color: #111111; /* Tydlig textfärg */
+  text-align: center; /* Centrerad text */
+}
 
+/* Gemensam styling för navigation */
 nav ul {
   list-style: none;
   padding: 0;
   display: flex;
   justify-content: center;
   gap: 2em;
-  font-size: 20px;
+  font-size: 22px;
 }
 
 nav a {
   color: rgb(247, 9, 9);
   text-decoration: none;
+  font-weight: 600;
 }
 
 nav a:hover {
   color: #C62828;
 }
 
-.hero {
-  background-color: transparent;
-  padding: 1em;
-  text-align: center;
-}
-
-
+/* Knappdesign */
 button {
   background-color: #C62828;
   color: white;
   border: none;
-  padding: 0.5em 1em;
+  padding: 0.8em 1.5em;
+  font-size: 18px;
+  font-weight: bold;
   cursor: pointer;
+  transition: background-color 0.3s;
 }
 
 button:hover {
   background-color: #A61B1B;
 }
 
-
-/* About Us textcentrering och justering */
-.about-section {
-  text-align: center;
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 2em;
-}
-
-.about-section h2 {
-  font-size: 32px;
-  margin-bottom: 1em;
-  color: #111111; /* Vit text för bättre kontrast */
-}
-
-.about-section p {
-  font-size: 22px;
-  line-height: 1.8;
-  color: #111111;
-}
-
+/* Footer */
 footer {
   text-align: center;
-  padding: 1em 0; 
+  padding: 1.5em 0;
   color: rgb(12, 12, 12);
   margin-top: 2em;
+  font-size: 18px;
   width: 100%;
 }
 
+/* Styling för kontaktinformationen (textstorlek och centrering) */
+.contact-info {
+  list-style: none; /* Ta bort punktlistan */
+  padding: 0;
+  text-align: center; /* Centrera texten */
+  font-size: 24px; /* Större textstorlek */
+  color: #111111;
+}
+
+.contact-info li {
+  margin-bottom: 0.5em;
+}
+
+.contact-info a {
+  text-decoration: none; /* Ingen understrykning */
+  color: #C62828; /* Färg på e-post och telefonnummer */
+  font-weight: bold; /* Gör texten tydligare */
+}
+
+.contact-info a:hover {
+  text-decoration: underline; /* Understrykning vid hover */
+  color: #A61B1B; /* Lite mörkare färg vid hover */
+}
 
