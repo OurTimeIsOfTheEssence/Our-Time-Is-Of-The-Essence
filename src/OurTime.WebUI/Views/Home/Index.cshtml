@@ -2,17 +2,20 @@
     ViewData["Title"] = "Home";
 }
 
+@section Styles {
+    <link rel="stylesheet" href="~/css/index.css" asp-append-version="true" />
+}
+
 <main>
     <section class="hero">
         <h2>Time is of the Essence – wear it wisely</h2>
         <p>Explore our exclusive watches</p>
     </section>
 
-
-     <!-- Produkterna -->
+    <!-- Produkterna -->
     <section class="products">
         <!-- Trailmaster-kort -->
-        <article class="product-card">
+        <article class="product-card index-product-card">
             <!-- Klickbar bild + titel -->
             <a asp-controller="Home" asp-action="Vector">
                 <img src="@Url.Content("~/images/VectorV1.png")" alt="OT Vector" />
@@ -25,9 +28,5 @@
                 <button>Buy now</button>
             </a>
         </article>
-
+    </section>
 </main>
-
-<footer>
-    <p>&copy; 2025 OurTime</p>
-</footer>
