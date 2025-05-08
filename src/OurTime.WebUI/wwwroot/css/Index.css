@@ -1,0 +1,29 @@
+.products {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    margin: 0 auto;
+    padding: 2em 0;
+}
+
+.index-product-card {
+    border: 1px solid #E0E0E0;
+    padding: 1.5em;
+    text-align: center;
+    width: 500px;
+    background: white;
+    transition: transform 0.3s ease;
+    margin-bottom: 2em;
+}
+
+.index-product-card img {
+    width: 100%;
+    height: auto;
+    max-width: 500px;
+    max-height: 500px;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+}

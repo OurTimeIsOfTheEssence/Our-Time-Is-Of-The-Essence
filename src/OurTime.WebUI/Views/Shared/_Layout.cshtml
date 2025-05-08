@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -32,6 +32,7 @@
                 <li><a asp-controller="Home" asp-action="About">About us</a></li>
                 <li><a asp-controller="Home" asp-action="Contact">Contact</a></li>
                 <li><a asp-controller="Home" asp-action="Privacy">Privacy</a></li>
+
                 @if (User.Identity?.IsAuthenticated == true)
                 {
                     <li><span>Hej @User.Identity.Name!</span></li>
@@ -60,23 +61,24 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/cart.js" defer asp-append-version="true"></script>
-
+    
     <script>
-        function toggleInfo(id) {
-            const info = document.getElementById(id);
-            const button = document.querySelector(`button[onclick="toggleInfo('${id}')"]`);
-            if (info.style.maxHeight && info.style.maxHeight !== "0px") {
-                info.style.maxHeight = "0px";
-                button.textContent = "More information";
-            } else {
-                info.style.maxHeight = info.scrollHeight + "px";
-                button.textContent = "Less information";
-            }
-        }
+    function toggleInfo(id) {
+        const info = document.getElementById(id);
+        const button = document.querySelector(`button[onclick="toggleInfo('${id}')"]`);
 
-        function showCart() {
-            $('#cartModal').modal('show');
+        if (info.style.maxHeight && info.style.maxHeight !== "0px") {
+            info.style.maxHeight = "0px";
+            button.textContent = "More information";
+        } else {
+            info.style.maxHeight = info.scrollHeight + "px";
+            button.textContent = "Less information";
         }
+    }
+
+    function showCart() {
+        $('#cartModal').modal('show');
+    }
     </script>
 
     @await RenderSectionAsync("Scripts", required: false)
@@ -101,3 +103,4 @@
     </div>
 </body>
 </html>
+

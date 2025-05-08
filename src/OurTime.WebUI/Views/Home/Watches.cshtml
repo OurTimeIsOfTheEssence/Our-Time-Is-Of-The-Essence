@@ -1,4 +1,4 @@
-﻿@{
+@{
     ViewData["Title"] = "Watches";
 }
 
@@ -21,14 +21,10 @@
             </a>
             <p>Price: 49,999 SEK</p>
             <div class="button-group">
-                <button type="button"
-                        class="info-button"
-                        onclick="location.href='@Url.Action("Trailmaster","Home")'">
+                <button class="info-button" onclick="location.href='@Url.Action("Trailmaster","Home")'">
                     More information
                 </button>
-                <button type="button"
-                        class="buy-now-button"
-                        onclick="addToCart('Trailmaster')">
+                <button class="buy-now-button" onclick="addToCart('Trailmaster')">
                     Buy now
                 </button>
             </div>
@@ -42,14 +38,10 @@
             </a>
             <p>Price: 19,999 SEK</p>
             <div class="button-group">
-                <button type="button"
-                        class="info-button"
-                        onclick="location.href='@Url.Action("Velour","Home")'">
+                <button class="info-button" onclick="location.href='@Url.Action("Velour","Home")'">
                     More information
                 </button>
-                <button type="button"
-                        class="buy-now-button"
-                        onclick="addToCart('Velour')">
+                <button class="buy-now-button" onclick="addToCart('Velour')">
                     Buy now
                 </button>
             </div>
@@ -66,9 +58,7 @@
                 <button class="toggle-info" onclick="toggleInfo('trek-info')">
                     More information
                 </button>
-                <button type="button"
-                        class="buy-now-button"
-                        onclick="addToCart('Trek')">
+                <button class="buy-now-button" onclick="addToCart('Trek')">
                     Buy now
                 </button>
             </div>
@@ -91,3 +81,4 @@
 @section Scripts {
     <script src="~/js/cart.js" defer asp-append-version="true"></script>
 }
+

@@ -1,245 +1,248 @@
 /* Gemensam styling för alla sidor (text och layout) */
 body {
-    font-family: 'Segoe UI', Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-image: url('/images/GRÅ1.png');
-    background-size: cover;
-    background-position: top right;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    color: #0f0f0f;
-    line-height: 1.6;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-image: url('/images/GRÅ1.png');
+  background-size: cover;
+  background-position: top right;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  color: #0f0f0f;
+  line-height: 1.6;
 }
 
 /* Header-styling */
 header {
-    background-color: #353434;
-    color: white;
-    padding: 1.5em;
-    text-align: center;
-    font-size: 24px;
-    font-weight: bold;
+  background-color: #353434;
+  color: white;
+  padding: 1.5em;
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
 }
 
 /* Gemensam styling för alla rubriker (centrerade och samma storlek) */
 h1, h2, h3, h4, h5, h6 {
-    text-align: center;
-    font-size: 36px;
-    margin-top: 1em;
-    margin-bottom: 0.5em;
-    color: #111111;
-    font-weight: 700;
+  text-align: center;
+  font-size: 36px;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+  color: #111111;
+  font-weight: 700;
 }
 
 /* Textcentrering och maxbredd för innehållet på alla sidor */
 .section-content {
-    text-align: center;
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 2em;
-    color: #111111;
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2em;
+  color: #111111;
 }
 
-    /* Specifik styling för paragrafer inom .section-content */
-    .section-content p {
-        font-size: 24px;
-        line-height: 1.8;
-        color: #111111;
-        text-align: center;
-    }
+/* Specifik styling för paragrafer (brödtext) inom .section-content */
+.section-content p {
+  font-size: 24px;
+  line-height: 1.8;
+  color: #111111;
+  text-align: center;
+}
 
-/* Navigationsmeny */
+/* Gemensam styling för navigation */
 nav ul {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    gap: 2em;
-    font-size: 22px;
+  list-style: none;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  gap: 2em;
+  font-size: 22px;
 }
 
 nav a {
-    color: rgb(247, 9, 9);
-    text-decoration: none;
-    font-weight: 600;
+  color: rgb(247, 9, 9);
+  text-decoration: none;
+  font-weight: 600;
 }
 
-    nav a:hover {
-        color: #C62828;
-    }
+nav a:hover {
+  color: #C62828;
+}
 
 /* Knappdesign */
 button {
-    background-color: #C62828;
-    color: white;
-    border: none;
-    padding: 0.8em 1.5em;
-    font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s;
+  background-color: #C62828;
+  color: white;
+  border: none;
+  padding: 0.8em 1.5em;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-    button:hover {
-        background-color: #A61B1B;
-    }
+button:hover {
+  background-color: #A61B1B;
+}
 
 /* Footer */
 footer {
-    text-align: center;
-    padding: 1.5em 0;
-    color: rgb(12, 12, 12);
-    margin-top: 2em;
-    font-size: 18px;
-    width: 100%;
+  text-align: center;
+  padding: 1.5em 0;
+  color: rgb(12, 12, 12);
+  margin-top: 2em;
+  font-size: 18px;
+  width: 100%;
 }
 
-/* Kontaktinformation */
+/* Styling för kontaktinformationen (textstorlek och centrering) */
 .contact-info {
-    list-style: none;
-    padding: 0;
-    text-align: center;
-    font-size: 24px;
-    color: #111111;
+  list-style: none;
+  padding: 0;
+  text-align: center;
+  font-size: 24px;
+  color: #111111;
 }
 
-    .contact-info li {
-        margin-bottom: 0.5em;
-    }
+.contact-info li {
+  margin-bottom: 0.5em;
+}
 
-    .contact-info a {
-        text-decoration: none;
-        color: #C62828;
-        font-weight: bold;
-    }
+.contact-info a {
+  text-decoration: none;
+  color: #C62828;
+  font-weight: bold;
+}
 
-        .contact-info a:hover {
-            text-decoration: underline;
-            color: #A61B1B;
-        }
+.contact-info a:hover {
+  text-decoration: underline;
+  color: #A61B1B;
+}
 
-/* Ut-/infällbar produktinfo */
+/* Styling för produktinformation (ut- och infällbar text) */
 .product-info {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.4s ease;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease; /* Smidig animation när texten öppnas/stängs */
 }
 
-    .product-info p {
-        font-size: 18px;
-        line-height: 1.6;
-        margin: 0.5em 0;
-        color: #111111;
-    }
+/* Texten i produktinformationen */
+.product-info p {
+  font-size: 18px;
+  line-height: 1.6;
+  margin: 0.5em 0;
+  color: #111111;
+}
 
-/* Specifik styling för toggle-info-knappen */
+/* Specifik styling för knappen "More information" */
 button.toggle-info {
-    background-color: #C62828;
-    color: white;
-    border: none;
-    padding: 0.8em 1.5em;
-    font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    display: inline-block;
-    margin-top: 0.5em;
+  background-color: #C62828;
+  color: white;
+  border: none;
+  padding: 0.8em 1.5em;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  display: inline-block;
+  margin-top: 0.5em;
 }
 
-    button.toggle-info:hover {
-        background-color: #A61B1B;
-    }
+button.toggle-info:hover {
+  background-color: #A61B1B;
+}
 
 /* ================================
    Kundkorgs-modal-styling
    ================================ */
 #cartModal .modal-content {
-    border-radius: 12px;
-    border: none;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+  border-radius: 12px;
+  border: none;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.08);
 }
 
 #cartModal .modal-header {
-    border-bottom: none;
-    padding: 1.5rem 1.5rem 0.75rem;
+  border-bottom: none;
+  padding: 1.5rem 1.5rem 0.75rem;
 }
 
 #cartModal .modal-title {
-    font-size: 1.25rem;
-    font-weight: 600;
+  font-size: 1.25rem;
+  font-weight: 600;
 }
 
 #cartModal .btn-close {
-    opacity: 0.6;
-    transition: opacity 0.2s ease;
+  opacity: 0.6;
+  transition: opacity 0.2s ease;
 }
 
-    #cartModal .btn-close:hover {
-        opacity: 1;
-    }
+#cartModal .btn-close:hover {
+  opacity: 1;
+}
 
 #cartModal .modal-body {
-    padding: 0.75rem 1.5rem 1.5rem;
+  padding: 0.75rem 1.5rem 1.5rem;
 }
 
 #cartModalBody .list-group {
-    border: none;
+  border: none;
 }
 
 #cartModalBody .list-group-item {
-    border: none;
-    padding: 1rem 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  border: none;
+  padding: 1rem 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-    #cartModalBody .list-group-item + .list-group-item {
-        border-top: 1px solid #E5E5EA;
-    }
+#cartModalBody .list-group-item + .list-group-item {
+  border-top: 1px solid #E5E5EA; /* Svagt grå linje */
+}
 
 #cartModal .modal-body .badge.bg-primary {
-    background-color: #dc3545 !important;
-    color: #fff !important;
-    border-radius: 0.25rem;
-    border: 1px solid #a71d2a;
+  background-color: #dc3545 !important; /* samma röda */
+  color: #fff !important;              /* vit text */
+  border-radius: 0.25rem;
+  border: 1px solid #a71d2a;
 }
 
+/* Harmonisera kassaknappen med Köp nu */
 #cartModal .modal-footer .btn-primary {
-    background-color: #dc3545 !important;
-    border: none !important;
-    color: #fff !important;
+  background-color: #dc3545 !important; /* Samma röd */
+  border: none !important;
+  color: #fff !important;               /* vit text */
 }
 
-    #cartModal .modal-footer .btn-primary:hover {
-        background-color: #c82333 !important;
-    }
+#cartModal .modal-footer .btn-primary:hover {
+  background-color: #c82333 !important; /* mörkare hover */
+}
 
 #cartModal .modal-footer {
-    border-top: none;
-    padding: 0.5rem 1.5rem 1.5rem;
-    display: flex;
-    justify-content: flex-end;
-    gap: 0.5rem;
+  border-top: none;
+  padding: 0.5rem 1.5rem 1.5rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
 }
 
-    #cartModal .modal-footer .btn-secondary {
-        background-color: #f2f2f7;
-        color: #000;
-        font-weight: 500;
-    }
+#cartModal .modal-footer .btn-secondary {
+  background-color: #f2f2f7;
+  color: #000;
+  font-weight: 500;
+}
 
-        #cartModal .modal-footer .btn-secondary:hover {
-            background-color: #e1e1e6;
-        }
+#cartModal .modal-footer .btn-secondary:hover {
+  background-color: #e1e1e6;
+}
 
 @media (max-width: 576px) {
-    #cartModal .modal-dialog {
-        margin: 1rem;
-    }
+  #cartModal .modal-dialog {
+    margin: 1rem;
+  }
 
-    #cartModal .modal-content {
-        box-shadow: none;
-    }
+  #cartModal .modal-content {
+    box-shadow: none;
+  }
 }
+
