@@ -7,7 +7,9 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/OurTime.WebUI.styles.css" asp-append-version="true" />
+    @RenderSection("Styles", required: false)
 </head>
+
 <body>
     <header>
         <div class="logo-container">
@@ -30,23 +32,45 @@
                 }
                 else
                 {
-                    <li><a asp-controller="Account" asp-action="Register">Registrera</a></li>
-                    <li><a asp-controller="Account" asp-action="Login">Logga in</a></li>
+                    <li><a asp-controller="Account" asp-action="Register">Registrer</a></li>
+                    <li><a asp-controller="Account" asp-action="Login">Log in</a></li>
                 }
-
             </ul>
         </nav>
-
     </header>
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
+    <footer>
+        <p>&copy; 2025 OurTime</p>
+    </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    
+    <script>
+    function toggleInfo(id) {
+        const info = document.getElementById(id);
+        const button = document.querySelector(`button[onclick="toggleInfo('${id}')"]`);
+        
+        // Om texten är öppen
+        if (info.style.maxHeight && info.style.maxHeight !== "0px") {
+            info.style.maxHeight = "0px";
+            button.textContent = "More information";
+        } 
+        // Om texten är stängd
+        else {
+            info.style.maxHeight = info.scrollHeight + "px";
+            button.textContent = "Less information";
+        }
+    }
+    </script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

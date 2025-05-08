@@ -1,82 +1,153 @@
+/* Gemensam styling för alla sidor (text och layout) */
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #FFFFFF;
-  color: #000000;
+  background-image: url('/images/GRÅ1.png');
+  background-size: cover;
+  background-position: top right;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  color: #0f0f0f;
+  line-height: 1.6;
 }
 
+/* Header-styling */
 header {
-  background-color: #121212;
+  background-color: #353434;
   color: white;
-  padding: 1em;
+  padding: 1.5em;
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+/* Gemensam styling för alla rubriker (centrerade och samma storlek) */
+h1, h2, h3, h4, h5, h6 {
+  text-align: center;
+  font-size: 36px;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+  color: #111111;
+  font-weight: 700;
+}
+
+/* Textcentrering och maxbredd för innehållet på alla sidor */
+.section-content {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2em;
+  color: #111111;
+}
+
+/* Specifik styling för paragrafer (brödtext) inom .section-content */
+.section-content p {
+  font-size: 24px;
+  line-height: 1.8;
+  color: #111111;
   text-align: center;
 }
 
-/* 🛠️ Flytta detta UTANFÖR header */
-.logo-container {
-  text-align: center;
-  margin-top: 20px;
-}
-
-.logo-container img {
-  max-width: 250px;
-  height: auto;
-}
-
+/* Gemensam styling för navigation */
 nav ul {
   list-style: none;
   padding: 0;
   display: flex;
   justify-content: center;
-  gap: 1em;
+  gap: 2em;
+  font-size: 22px;
 }
 
 nav a {
-  color: white;
+  color: rgb(247, 9, 9);
   text-decoration: none;
+  font-weight: 600;
 }
 
 nav a:hover {
   color: #C62828;
 }
 
-.hero {
-  background-color: #F5F5F5;
-  text-align: center;
-  padding: 2em 1em;
-}
-
-.products {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 2em;
-  padding: 2em;
-}
-
-.product-card {
-  border: 1px solid #E0E0E0;
-  padding: 1em;
-  text-align: center;
-  width: 400px;
-  background: white;
-}
-
-.product-card img {
-  width: 100%;
-  height: auto;
-}
-
+/* Knappdesign */
 button {
   background-color: #C62828;
   color: white;
   border: none;
-  padding: 0.5em 1em;
+  padding: 0.8em 1.5em;
+  font-size: 18px;
+  font-weight: bold;
   cursor: pointer;
+  transition: background-color 0.3s;
 }
 
 button:hover {
   background-color: #A61B1B;
 }
 
+/* Footer */
+footer {
+  text-align: center;
+  padding: 1.5em 0;
+  color: rgb(12, 12, 12);
+  margin-top: 2em;
+  font-size: 18px;
+  width: 100%;
+}
+
+/* Styling för kontaktinformationen (textstorlek och centrering) */
+.contact-info {
+  list-style: none;
+  padding: 0;
+  text-align: center;
+  font-size: 24px;
+  color: #111111;
+}
+
+.contact-info li {
+  margin-bottom: 0.5em;
+}
+
+.contact-info a {
+  text-decoration: none;
+  color: #C62828;
+  font-weight: bold;
+}
+
+.contact-info a:hover {
+  text-decoration: underline;
+  color: #A61B1B;
+}
+
+/* Styling för produktinformation (ut- och infällbar text) */
+.product-info {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease; /* Smidig animation när texten öppnas/stängs */
+}
+
+/* Texten i produktinformationen */
+.product-info p {
+  font-size: 18px;
+  line-height: 1.6;
+  margin: 0.5em 0;
+  color: #111111;
+}
+
+/* Specifik styling för knappen "More information" */
+button.toggle-info {
+  background-color: #C62828;
+  color: white;
+  border: none;
+  padding: 0.8em 1.5em;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  display: inline-block;
+  margin-top: 0.5em;
+}
+
+button.toggle-info:hover {
+  background-color: #A61B1B;
+}

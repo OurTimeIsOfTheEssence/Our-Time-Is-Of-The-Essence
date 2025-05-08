@@ -1,13 +1,16 @@
 ﻿@{
     ViewData["Title"] = "Watches";
 }
+@section Styles {
+    <link rel="stylesheet" href="~/css/watches.css" asp-append-version="true" />
+}
+
+<div class="section-content">
+    <h2>OT Watches</h2>
+    <p>Explore our exclusive watch models below.</p>
+</div>
 
 <main>
-    <section class="hero">
-        <h2>OT Watches</h2>
-        <p>Utforska våra exklusiva klockmodeller nedan.</p>
-    </section>
-
     <section class="products">
         <!-- Trailmaster -->
         <article class="product-card">
@@ -15,7 +18,7 @@
                 <img src="@Url.Content("~/images/Trailmaster A1.png")" alt="OT Trailmaster" />
                 <h3>OT Trailmaster</h3>
             </a>
-            <p>Pris: 49 999 SEK</p>
+            <p>Price: 49,999 SEK</p>
             <a asp-controller="Home" asp-action="Trailmaster">
                 <button>More information</button>
                 <button>Buy now</button>
@@ -28,7 +31,7 @@
                 <img src="@Url.Content("~/images/Velour.png")" alt="OT Velour" />
                 <h3>OT Velour</h3>
             </a>
-            <p>Pris: 19 999 SEK</p>
+            <p>Price: 19,999 SEK</p>
             <a asp-controller="Home" asp-action="Velour">
                 <button>More information</button>
                 <button>Buy now</button>
@@ -41,15 +44,21 @@
                 <img src="@Url.Content("~/images/Trek A1.png")" alt="OT Trek" />
                 <h3>OT Trek</h3>
             </a>
-            <p>Pris: 39 999 SEK</p>
-            <a asp-controller="Home" asp-action="Trek">
-                <button>More information</button>
-                <button>Buy now</button>
-            </a>
+            <p>Price: 39,999 SEK</p>
+            <button class="toggle-info" onclick="toggleInfo('trek-info')">More information</button>
+            <button>Buy now</button>
+
+            <!-- Dold beskrivning (visas med animation) -->
+            <div id="trek-info" class="product-info" style="max-height: 0; overflow: hidden; transition: max-height 0.4s ease;">
+                <p><strong>Description:</strong> The OT Trek is an adventure watch designed for the modern explorer. With a durable case, water resistance, and a precision movement, it is the perfect companion for your outdoor adventures.</p>
+                <p><strong>Features:</strong></p>
+                <ul>
+                    <li>Water Resistance: 100 meters (10 ATM)</li>
+                    <li>Crystal: Scratch-resistant sapphire crystal</li>
+                    <li>Case: Durable stainless steel case</li>
+                    <li>Movement: Precision automatic movement</li>
+                </ul>
+            </div>
         </article>
     </section>
 </main>
-
-<footer>
-    <p>&copy; 2025 OurTime</p>
-</footer>

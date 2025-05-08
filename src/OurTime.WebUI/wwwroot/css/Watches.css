@@ -1,0 +1,30 @@
+/* watches.css - Specifik CSS för Watches-sidan */
+
+.products {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2em;
+    padding: 2em;
+  }
+  
+  .product-card {
+    border: 1px solid #E0E0E0;
+    padding: 1em;
+    text-align: center;
+    width: 400px; /* Standardstorlek för Watches */
+    background: white;
+    transition: transform 0.3s ease;
+  }
+  
+  .product-card img {
+    width: 100%;
+    height: auto;
+    max-width: 300px; /* Begränsa bildstorlek på Watches */
+    max-height: 300px;
+  }
+  
+  .product-card:hover {
+    transform: scale(1.05);
+  }
+  
