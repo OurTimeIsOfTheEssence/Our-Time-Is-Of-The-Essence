@@ -21,19 +21,12 @@
                 <h3>OT Vector</h3>
             </a>
             <p>Price: 89,999 SEK</p>
-            <div class="button-group">
-                <button class="toggle-info" onclick="toggleInfo('vector-info')">
-                    More information
-                </button>
-                <button type="button"
-                        class="buy-now-button"
-                        onclick="addToCart('Vector')">
-                    Buy now
-                </button>
-            </div>
+
+            <button class="toggle-info" onclick="toggleInfo('vector-info')">More information</button>
+            <button>Buy now</button>
 
             <!-- Dold beskrivning (visas med animation) -->
-            <div id="vector-info" class="product-info">
+            <div id="vector-info" class="product-info" style="max-height: 0; overflow: hidden; transition: max-height 0.4s ease;">
                 <p><strong>Description:</strong> The OT Vector is a masterpiece of engineering, combining lightweight titanium with precision Swiss movement. Its sleek, minimalist design is perfect for those who value both elegance and durability.</p>
                 <p><strong>Features:</strong></p>
                 <ul>
@@ -47,7 +40,3 @@
         </article>
     </section>
 </main>
-
-@section Scripts {
-    <script src="~/js/cart.js" defer asp-append-version="true"></script>
-}

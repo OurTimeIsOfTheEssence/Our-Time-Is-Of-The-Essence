@@ -1,131 +1,159 @@
-/* ================================
-   Global Styles
-   ================================ */
+/* Gemensam styling för alla sidor (text och layout) */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #FFFFFF;
-    color: #000000;
+    background-image: url('/images/GRÅ1.png');
+    background-size: cover;
+    background-position: top right;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    color: #0f0f0f;
+    line-height: 1.6;
 }
 
+/* Header-styling */
 header {
-    background-color: #121212;
+    background-color: #353434;
     color: white;
-    padding: 1em;
+    padding: 1.5em;
     text-align: center;
+    font-size: 24px;
+    font-weight: bold;
 }
 
-
-.logo-container {
+/* Gemensam styling för alla rubriker (centrerade och samma storlek) */
+h1, h2, h3, h4, h5, h6 {
     text-align: center;
-    margin-top: 20px;
+    font-size: 36px;
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+    color: #111111;
+    font-weight: 700;
 }
 
-    .logo-container img {
-        max-width: 250px;
-        height: auto;
+/* Textcentrering och maxbredd för innehållet på alla sidor */
+.section-content {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2em;
+    color: #111111;
+}
+
+    /* Specifik styling för paragrafer (brödtext) inom .section-content */
+    .section-content p {
+        font-size: 24px;
+        line-height: 1.8;
+        color: #111111;
+        text-align: center;
     }
 
+/* Gemensam styling för navigation */
 nav ul {
     list-style: none;
     padding: 0;
     display: flex;
     justify-content: center;
-    gap: 1em;
+    gap: 2em;
+    font-size: 22px;
 }
 
 nav a {
-    color: white;
+    color: rgb(247, 9, 9);
     text-decoration: none;
+    font-weight: 600;
 }
 
     nav a:hover {
         color: #C62828;
     }
 
-.hero {
-    background-color: #F5F5F5;
+/* Knappdesign */
+button {
+    background-color: #C62828;
+    color: white;
+    border: none;
+    padding: 0.8em 1.5em;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+    button:hover {
+        background-color: #A61B1B;
+    }
+
+/* Footer */
+footer {
     text-align: center;
-    padding: 2em 1em;
+    padding: 1.5em 0;
+    color: rgb(12, 12, 12);
+    margin-top: 2em;
+    font-size: 18px;
+    width: 100%;
 }
 
-.products {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 2em;
-    padding: 2em;
+/* Styling för kontaktinformationen (textstorlek och centrering) */
+.contact-info {
+    list-style: none;
+    padding: 0;
+    text-align: center;
+    font-size: 24px;
+    color: #111111;
 }
 
-/* 
-   Produktkort
-*/
-.product-card {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    border: 1px solid #E0E0E0;
-    padding: 1em;
-    width: 200px;
-    background: white;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-    .product-card img {
-        max-height: 200px;
-        object-fit: cover;
+    .contact-info li {
+        margin-bottom: 0.5em;
     }
 
-    .product-card h3 {
+    .contact-info a {
+        text-decoration: none;
+        color: #C62828;
+        font-weight: bold;
+    }
+
+        .contact-info a:hover {
+            text-decoration: underline;
+            color: #A61B1B;
+        }
+
+/* Styling för produktinformation (ut- och infällbar text) */
+.product-info {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+}
+
+    .product-info p {
+        font-size: 18px;
+        line-height: 1.6;
         margin: 0.5em 0;
-        flex-shrink: 0;
+        color: #111111;
     }
 
-    .product-card p {
-        margin: 0.5em 0 1em;
-        flex-shrink: 0;
+/* Specifik styling för knappen "More information" */
+button.toggle-info {
+    background-color: #C62828;
+    color: white;
+    border: none;
+    padding: 0.8em 1.5em;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    display: inline-block;
+    margin-top: 0.5em;
+}
+
+    button.toggle-info:hover {
+        background-color: #A61B1B;
     }
 
-    /* 
-   STYLINGEN FÖR "KÖP NU"-KNAPPARNA
-    */
-    .product-card button {
-        display: inline-block;
-        background-color: #dc3545; /* Bootstrap ’danger’–röd */
-        color: #fff; /* Vit text */
-        font-weight: 600; /* Kraftigare text */
-        font-size: 1rem; /* Lagom storlek */
-        padding: 0.6rem 1.2rem; /* Mer luft runt texten */
-        border: none;
-        border-radius: 0.35rem; /* Rundade hörn */
-        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        cursor: pointer;
-        transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
-    }
-
-        .product-card button:hover {
-            background-color: #c82333; /* Mörkare röd på hover */
-            transform: translateY(-2px); /* Lätt lyft‐effekt */
-            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-        }
-
-        .product-card button:active {
-            background-color: #bd2130; /* Ännu mörkare vid click */
-            transform: translateY(0); /* Sänks tillbaka */
-            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
-        }
-
-        .product-card button:focus {
-            outline: none;
-            box-shadow: 0 0 0 0.2rem rgba(220,53,69,0.5); /* Fin fokus‐ring */
-        }
-
-
-/*
+/* ================================
    Kundkorgs-modal-styling
- */
+   ================================ */
 #cartModal .modal-content {
     border-radius: 12px;
     border: none;
@@ -168,29 +196,24 @@ nav a {
 }
 
     #cartModalBody .list-group-item + .list-group-item {
-        border-top: 1px solid #E5E5EA; /* Svagt grå linje */
+        border-top: 1px solid #E5E5EA;
     }
 
-/* Endast pris‐badger inne i kundkorgsmodalen */
 #cartModal .modal-body .badge.bg-primary {
-    background-color: #dc3545 !important; /* samma röda */
-    color: #fff !important; /* ändra till vit text */
+    background-color: #dc3545 !important;
+    color: #fff !important;
     border-radius: 0.25rem;
     border: 1px solid #a71d2a;
 }
 
-
-/* 
-   Harmonisera kassaknappen med Köp nu
- */
 #cartModal .modal-footer .btn-primary {
-    background-color: #dc3545 !important; /* Samma röd */
+    background-color: #dc3545 !important;
     border: none !important;
-    color: #fff !important; /* Vit text */
+    color: #fff !important;
 }
 
     #cartModal .modal-footer .btn-primary:hover {
-        background-color: #c82333 !important; /* Samma mörkare hover */
+        background-color: #c82333 !important;
     }
 
 #cartModal .modal-footer {

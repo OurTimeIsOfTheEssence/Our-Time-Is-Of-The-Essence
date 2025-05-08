@@ -39,7 +39,7 @@
                 }
                 else
                 {
-                    <li><a asp-controller="Account" asp-action="Register">Registrer</a></li>
+                    <li><a asp-controller="Account" asp-action="Register">Registrera</a></li>
                     <li><a asp-controller="Account" asp-action="Login">Log in</a></li>
                 }
             </ul>
@@ -65,21 +65,16 @@
         function toggleInfo(id) {
             const info = document.getElementById(id);
             const button = document.querySelector(`button[onclick="toggleInfo('${id}')"]`);
-
-            // Om texten är öppen
             if (info.style.maxHeight && info.style.maxHeight !== "0px") {
                 info.style.maxHeight = "0px";
                 button.textContent = "More information";
-            }
-            // Om texten är stängd
-            else {
+            } else {
                 info.style.maxHeight = info.scrollHeight + "px";
                 button.textContent = "Less information";
             }
         }
 
         function showCart() {
-            // Antag att cart.js hanterar att fylla #cartModalBody
             $('#cartModal').modal('show');
         }
     </script>
