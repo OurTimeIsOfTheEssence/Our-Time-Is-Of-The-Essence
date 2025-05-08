@@ -9,11 +9,11 @@
   }
   
   .product-card {
-    border: 1px solid #E0E0E0;
+    border: 1px solid #b02f2f;
     padding: 1em;
     text-align: center;
     width: 400px; /* Standardstorlek för Watches */
-    background: white;
+    background: rgb(244, 241, 241);
     transition: transform 0.3s ease;
   }
   

@@ -14,10 +14,8 @@
     <header>
         <div class="logo-container">
             <img src="/images/OT.jpg" alt="Logotyp för OurTime" />
-        </div>
+        </div>       
 
-        <h1>OT Watches</h1>
-        <p class="slogan">Time You Can Wear</p>
         <nav>
             <ul>
                 <li><a asp-controller="Home" asp-action="Index">Home</a></li>
@@ -27,12 +25,12 @@
                 <li><a asp-controller="Home" asp-action="Privacy">Privacy</a></li>
                 @if (User.Identity?.IsAuthenticated == true)
                 {
-                    <li><span>Hej @User.Identity.Name!</span></li>
-                    <li><a asp-controller="Account" asp-action="Logout">Logga ut</a></li>
+                    <li><span>Hello, @User.Identity.Name!</span></li>
+                    <li><a asp-controller="Account" asp-action="Logout">Log out</a></li>
                 }
                 else
                 {
-                    <li><a asp-controller="Account" asp-action="Register">Registrer</a></li>
+                    <li><a asp-controller="Account" asp-action="Register">Register</a></li>
                     <li><a asp-controller="Account" asp-action="Login">Log in</a></li>
                 }
             </ul>
