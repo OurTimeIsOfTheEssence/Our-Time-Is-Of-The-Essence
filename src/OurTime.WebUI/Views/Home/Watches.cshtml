@@ -2,6 +2,10 @@
     ViewData["Title"] = "Watches";
 }
 
+@section Styles {
+    <link rel="stylesheet" href="~/css/watches.css" asp-append-version="true" />
+}
+
 <main>
     <!-- Hero-sektion -->
     <section class="hero">
@@ -13,42 +17,65 @@
     <section class="products">
         <!-- Trailmaster -->
         <article class="product-card">
-            <img src="~/images/Trailmaster.jpg" alt="OT Trailmaster" />
-            <h3>OT Trailmaster</h3>
+            <a asp-controller="Home" asp-action="Trailmaster">
+                <img src="~/images/Trailmaster.jpg" alt="OT Trailmaster" />
+                <h3>OT Trailmaster</h3>
+            </a>
             <p>Pris: 49 999 SEK</p>
-            <button type="button"
-                    class="buy-now-button"
-                    onclick="addToCart('Trailmaster')">
-                Köp nu
-            </button>
+            <div class="button-group">
+                <button type="button"
+                        class="info-button"
+                        onclick="location.href='@Url.Action("Trailmaster","Home")'">
+                    Mer information
+                </button>
+                <button type="button"
+                        class="buy-now-button"
+                        onclick="addToCart('Trailmaster')">
+                    Köp nu
+                </button>
+            </div>
         </article>
 
         <!-- Treck -->
         <article class="product-card">
-            <img src="~/images/Treck.jpg" alt="OT Treck" />
-            <h3>OT Treck</h3>
+            <a asp-controller="Home" asp-action="Trek">
+                <img src="~/images/Treck.jpg" alt="OT Treck" />
+                <h3>OT Trek</h3>
+            </a>
             <p>Pris: 89 895 SEK</p>
-            <button type="button"
-                    class="buy-now-button"
-                    onclick="addToCart('Treck')">
-                Köp nu
-            </button>
+            <div class="button-group">
+                <button type="button"
+                        class="info-button"
+                        onclick="location.href='@Url.Action("Trek","Home")'">
+                    Mer information
+                </button>
+                <button type="button"
+                        class="buy-now-button"
+                        onclick="addToCart('Treck')">
+                    Köp nu
+                </button>
+            </div>
         </article>
 
         <!-- Velour -->
         <article class="product-card">
-            <img src="~/images/Velour.png" alt="OT Velour" />
-            <h3>OT Velour</h3>
+            <a asp-controller="Home" asp-action="Velour">
+                <img src="~/images/Velour.png" alt="OT Velour" />
+                <h3>OT Velour</h3>
+            </a>
             <p>Pris: 29 995 SEK</p>
-            <button type="button"
-                    class="buy-now-button"
-                    onclick="addToCart('Velour')">
-                Köp nu
-            </button>
+            <div class="button-group">
+                <button type="button"
+                        class="info-button"
+                        onclick="location.href='@Url.Action("Velour","Home")'">
+                    Mer information
+                </button>
+                <button type="button"
+                        class="buy-now-button"
+                        onclick="addToCart('Velour')">
+                    Köp nu
+                </button>
+            </div>
         </article>
     </section>
 </main>
-
-<footer>
-    <p>&copy; 2025 OurTime</p>
-</footer>

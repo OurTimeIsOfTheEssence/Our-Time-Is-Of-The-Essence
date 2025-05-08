@@ -8,7 +8,9 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/OurTime.WebUI.styles.css" asp-append-version="true" />
+    @RenderSection("Styles", required: false)
 </head>
+
 <body>
     <header>
         <div class="logo-container">
@@ -42,7 +44,7 @@
                 else
                 {
                     <li><a asp-controller="Account" asp-action="Register">Registrera</a></li>
-                    <li><a asp-controller="Account" asp-action="Login">Logga in</a></li>
+                    <li><a asp-controller="Account" asp-action="Login">Log in</a></li>
                 }
             </ul>
         </nav>
@@ -54,11 +56,35 @@
         </main>
     </div>
 
+    <!-- Footer -->
+    <footer>
+        <div class="container text-center py-3">
+            <p>&copy; 2025 OurTime</p>
+        </div>
+    </footer>
+
     <!-- Dina script-filer -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/cart.js" defer asp-append-version="true"></script>
+
+    <!-- ToggleInfo-funktion från Dev -->
+    <script>
+        function toggleInfo(id) {
+            const info = document.getElementById(id);
+            const button = document.querySelector(`button[onclick="toggleInfo('${id}')"]`);
+
+            if (info.style.maxHeight && info.style.maxHeight !== "0px") {
+                info.style.maxHeight = "0px";
+                button.textContent = "More information";
+            } else {
+                info.style.maxHeight = info.scrollHeight + "px";
+                button.textContent = "Less information";
+            }
+        }
+    </script>
+
     @await RenderSectionAsync("Scripts", required: false)
 
     <!-- Modal för kundkorgen -->
