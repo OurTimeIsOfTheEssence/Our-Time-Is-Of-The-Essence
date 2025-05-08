@@ -4,7 +4,6 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - OurTime.WebUI</title>
-
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/OurTime.WebUI.styles.css" asp-append-version="true" />
@@ -23,7 +22,6 @@
             <ul>
                 <li><a asp-controller="Home" asp-action="Index">Home</a></li>
                 <li><a asp-controller="Home" asp-action="Watches">Watches</a></li>
-
                 <!-- Kundkorg-länk med badge -->
                 <li>
                     <a href="#" onclick="showCart(); return false;">
@@ -31,11 +29,9 @@
                         <span id="cartCountBadge" class="badge bg-danger">0</span>
                     </a>
                 </li>
-
                 <li><a asp-controller="Home" asp-action="About">About us</a></li>
                 <li><a asp-controller="Home" asp-action="Contact">Contact</a></li>
                 <li><a asp-controller="Home" asp-action="Privacy">Privacy</a></li>
-
                 @if (User.Identity?.IsAuthenticated == true)
                 {
                     <li><span>Hej @User.Identity.Name!</span></li>
@@ -43,7 +39,7 @@
                 }
                 else
                 {
-                    <li><a asp-controller="Account" asp-action="Register">Registrera</a></li>
+                    <li><a asp-controller="Account" asp-action="Register">Registrer</a></li>
                     <li><a asp-controller="Account" asp-action="Login">Log in</a></li>
                 }
             </ul>
@@ -56,32 +52,35 @@
         </main>
     </div>
 
-    <!-- Footer -->
     <footer>
-        <div class="container text-center py-3">
-            <p>&copy; 2025 OurTime</p>
-        </div>
+        <p>&copy; 2025 OurTime</p>
     </footer>
 
-    <!-- Dina script-filer -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/cart.js" defer asp-append-version="true"></script>
 
-    <!-- ToggleInfo-funktion från Dev -->
     <script>
         function toggleInfo(id) {
             const info = document.getElementById(id);
             const button = document.querySelector(`button[onclick="toggleInfo('${id}')"]`);
 
+            // Om texten är öppen
             if (info.style.maxHeight && info.style.maxHeight !== "0px") {
                 info.style.maxHeight = "0px";
                 button.textContent = "More information";
-            } else {
+            }
+            // Om texten är stängd
+            else {
                 info.style.maxHeight = info.scrollHeight + "px";
                 button.textContent = "Less information";
             }
+        }
+
+        function showCart() {
+            // Antag att cart.js hanterar att fylla #cartModalBody
+            $('#cartModal').modal('show');
         }
     </script>
 

@@ -6,49 +6,48 @@
     <link rel="stylesheet" href="~/css/index.css" asp-append-version="true" />
 }
 
+<div class="section-content">
+    <h2>Time is of the Essence – wear it wisely</h2>
+    <p>Explore our exclusive watches</p>
+</div>
+
 <main>
-    <!-- Hero-sektion -->
-    <section class="hero">
-        <h2>OT Watches</h2>
-        <p>Utforska våra exklusiva klockmodeller nedan.</p>
-    </section>
+    <section class="products section-content">
+        <!-- Vector-kort (huvudklockan på startsidan) -->
+        <article class="product-card index-product-card">
+            <!-- Klickbar bild + titel -->
+            <a asp-controller="Home" asp-action="Vector">
+                <img src="@Url.Content("~/images/VectorV1.png")" alt="OT Vector" />
+                <h3>OT Vector</h3>
+            </a>
+            <p>Price: 89,999 SEK</p>
+            <div class="button-group">
+                <button class="toggle-info" onclick="toggleInfo('vector-info')">
+                    More information
+                </button>
+                <button type="button"
+                        class="buy-now-button"
+                        onclick="addToCart('Vector')">
+                    Buy now
+                </button>
+            </div>
 
-    <!-- Produktkort -->
-    <section class="products">
-        <!-- Trailmaster -->
-        <article class="product-card">
-            <img src="~/images/Trailmaster.jpg" alt="OT Trailmaster" />
-            <h3>OT Trailmaster</h3>
-            <p>Pris: 49 999 SEK</p>
-            <button type="button"
-                    class="buy-now-button"
-                    onclick="addToCart('Trailmaster')">
-                Köp nu
-            </button>
-        </article>
-
-        <!-- Treck -->
-        <article class="product-card">
-            <img src="~/images/Treck.jpg" alt="OT Treck" />
-            <h3>OT Treck</h3>
-            <p>Pris: 89 895 SEK</p>
-            <button type="button"
-                    class="buy-now-button"
-                    onclick="addToCart('Treck')">
-                Köp nu
-            </button>
-        </article>
-
-        <!-- Velour -->
-        <article class="product-card">
-            <img src="~/images/Velour.png" alt="OT Velour" />
-            <h3>OT Velour</h3>
-            <p>Pris: 29 995 SEK</p>
-            <button type="button"
-                    class="buy-now-button"
-                    onclick="addToCart('Velour')">
-                Köp nu
-            </button>
+            <!-- Dold beskrivning (visas med animation) -->
+            <div id="vector-info" class="product-info">
+                <p><strong>Description:</strong> The OT Vector is a masterpiece of engineering, combining lightweight titanium with precision Swiss movement. Its sleek, minimalist design is perfect for those who value both elegance and durability.</p>
+                <p><strong>Features:</strong></p>
+                <ul>
+                    <li>Material: Titanium case and bracelet</li>
+                    <li>Movement: Swiss automatic movement</li>
+                    <li>Crystal: Scratch-resistant sapphire crystal</li>
+                    <li>Water Resistance: 100 meters (10 ATM)</li>
+                    <li>Special Features: Luminous hands and markers, date display</li>
+                </ul>
+            </div>
         </article>
     </section>
 </main>
+
+@section Scripts {
+    <script src="~/js/cart.js" defer asp-append-version="true"></script>
+}
