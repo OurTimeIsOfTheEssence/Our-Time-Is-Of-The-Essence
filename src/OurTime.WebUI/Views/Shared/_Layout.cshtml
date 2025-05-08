@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/OurTime.WebUI.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     @RenderSection("Styles", required: false)
 </head>
 
@@ -20,13 +21,6 @@
             <ul>
                 <li><a asp-controller="Home" asp-action="Index">Home</a></li>
                 <li><a asp-controller="Home" asp-action="Watches">Watches</a></li>
-                <!-- Kundkorg-länk med badge -->
-                <li>
-                    <a href="#" onclick="showCart(); return false;">
-                        Kundkorg
-                        <span id="cartCountBadge" class="badge bg-danger">0</span>
-                    </a>
-                </li>
                 <li><a asp-controller="Home" asp-action="About">About us</a></li>
                 <li><a asp-controller="Home" asp-action="Contact">Contact</a></li>
                 <li><a asp-controller="Home" asp-action="Privacy">Privacy</a></li>
@@ -41,6 +35,14 @@
                     <li><a asp-controller="Account" asp-action="Register">Registrera</a></li>
                     <li><a asp-controller="Account" asp-action="Login">Log in</a></li>
                 }
+
+                <!-- Kundkorg med ikon -->
+                <li>
+                    <a href="#" onclick="showCart(); return false;">
+                        <i class="fas fa-cart-shopping"></i>
+                        <span id="cartCountBadge" class="badge bg-danger">0</span>
+                    </a>
+                </li>
             </ul>
         </nav>
     </header>
@@ -59,21 +61,8 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/cart.js" defer asp-append-version="true"></script>
-    
+
     <script>
-    function toggleInfo(id) {
-        const info = document.getElementById(id);
-        const button = document.querySelector(`button[onclick="toggleInfo('${id}')"]`);
-
-        if (info.style.maxHeight && info.style.maxHeight !== "0px") {
-            info.style.maxHeight = "0px";
-            button.textContent = "More information";
-        } else {
-            info.style.maxHeight = info.scrollHeight + "px";
-            button.textContent = "Less information";
-        }
-    }
-
     function showCart() {
         $('#cartModal').modal('show');
     }
@@ -89,9 +78,7 @@
                     <h5 class="modal-title" id="cartModalLabel">Din kundkorg</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Stäng"></button>
                 </div>
-                <div class="modal-body" id="cartModalBody">
-                    <!-- JavaScript fyller innehållet här -->
-                </div>
+                <div class="modal-body" id="cartModalBody"></div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Stäng</button>
                     <a href="#" class="btn btn-primary">Gå till kassan</a>
@@ -101,4 +88,3 @@
     </div>
 </body>
 </html>
-
