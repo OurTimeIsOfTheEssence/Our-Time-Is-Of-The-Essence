@@ -16,10 +16,14 @@ body {
 header {
   background-color: #353434;
   color: white;
-  padding: 1.5em;
+  padding: 0.3em 0; /* Justera top och bottom padding för att minska höjden */
   text-align: center;
   font-size: 24px;
   font-weight: bold;
+}
+
+header nav {
+  margin-top: 40px; /* Justera detta värde för mer eller mindre utrymme */
 }
 
 /* Gemensam styling för alla rubriker (centrerade och samma storlek) */
