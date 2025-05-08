@@ -1,6 +1,7 @@
-﻿@{
+@{
     ViewData["Title"] = "Watches";
 }
+
 @section Styles {
     <link rel="stylesheet" href="~/css/watches.css" asp-append-version="true" />
 }
@@ -19,10 +20,14 @@
                 <h3>OT Trailmaster</h3>
             </a>
             <p>Price: 49,999 SEK</p>
-            <a asp-controller="Home" asp-action="Trailmaster">
-                <button>More information</button>
-                <button>Buy now</button>
-            </a>
+            <div class="button-group">
+                <button class="info-button" onclick="location.href='@Url.Action("Trailmaster","Home")'">
+                    More information
+                </button>
+                <button class="buy-now-button" onclick="addToCart('Trailmaster')">
+                    Buy now
+                </button>
+            </div>
         </article>
 
         <!-- Velour -->
@@ -32,10 +37,14 @@
                 <h3>OT Velour</h3>
             </a>
             <p>Price: 19,999 SEK</p>
-            <a asp-controller="Home" asp-action="Velour">
-                <button>More information</button>
-                <button>Buy now</button>
-            </a>
+            <div class="button-group">
+                <button class="info-button" onclick="location.href='@Url.Action("Velour","Home")'">
+                    More information
+                </button>
+                <button class="buy-now-button" onclick="addToCart('Velour')">
+                    Buy now
+                </button>
+            </div>
         </article>
 
         <!-- Trek -->
@@ -45,8 +54,14 @@
                 <h3>OT Trek</h3>
             </a>
             <p>Price: 39,999 SEK</p>
-            <button class="toggle-info" onclick="toggleInfo('trek-info')">More information</button>
-            <button>Buy now</button>
+            <div class="button-group">
+                <button class="toggle-info" onclick="toggleInfo('trek-info')">
+                    More information
+                </button>
+                <button class="buy-now-button" onclick="addToCart('Trek')">
+                    Buy now
+                </button>
+            </div>
 
             <!-- Dold beskrivning (visas med animation) -->
             <div id="trek-info" class="product-info" style="max-height: 0; overflow: hidden; transition: max-height 0.4s ease;">
@@ -62,3 +77,8 @@
         </article>
     </section>
 </main>
+
+@section Scripts {
+    <script src="~/js/cart.js" defer asp-append-version="true"></script>
+}
+

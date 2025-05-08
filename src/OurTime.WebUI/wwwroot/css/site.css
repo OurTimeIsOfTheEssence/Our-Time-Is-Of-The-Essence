@@ -155,3 +155,98 @@ button.toggle-info {
 button.toggle-info:hover {
   background-color: #A61B1B;
 }
+
+/* ================================
+   Kundkorgs-modal-styling
+   ================================ */
+#cartModal .modal-content {
+  border-radius: 12px;
+  border: none;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+}
+
+#cartModal .modal-header {
+  border-bottom: none;
+  padding: 1.5rem 1.5rem 0.75rem;
+}
+
+#cartModal .modal-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+#cartModal .btn-close {
+  opacity: 0.6;
+  transition: opacity 0.2s ease;
+}
+
+#cartModal .btn-close:hover {
+  opacity: 1;
+}
+
+#cartModal .modal-body {
+  padding: 0.75rem 1.5rem 1.5rem;
+}
+
+#cartModalBody .list-group {
+  border: none;
+}
+
+#cartModalBody .list-group-item {
+  border: none;
+  padding: 1rem 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#cartModalBody .list-group-item + .list-group-item {
+  border-top: 1px solid #E5E5EA; /* Svagt grå linje */
+}
+
+#cartModal .modal-body .badge.bg-primary {
+  background-color: #dc3545 !important; /* samma röda */
+  color: #fff !important;              /* vit text */
+  border-radius: 0.25rem;
+  border: 1px solid #a71d2a;
+}
+
+/* Harmonisera kassaknappen med Köp nu */
+#cartModal .modal-footer .btn-primary {
+  background-color: #dc3545 !important; /* Samma röd */
+  border: none !important;
+  color: #fff !important;               /* vit text */
+}
+
+#cartModal .modal-footer .btn-primary:hover {
+  background-color: #c82333 !important; /* mörkare hover */
+}
+
+#cartModal .modal-footer {
+  border-top: none;
+  padding: 0.5rem 1.5rem 1.5rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+#cartModal .modal-footer .btn-secondary {
+  background-color: #f2f2f7;
+  color: #000;
+  font-weight: 500;
+}
+
+#cartModal .modal-footer .btn-secondary:hover {
+  background-color: #e1e1e6;
+}
+
+@media (max-width: 576px) {
+  #cartModal .modal-dialog {
+    margin: 1rem;
+  }
+
+  #cartModal .modal-content {
+    box-shadow: none;
+  }
+}
+
