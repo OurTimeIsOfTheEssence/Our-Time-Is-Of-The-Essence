@@ -13,7 +13,7 @@
     padding: 1em;
     text-align: center;
     width: 400px; /* Standardstorlek för Watches */
-    background: rgb(244, 241, 241);
+    background: rgba(224, 224, 224, 0.6);
     transition: transform 0.3s ease;
   }
   
@@ -27,4 +27,13 @@
   .product-card:hover {
     transform: scale(1.05);
   }
+  .products a {
+    text-decoration: none; /* Tar bort understrykningen */
+    color: inherit;        /* Behåller textens färg */
+}
+
+.products a:hover {
+    text-decoration: none; /* Förhindrar understrykning vid hover */
+}
+
   

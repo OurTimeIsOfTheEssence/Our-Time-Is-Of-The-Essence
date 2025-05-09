@@ -3,7 +3,7 @@ body {
   font-family: 'Segoe UI', Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background-image: url('/images/GRÅ1.png');
+  background-image: url('/images/Bakgrundsoft.jpg');
   background-size: cover;
   background-position: top right;
   background-repeat: no-repeat;
@@ -14,16 +14,16 @@ body {
 
 /* Header-styling */
 header {
-  background-color: #353434;
+  background-color: #070000;
   color: white;
-  padding: 0.3em 0; /* Justera top och bottom padding för att minska höjden */
+  padding: 0.3em 0;
   text-align: center;
   font-size: 24px;
   font-weight: bold;
 }
 
 header nav {
-  margin-top: 40px; /* Justera detta värde för mer eller mindre utrymme */
+  margin-top: 40px;
 }
 
 /* Gemensam styling för alla rubriker (centrerade och samma storlek) */
@@ -71,6 +71,18 @@ nav a {
 
 nav a:hover {
   color: #C62828;
+}
+
+/* Justering för kundkorgsikon */
+nav a i {
+  font-size: 24px; /* Ändra storlek om du vill ha större ikon */
+  margin-right: 5px;
+  vertical-align: middle;
+  color: rgb(247, 9, 9); /* Färg på kundkorgsikonen */
+}
+
+nav a i:hover {
+  color: #C62828; /* Färg när musen hovrar */
 }
 
 /* Knappdesign */
@@ -123,42 +135,7 @@ footer {
   color: #A61B1B;
 }
 
-/* Styling för produktinformation (ut- och infällbar text) */
-.product-info {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.4s ease; /* Smidig animation när texten öppnas/stängs */
-}
-
-/* Texten i produktinformationen */
-.product-info p {
-  font-size: 18px;
-  line-height: 1.6;
-  margin: 0.5em 0;
-  color: #111111;
-}
-
-/* Specifik styling för knappen "More information" */
-button.toggle-info {
-  background-color: #C62828;
-  color: white;
-  border: none;
-  padding: 0.8em 1.5em;
-  font-size: 18px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  display: inline-block;
-  margin-top: 0.5em;
-}
-
-button.toggle-info:hover {
-  background-color: #A61B1B;
-}
-
-/* ================================
-   Kundkorgs-modal-styling
-   ================================ */
+/* Kundkorgs-modal-styling */
 #cartModal .modal-content {
   border-radius: 12px;
   border: none;
@@ -175,15 +152,6 @@ button.toggle-info:hover {
   font-weight: 600;
 }
 
-#cartModal .btn-close {
-  opacity: 0.6;
-  transition: opacity 0.2s ease;
-}
-
-#cartModal .btn-close:hover {
-  opacity: 1;
-}
-
 #cartModal .modal-body {
   padding: 0.75rem 1.5rem 1.5rem;
 }
@@ -193,7 +161,6 @@ button.toggle-info:hover {
 }
 
 #cartModalBody .list-group-item {
-  border: none;
   padding: 1rem 0;
   display: flex;
   justify-content: space-between;
@@ -201,25 +168,18 @@ button.toggle-info:hover {
 }
 
 #cartModalBody .list-group-item + .list-group-item {
-  border-top: 1px solid #E5E5EA; /* Svagt grå linje */
-}
-
-#cartModal .modal-body .badge.bg-primary {
-  background-color: #dc3545 !important; /* samma röda */
-  color: #fff !important;              /* vit text */
-  border-radius: 0.25rem;
-  border: 1px solid #a71d2a;
+  border-top: 1px solid #E5E5EA;
 }
 
 /* Harmonisera kassaknappen med Köp nu */
 #cartModal .modal-footer .btn-primary {
-  background-color: #dc3545 !important; /* Samma röd */
+  background-color: #dc3545 !important;
   border: none !important;
-  color: #fff !important;               /* vit text */
+  color: #fff !important;
 }
 
 #cartModal .modal-footer .btn-primary:hover {
-  background-color: #c82333 !important; /* mörkare hover */
+  background-color: #c82333 !important;
 }
 
 #cartModal .modal-footer {
