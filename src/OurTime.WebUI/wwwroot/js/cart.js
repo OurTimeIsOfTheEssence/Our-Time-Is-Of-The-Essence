@@ -88,7 +88,7 @@ function showCart() {
     if (!body) return;
 
     if (cart.length === 0) {
-        body.innerHTML = '<p>Din kundkorg är tom.</p>';
+        body.innerHTML = '<p>Your shopping cart is empty.</p>';
     } else {
         let html = '<ul class="list-group">';
         cart.forEach(item => {
@@ -113,7 +113,7 @@ function showCart() {
             .toLocaleString("sv-SE");
         html += `
       <div class="d-flex justify-content-between align-items-center mt-3 p-2 border-top">
-        <strong>Summa</strong>
+        <strong>Sum</strong>
         <strong>${total} SEK</strong>
       </div>`;
 
