@@ -9,14 +9,15 @@
 }
 
 .index-product-card {
-    border: 1px solid #E0E0E0;
-    padding: 1.5em;
+    border: 1px solid #b02f2f;
+    padding: 1em;
     text-align: center;
-    width: 500px;
-    background: white;
+    width: 400px; /* Samma som Watches */
+    background: rgba(224, 224, 224, 0.6);
     transition: transform 0.3s ease;
     margin-bottom: 2em;
 }
+
 
 .index-product-card img {
     width: 100%;
@@ -27,3 +28,12 @@
     display: block;
     margin: 0 auto;
 }
+.products a {
+    text-decoration: none; /* Tar bort understrykningen */
+    color: inherit;        /* Behåller textens färg */
+}
+
+.products a:hover {
+    text-decoration: none; /* Förhindrar understrykning vid hover */
+}
+
