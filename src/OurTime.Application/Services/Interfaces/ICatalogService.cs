@@ -12,12 +12,12 @@ public interface ICatalogService
     /// Gets all available products
     /// </summary>
     /// <returns>A collection of all products</returns>
-    Task<IEnumerable<Product>> GetAllProductsAsync();
+    Task<IEnumerable<Watch>> GetAllWatchesAsync();
 
     /// <summary>
     /// Gets a product by its unique identifier
     /// </summary>
     /// <param name="id">The product ID</param>
     /// <returns>The product if found, null otherwise</returns>
-    Task<Product?> GetProductByIdAsync(Guid id);
+    Task<Watch?> GetWatchByIdAsync(int id);
 }

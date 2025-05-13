@@ -13,7 +13,7 @@ public class AppDbContext : DbContext
     /// DbSet represents a collection of entities of a specific type in the database.
     /// Each DbSet typically corresponds to a database table.
     /// </summary>
-    public DbSet<Product> Products { get; set; }
+    public DbSet<Watch> Watches { get; set; }
 
     /// <summary>
     /// Constructor that accepts DbContextOptions, which allows for configuration to be passed in.

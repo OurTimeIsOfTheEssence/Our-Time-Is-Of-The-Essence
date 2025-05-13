@@ -7,13 +7,13 @@ namespace OurTime.Infrastructure.Persistence.Repositories;
 /// Repository implementation for managing Product entities.
 /// This class inherits from the generic Repository class and adds product-specific functionality.
 /// </summary>
-public class ProductRepository : Repository<Product, Guid>, IProductRepository
+public class WatchRepository : Repository<Watch, int>, IWatchRepository
 {
     /// <summary>
     /// Constructor that passes the context to the base Repository class
     /// </summary>
     /// <param name="context">The database context</param>
-    public ProductRepository(AppDbContext context) : base(context)
+    public WatchRepository(AppDbContext context) : base(context)
     {
     }
 

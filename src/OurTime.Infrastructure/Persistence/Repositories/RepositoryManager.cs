@@ -7,9 +7,8 @@ namespace OurTime.Infrastructure.Persistence.Repositories;
 /// Implementation of the Repository Manager pattern.
 /// This class provides a single point of access to all repositories and the unit of work.
 /// </summary>
-public class RepositoryManager : IRepositoryManager
-{
-    private readonly IProductRepository _productRepository;
+public class RepositoryManager : IRepositoryManager{
+    private readonly IWatchRepository _watchRepository;
     private readonly IUnitOfWork _unitOfWork;
 
     /// <summary>
@@ -18,14 +17,14 @@ public class RepositoryManager : IRepositoryManager
     /// <param name="productRepository">The product repository</param>
     /// <param name="orderRepository">The order repository</param>
     /// <param name="unitOfWork">The unit of work</param>
-    public RepositoryManager(IProductRepository productRepository, IUnitOfWork unitOfWork)
+    public RepositoryManager(IWatchRepository watchRepository, IUnitOfWork unitOfWork)
     {
-        _productRepository = productRepository;
+        _watchRepository = watchRepository;
         _unitOfWork = unitOfWork;
     }
 
     /// <inheritdoc/>
-    public IProductRepository ProductRepository => _productRepository;
+    public IWatchRepository WatchRepository => _watchRepository;
 
 
     /// <inheritdoc/>

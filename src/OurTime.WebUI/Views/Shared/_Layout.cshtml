@@ -22,8 +22,9 @@
                 <li><a asp-controller="Home" asp-action="Watches">Watches</a></li>
                 <li><a asp-controller="Home" asp-action="About">About us</a></li>
                 <li><a asp-controller="Home" asp-action="Contact">Contact</a></li>
-                <li><a asp-controller="Catalog" asp-action="Index">Privacy</a></li>
-                <li><a asp-controller="Home" asp-action="Catalog">Test</a></li>
+                <li><a asp-controller="Home" asp-action="Privace">Privacy</a></li>
+                <li><a asp-controller="Catalog" asp-action="Index">Test</a></li>
+                <li><a asp-controller="Catalog" asp-action="Details">Test 2</a></li>
                 @if (User.Identity?.IsAuthenticated == true)
                 {
                     <li><span>Hej @User.Identity.Name!</span></li>

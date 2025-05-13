@@ -38,7 +38,7 @@ public interface IRepositoryManager
     /// This property provides access to product-specific data operations without exposing
     /// the concrete implementation details to the application layer.
     /// </remarks>
-    IProductRepository ProductRepository { get; }
+    IWatchRepository WatchRepository { get; }
 
     /// <summary>
     /// Gets the unit of work to commit transactions.

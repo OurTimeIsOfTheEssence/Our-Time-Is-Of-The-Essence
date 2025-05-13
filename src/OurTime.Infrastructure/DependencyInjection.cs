@@ -22,13 +22,15 @@ public static class DependencyInjection
     /// <returns>The service collection for chaining</returns>
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
+
+        var connectionString = configuration.GetConnectionString("DefaultConnection");
         // Register DbContext with in-memory database
         // In a real application, you'd use a real database
         services.AddDbContext<AppDbContext>(options =>
-            options.UseInMemoryDatabase("DefaultConnection"));
+            options.UseSqlServer(connectionString));
 
         // Register repositories
-        services.AddScoped<IProductRepository, ProductRepository>();
+        services.AddScoped<IWatchRepository, WatchRepository>();
 
         // Register Unit of Work
         services.AddScoped<IUnitOfWork, UnitOfWork>();

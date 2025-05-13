@@ -8,16 +8,16 @@ namespace OurTime.Infrastructure.Persistence.Configurations;
 /// Configuration class for the Product entity.
 /// This defines how a Product is mapped to the database.
 /// </summary>
-public class ProductConfiguration : IEntityTypeConfiguration<Product>
+public class ProductConfiguration : IEntityTypeConfiguration<Watch>
 {
     /// <summary>
     /// Configures the entity mapping using EF Core's Fluent API.
     /// </summary>
     /// <param name="builder">Entity type builder used to configure the entity</param>
-    public void Configure(EntityTypeBuilder<Product> builder)
+    public void Configure(EntityTypeBuilder<Watch> builder)
     {
         // Define the table name explicitly
-        builder.ToTable("Products");
+        builder.ToTable("Watches");
 
         // Configure the primary key
         builder.HasKey(p => p.Id);
@@ -32,29 +32,9 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
             .IsRequired() // NOT NULL constraint
             .HasMaxLength(500); // VARCHAR(500)
 
-        // Configure StockQuantity property
-        builder.Property(p => p.StockQuantity)
-            .IsRequired(); // NOT NULL constraint
-
         // Configure ImageUrl property - it's nullable
         builder.Property(p => p.ImageUrl)
             .IsRequired(false); // NULL allowed
-
-        // Configure the owned entity Money as a complex type
-        // This maps the Money value object to columns in the Products table
-        builder.OwnsOne(p => p.Price, priceBuilder =>
-        {
-            // Map Amount property to a column named Price
-            priceBuilder.Property(m => m.Amount)
-                .HasColumnName("Price")
-                .IsRequired();
-
-            // Map Currency property to a column named Currency
-            priceBuilder.Property(m => m.Currency)
-                .HasColumnName("Currency")
-                .HasMaxLength(3)
-                .IsRequired();
-        });
 
         // Add an index on the Name for faster lookups
         builder.HasIndex(p => p.Name);

@@ -19,20 +19,12 @@ public class CatalogController : Controller
         try
         {
             // Get all products from the service
-            var products = await _catalogService.GetAllProductsAsync();
+            var watches = await _catalogService.GetAllWatchesAsync();
 
             // Map domain entities to view models
-            var productViewModels = products.Select(p => new ProductCardViewModel
+            var productViewModels = watches.Select(p => new ProductCardViewModel
             {
-                Id = p.Id,
                 Name = p.Name,
-                TruncatedDescription = p.Description.Length > 100
-                    ? p.Description.Substring(0, 97) + "..."
-                    : p.Description,
-                FormattedPrice = p.Price.ToString(),
-                PriceAmount = p.Price.Amount,
-                ImageUrl = p.ImageUrl?.ToString(),
-                StockQuantity = p.StockQuantity
             }).ToList();
 
             // Create the product catalog view model
@@ -56,15 +48,15 @@ public class CatalogController : Controller
     }
 
     // GET: Store/Details/5
-    public async Task<IActionResult> Details(Guid id)
+    public async Task<IActionResult> Details(int id)
     {
         try
         {
             // Get the specific product from the service
-            var product = await _catalogService.GetProductByIdAsync(id);
+            var watch = await _catalogService.GetWatchByIdAsync(id + 1);
 
             // Return 404 if product not found
-            if (product is null)
+            if (watch is null)
             {
                 return NotFound();
             }
@@ -72,13 +64,7 @@ public class CatalogController : Controller
             // Map domain entity to view model
             var viewModel = new ProductDetailsViewModel
             {
-                Id = product.Id,
-                Name = product.Name,
-                Description = product.Description,
-                FormattedPrice = product.Price.ToString(),
-                PriceAmount = product.Price.Amount,
-                ImageUrl = product.ImageUrl?.ToString(),
-                StockQuantity = product.StockQuantity
+                Name = watch.Name,
             };
 
             return View(viewModel);

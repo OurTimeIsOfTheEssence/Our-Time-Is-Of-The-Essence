@@ -10,26 +10,26 @@ namespace OurTime.Application.Services.Implementations;
 /// </summary>
 public class CatalogService : ICatalogService
 {
-    private readonly IProductRepository _productRepository;
+    private readonly IWatchRepository _watchRepository;
 
     /// <summary>
     /// Constructor with dependency injection
     /// </summary>
-    /// <param name="productRepository">The product repository</param>
-    public CatalogService(IProductRepository productRepository)
+    /// <param name="watchRepository">The watch repository</param>
+    public CatalogService(IWatchRepository watchRepository)
     {
-        _productRepository = productRepository;
+        _watchRepository = watchRepository;
     }
 
     /// <inheritdoc/>
-    public async Task<IEnumerable<Product>> GetAllProductsAsync()
+    public async Task<IEnumerable<Watch>> GetAllWatchesAsync()
     {
-        return await _productRepository.GetAllAsync();
+        return await _watchRepository.GetAllAsync();
     }
 
     /// <inheritdoc/>
-    public async Task<Product?> GetProductByIdAsync(Guid id)
+    public async Task<Watch?> GetWatchByIdAsync(int id)
     {
-        return await _productRepository.GetByIdAsync(id);
+        return await _watchRepository.GetByIdAsync(id);
     }
 }
