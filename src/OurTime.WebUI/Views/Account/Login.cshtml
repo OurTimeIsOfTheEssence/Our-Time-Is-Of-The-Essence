@@ -4,27 +4,26 @@
 }
 
 <div class="d-flex justify-content-center align-items-center" style="min-height: 80vh; background: url('~/images/OT.jpg') no-repeat center center; background-size: cover;">
-    <div class="card shadow-lg" style="width: 360px;">
+    <div class="card login-card shadow-lg mx-auto" style="max-width: 500px; width: 100%;">
         <div class="card-body">
             <h3 class="card-title text-center mb-4">Log in</h3>
             <form asp-action="Login" method="post">
                 <input type="hidden" name="returnUrl" value="@returnUrl" />
-                
+
                 <!-- Username -->
                 <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="floatingUsername" name="username" placeholder="Username" autofocus>
+                    <input type="text" class="form-control" id="floatingUsername" name="username" placeholder="Username" autofocus required>
                     <label for="floatingUsername">Username</label>
                 </div>
                 
                 <!-- Password -->
                 <div class="form-floating mb-4">
-                    <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Password">
+                    <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Password" required>
                     <label for="floatingPassword">Password</label>
                 </div>
                 
                 <!-- Submit button -->
                 <button type="submit" class="btn btn-success w-100">Log in</button>
-
             </form>
             
             <!-- Error message for invalid login -->

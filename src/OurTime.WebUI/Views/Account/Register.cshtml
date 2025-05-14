@@ -2,21 +2,24 @@
     ViewData["Title"] = "Register";
 }
 
-<div class="d-flex justify-content-center align-items-center" style="min-height:80vh;">
-    <div class="card shadow-sm" style="width:350px;">
+<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="card register-card shadow-lg mx-auto" style="max-width: 500px; width: 100%;">
         <div class="card-body">
             <h3 class="card-title text-center mb-4">Create a new account</h3>
             <form asp-action="Register" method="post">
                 <div class="form-floating mb-3">
-                    <input type="text" name="username" class="form-control" id="floatingUsername" placeholder="Username">
+                    <input type="text" name="username" class="form-control" id="floatingUsername" placeholder="Username" required>
                     <label for="floatingUsername">Username</label>
                 </div>
+                
                 <div class="form-floating mb-4">
-                    <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password">
+                    <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password" required>
                     <label for="floatingPassword">Password</label>
                 </div>
-                <button type="submit" class="btn btn-success w-100">Register</button>
+                
+                <button type="submit" class="btn btn-primary w-100">Register</button>
             </form>
+            
             @if (!ViewData.ModelState.IsValid)
             {
                 <div class="alert alert-danger mt-3">
@@ -26,6 +29,7 @@
                     }
                 </div>
             }
+            
             <div class="text-center mt-3">
                 <a asp-action="Login">Already have an account? Log in →</a>
             </div>
