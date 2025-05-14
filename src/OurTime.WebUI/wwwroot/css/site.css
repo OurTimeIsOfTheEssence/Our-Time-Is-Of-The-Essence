@@ -60,18 +60,44 @@ nav ul {
   display: flex;
   justify-content: center;
   gap: 2em;
-  font-size: 22px;
+  font-size: 26px; /* Ökat textstorleken för menyn */
 }
 
 nav a {
   color: rgb(247, 9, 9);
   text-decoration: none;
   font-weight: 600;
+  font-size: 26px; /* Ökat textstorleken för menylänkar */
 }
 
 nav a:hover {
   color: #C62828;
 }
+
+/* Gör rubriken större men håll den på en rad */
+.section-content h1, 
+.section-content h2 {
+  font-size: 36px; /* Lagom stor text för rubriken */
+  font-weight: 700;
+  line-height: 1.2;
+  color: #111111;
+  white-space: nowrap; /* Tvingar texten att vara på en rad */
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Gör "Explore our exclusive watches" större och centrerad */
+.section-content p {
+  font-size: 28px; /* Större text för beskrivningen */
+  line-height: 1.6;
+  color: #111111;
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+
+
 
 /* Justering för kundkorgsikon */
 nav a i {

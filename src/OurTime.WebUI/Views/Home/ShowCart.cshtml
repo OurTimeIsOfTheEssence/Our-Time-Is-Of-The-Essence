@@ -34,7 +34,8 @@
           cart.forEach(item => {
             html += `
               <article class="product-card">
-                <img src="/images/${item.name.replace('OT ', '')}.jpg" alt="${item.name}" />
+                <img src="https://storageaccountblobb.blob.core.windows.net/images/${item.name.replace('OT ', '')}.jpg" alt="${item.name}" />
+
                 <h3>${item.name}</h3>
                 <p>Pris: ${item.price} SEK</p>
                 <p>Antal: ${item.quantity}</p>
