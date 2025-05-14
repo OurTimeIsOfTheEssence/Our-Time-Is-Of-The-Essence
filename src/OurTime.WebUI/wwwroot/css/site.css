@@ -60,71 +60,77 @@ nav ul {
   display: flex;
   justify-content: center;
   gap: 2em;
-  font-size: 26px; /* Ökat textstorleken för menyn */
+  font-size: 26px;
 }
 
 nav a {
   color: rgb(247, 9, 9);
   text-decoration: none;
   font-weight: 600;
-  font-size: 26px; /* Ökat textstorleken för menylänkar */
+  font-size: 26px;
 }
 
 nav a:hover {
   color: #C62828;
 }
 
-/* Gör rubriken större men håll den på en rad */
-.section-content h1, 
-.section-content h2 {
-  font-size: 36px; /* Lagom stor text för rubriken */
-  font-weight: 700;
-  line-height: 1.2;
-  color: #111111;
-  white-space: nowrap; /* Tvingar texten att vara på en rad */
-  overflow: hidden;
-  text-overflow: ellipsis;
+/* Stil för Login och Register-korten */
+.login-card,
+.register-card {
+  max-width: 1000px;
+  width: 70%; /* Justera denna för att göra dem bredare eller smalare */
+  margin: 40px auto;
+  padding: 40px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
 }
 
-/* Gör "Explore our exclusive watches" större och centrerad */
-.section-content p {
-  font-size: 28px; /* Större text för beskrivningen */
-  line-height: 1.6;
-  color: #111111;
-  text-align: center;
-  max-width: 800px;
-  margin: 0 auto;
+/* Justera input-fälten för bättre läsbarhet */
+.login-card .form-floating input,
+.register-card .form-floating input {
+  font-size: 1.5rem;
+  padding: 1rem;
 }
 
-
-
-
-/* Justering för kundkorgsikon */
-nav a i {
-  font-size: 24px; /* Ändra storlek om du vill ha större ikon */
-  margin-right: 5px;
-  vertical-align: middle;
-  color: rgb(247, 9, 9); /* Färg på kundkorgsikonen */
+/* Justera textstorlek för etiketterna (Username, Email, Password) */
+.login-card .form-floating label,
+.register-card .form-floating label {
+  font-size: 1.3rem;
 }
 
-nav a i:hover {
-  color: #C62828; /* Färg när musen hovrar */
-}
-
-/* Knappdesign */
-button {
+/* Förstora knappen specifikt för Login och Register */
+.login-card button,
+.register-card button {
+  font-size: 1.2rem;
+  padding: 0.75rem 1rem;
   background-color: #C62828;
-  color: white;
+  color: #ffffff;
   border: none;
-  padding: 0.8em 1.5em;
-  font-size: 18px;
   font-weight: bold;
-  cursor: pointer;
   transition: background-color 0.3s;
 }
 
-button:hover {
+.login-card button:hover,
+.register-card button:hover {
   background-color: #A61B1B;
+}
+
+/* Responsiv design - storlek justeras på mindre skärmar */
+@media (max-width: 1024px) {
+  .login-card,
+  .register-card {
+    max-width: 800px;
+    width: 80%;
+  }
+}
+
+@media (max-width: 768px) {
+  .login-card,
+  .register-card {
+    max-width: 600px;
+    width: 90%;
+  }
 }
 
 /* Footer */
@@ -136,158 +142,3 @@ footer {
   font-size: 18px;
   width: 100%;
 }
-
-/* Styling för kontaktinformationen (textstorlek och centrering) */
-.contact-info {
-  list-style: none;
-  padding: 0;
-  text-align: center;
-  font-size: 24px;
-  color: #111111;
-}
-
-.contact-info li {
-  margin-bottom: 0.5em;
-}
-
-.contact-info a {
-  text-decoration: none;
-  color: #C62828;
-  font-weight: bold;
-}
-
-.contact-info a:hover {
-  text-decoration: underline;
-  color: #A61B1B;
-}
-
-/* Kundkorgs-modal-styling */
-#cartModal .modal-content {
-  border-radius: 12px;
-  border: none;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.08);
-}
-
-#cartModal .modal-header {
-  border-bottom: none;
-  padding: 1.5rem 1.5rem 0.75rem;
-}
-
-#cartModal .modal-title {
-  font-size: 1.25rem;
-  font-weight: 600;
-}
-
-#cartModal .modal-body {
-  padding: 0.75rem 1.5rem 1.5rem;
-}
-
-#cartModalBody .list-group {
-  border: none;
-}
-
-#cartModalBody .list-group-item {
-  padding: 1rem 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-#cartModalBody .list-group-item + .list-group-item {
-  border-top: 1px solid #E5E5EA;
-}
-
-/* Harmonisera kassaknappen med Köp nu */
-#cartModal .modal-footer .btn-primary {
-  background-color: #dc3545 !important;
-  border: none !important;
-  color: #fff !important;
-}
-
-#cartModal .modal-footer .btn-primary:hover {
-  background-color: #c82333 !important;
-}
-
-#cartModal .modal-footer {
-  border-top: none;
-  padding: 0.5rem 1.5rem 1.5rem;
-  display: flex;
-  justify-content: flex-end;
-  gap: 0.5rem;
-}
-
-#cartModal .modal-footer .btn-secondary {
-  background-color: #f2f2f7;
-  color: #000;
-  font-weight: 500;
-}
-
-#cartModal .modal-footer .btn-secondary:hover {
-  background-color: #e1e1e6;
-}
-
-@media (max-width: 576px) {
-  #cartModal .modal-dialog {
-    margin: 1rem;
-  }
-
-  #cartModal .modal-content {
-    box-shadow: none;
-  }
-}
-
-/* Stil för Login och Register-korten */
-.login-card,
-.register-card {
-    max-width: 500px; /* Ändra för större/mindre */
-    width: 100%;
-    margin: 40px auto;
-    padding: 30px;
-    background-color: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-}
-
-/* Justera input-fälten specifikt för Login och Register */
-.login-card .form-floating input,
-.register-card .form-floating input {
-    font-size: 1.2rem;
-    padding: 1rem 0.75rem;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-}
-
-/* Förstora knappen specifikt för Login och Register */
-.login-card button,
-.register-card button {
-    font-size: 1.1rem;
-    padding: 0.75rem 1rem;
-    width: 100%;
-    background-color: #C62828;
-    border: none;
-    color: #fff;
-    font-weight: bold;
-    transition: background-color 0.3s;
-}
-
-.login-card button:hover,
-.register-card button:hover {
-    background-color: #A61B1B;
-}
-
-/* Responsiv design för Login och Register */
-@media (min-width: 768px) {
-    .login-card,
-    .register-card {
-        max-width: 600px;
-    }
-}
-
-@media (min-width: 1024px) {
-    .login-card,
-    .register-card {
-        max-width: 700px;
-    }
-}
-
-
