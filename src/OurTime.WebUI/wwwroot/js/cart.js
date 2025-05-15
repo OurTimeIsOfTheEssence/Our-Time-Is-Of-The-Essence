@@ -27,7 +27,7 @@ function getCookie(name) {
 const products = {
     "Trailmaster": { id: 1, name: "OT Trailmaster", price: 49999 },
     "Treck": { id: 2, name: "OT Treck", price: 89995 },
-    "Velour": { id: 3, name: "OT Velour", price: 29995 }
+    "Lynx": { id: 3, name: "OT Lynx", price: 29995 }
 };
 
 // ——————————————————————————————————————————————————————————

@@ -16,7 +16,7 @@
         <!-- Trailmaster -->
         <article class="product-card">
             <a asp-controller="Home" asp-action="Trailmaster">
-                <img src="@Url.Content("~/images/Trailmaster A1.png")" alt="OT Trailmaster" />
+                <img src="https://storageaccountblobb.blob.core.windows.net/images/Trailmaster%20A1.png" alt="OT Trailmaster" />
                 <h3>OT Trailmaster</h3>
             </a>
             <p>Price: 49,999 SEK</p>
@@ -30,18 +30,19 @@
             </div>
         </article>
 
-        <!-- Velour -->
+        <!-- Lynx -->
         <article class="product-card">
-            <a asp-controller="Home" asp-action="Velour">
-                <img src="@Url.Content("~/images/Velour.png")" alt="OT Velour" />
-                <h3>OT Velour</h3>
+            <a asp-controller="Home" asp-action="Lynx">
+                <img src="https://storageaccountblobb.blob.core.windows.net/images/Lynx%20A1.png" alt="OT Lynx" />
+
+                <h3>OT Lynx</h3>
             </a>
-            <p>Price: 19,999 SEK</p>
+            <p>Price: 29,999 SEK</p>
             <div class="button-group">
-                <button class="info-button" onclick="location.href='@Url.Action("Velour","Home")'">
+                <button class="info-button" onclick="location.href='@Url.Action("Lynx","Home")'">
                     More information
                 </button>
-                <button class="buy-now-button" onclick="addToCart('Velour')">
+                <button class="buy-now-button" onclick="addToCart('Lynx')">
                     Buy now
                 </button>
             </div>
@@ -50,7 +51,7 @@
         <!-- Trek -->
         <article class="product-card">
             <a asp-controller="Home" asp-action="Trek">
-                <img src="@Url.Content("~/images/Trek A1.png")" alt="OT Trek" />
+                <img src="https://storageaccountblobb.blob.core.windows.net/images/Trek%20A1.png" alt="OT Trek" />
                 <h3>OT Trek</h3>
             </a>
             <p>Price: 39,999 SEK</p>

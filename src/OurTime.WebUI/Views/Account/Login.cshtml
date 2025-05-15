@@ -3,37 +3,21 @@
     var returnUrl = ViewData["ReturnUrl"] as string ?? "/";
 }
 
-<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh; background: url('~/images/OT.jpg') no-repeat center center; background-size: cover;">
-    <div class="card shadow-lg" style="width: 360px;">
-        <div class="card-body">
-            <h3 class="card-title text-center mb-4">Log in</h3>
-            <form asp-action="Login" method="post">
-                <input type="hidden" name="returnUrl" value="@returnUrl" />
-                
-                <!-- Username -->
-                <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="floatingUsername" name="username" placeholder="Username" autofocus>
-                    <label for="floatingUsername">Username</label>
-                </div>
-                
-                <!-- Password -->
-                <div class="form-floating mb-4">
-                    <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Password">
-                    <label for="floatingPassword">Password</label>
-                </div>
-                
-                <!-- Submit button -->
-                <button type="submit" class="btn btn-success w-100">Log in</button>
+<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="card login-card shadow-lg" style="max-width: 1000px; width: 70%;">
+        <h3 class="card-title text-center mb-4">Log in</h3>
+        <form asp-action="Login" method="post">
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" name="username" placeholder="Username" required autofocus>
+                <label for="username">Username</label>
+            </div>
 
-            </form>
+            <div class="form-floating mb-4">
+                <input type="password" class="form-control" name="password" placeholder="Password" required>
+                <label for="password">Password</label>
+            </div>
             
-            <!-- Error message for invalid login -->
-            @if (!ViewData.ModelState.IsValid)
-            {
-                <div class="alert alert-danger mt-3" role="alert">
-                    Incorrect username or password.
-                </div>
-            }
-        </div>
+            <button type="submit" class="btn btn-primary w-100">Log in</button>
+        </form>
     </div>
 </div>
