@@ -1,6 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using OurTime.WebUI.Data;
+using Microsoft.OpenApi.Models;                     
+using Swashbuckle.AspNetCore.SwaggerGen;
+using Swashbuckle.AspNetCore.SwaggerUI;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,7 +24,19 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 // 3) Lägg till MVC
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddEndpointsApiExplorer();  
+builder.Services.AddSwaggerGen();
+
 var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();                         // ← Här
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "Review API V1");
+    });
+}
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
