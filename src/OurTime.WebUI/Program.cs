@@ -24,17 +24,24 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 // 3) Lägg till MVC
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddEndpointsApiExplorer();  
-builder.Services.AddSwaggerGen();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "Review API V1",
+        Version = "v1"
+    });
+});
 
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();                         // ← Här
-    app.UseSwaggerUI(options =>
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>
     {
-        options.SwaggerEndpoint("/swagger/v1/swagger.json", "Review API V1");
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Review API V1");
     });
 }
 
@@ -42,12 +49,14 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 
-
-app.UseAuthentication();
-app.UseAuthorization();
-
+// ── Lägg till *direkt efter* ditt MapControllerRoute
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.MapControllers();  
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.Run();
