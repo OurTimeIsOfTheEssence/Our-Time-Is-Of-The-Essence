@@ -24,7 +24,8 @@
                 <button class="info-button" onclick="location.href='@Url.Action("Trailmaster","Home")'">
                     More information
                 </button>
-                <button class="buy-now-button" onclick="addToCart('Trailmaster')">
+                <!-- Skicka med `event` här också -->
+                <button class="buy-now-button" onclick="addToCart(event, 'Trailmaster')">
                     Buy now
                 </button>
             </div>
@@ -42,7 +43,10 @@
                 <button class="info-button" onclick="location.href='@Url.Action("Lynx","Home")'">
                     More information
                 </button>
-                <button class="buy-now-button" onclick="addToCart('Lynx')">
+
+                                
+                <button class="buy-now-button" onclick="addToCart(event, 'Lynx')">
+
                     Buy now
                 </button>
             </div>
@@ -59,13 +63,14 @@
                 <button class="toggle-info" onclick="toggleInfo('trek-info')">
                     More information
                 </button>
-                <button class="buy-now-button" onclick="addToCart('Trek')">
+                <button class="buy-now-button" onclick="addToCart(event, 'Trek')">
                     Buy now
                 </button>
             </div>
 
             <!-- Dold beskrivning (visas med animation) -->
-            <div id="trek-info" class="product-info" style="max-height: 0; overflow: hidden; transition: max-height 0.4s ease;">
+            <div id="trek-info" class="product-info"
+                 style="max-height: 0; overflow: hidden; transition: max-height 0.4s ease;">
                 <p><strong>Description:</strong> The OT Trek is an adventure watch designed for the modern explorer. With a durable case, water resistance, and a precision movement, it is the perfect companion for your outdoor adventures.</p>
                 <p><strong>Features:</strong></p>
                 <ul>

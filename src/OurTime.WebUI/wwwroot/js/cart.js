@@ -1,37 +1,34 @@
 ﻿// ——————————————————————————————————————————————————————————
-// Cookie‐helpers
+// Cookie Helpers
 // ——————————————————————————————————————————————————————————
 function setCookie(name, value, hours) {
-    const date = new Date();
-    date.setTime(date.getTime() + hours * 3600000);
-    document.cookie = `${name}=${encodeURIComponent(JSON.stringify(value))};expires=${date.toUTCString()};path=/`;
+    const expires = new Date(Date.now() + hours * 3600000).toUTCString();
+    document.cookie = `${name}=${encodeURIComponent(JSON.stringify(value))};expires=${expires};path=/`;
 }
 
 function getCookie(name) {
-    return document.cookie
-        .split(";")
+    const match = document.cookie
+        .split(';')
         .map(c => c.trim())
-        .find(c => c.startsWith(name + "="))
-        ?.substring(name.length + 1)
-        ? JSON.parse(decodeURIComponent(document.cookie
-            .split(";")
-            .map(c => c.trim())
-            .find(c => c.startsWith(name + "="))
-            .substring(name.length + 1)))
-        : null;
+        .find(c => c.startsWith(name + '='));
+    if (!match) return null;
+    return JSON.parse(decodeURIComponent(match.substring(name.length + 1)));
 }
 
 // ——————————————————————————————————————————————————————————
-// Hård‐kodad produktlista
+// Hard-coded Product Catalog
 // ——————————————————————————————————————————————————————————
 const products = {
-    "Trailmaster": { id: 1, name: "OT Trailmaster", price: 49999 },
-    "Treck": { id: 2, name: "OT Treck", price: 89995 },
-    "Lynx": { id: 3, name: "OT Lynx", price: 29995 }
+
+    Trailmaster: { id: 1, name: "OT Trailmaster", price: 49999 },
+    Trek: { id: 2, name: "OT Trek", price: 89995 },
+    Velour: { id: 3, name: "OT Lynx", price: 29995 },
+    Vector: { id: 4, name: "OT Vector", price: 89999 }
+
 };
 
 // ——————————————————————————————————————————————————————————
-// Uppdatera badge med totala antalet varor
+// Update Cart Badge with Total Quantity
 // ——————————————————————————————————————————————————————————
 function updateCartBadge() {
     const cart = getCookie("cart") || [];
@@ -41,19 +38,48 @@ function updateCartBadge() {
 }
 
 // ——————————————————————————————————————————————————————————
-// Lägg till/öka vara i kundkorgen
+// Add or Increase Item in Cart + Fly “+1” Animation
 // ——————————————————————————————————————————————————————————
-function addToCart(itemKey) {
-    const data = products[itemKey];
-    if (!data) return console.error("Okänd produkt:", itemKey);
+function addToCart(evt, productKey) {
+    evt.preventDefault();
 
+    const product = products[productKey];
+    if (!product) {
+        console.error("Unknown product:", productKey);
+        return;
+    }
+
+    // 1) Fly animation
+    const btn = evt.currentTarget;
+    const btnRect = btn.getBoundingClientRect();
+    const cartBadge = document.getElementById("cartCountBadge");
+    const cartRect = cartBadge.getBoundingClientRect();
+
+    const fly = document.createElement("span");
+    fly.className = "fly-number";
+    fly.textContent = "+1";
+    document.body.appendChild(fly);
+
+    // start just below the button center
+    fly.style.left = `${btnRect.left + btnRect.width / 2}px`;
+    fly.style.top = `${btnRect.top + btnRect.height}px`;
+    fly.getBoundingClientRect(); // force repaint
+
+    const dx = (cartRect.left + cartRect.width / 2) - (btnRect.left + btnRect.width / 2);
+    const dy = (cartRect.top + cartRect.height / 2) - (btnRect.top + btnRect.height);
+
+    fly.style.transform = `translate(${dx}px, ${dy}px) scale(0.5)`;
+    fly.style.opacity = "0";
+    fly.addEventListener("transitionend", () => fly.remove());
+
+    // 2) Cookie-based cart logic
     let cart = getCookie("cart") || [];
-    const existing = cart.find(x => x.id === data.id);
+    const existing = cart.find(item => item.id === product.id);
 
     if (existing) {
-        existing.quantity = (existing.quantity || 0) + 1;
+        existing.quantity++;
     } else {
-        cart.push({ ...data, quantity: 1 });
+        cart.push({ ...product, quantity: 1 });
     }
 
     setCookie("cart", cart, 1);
@@ -61,26 +87,21 @@ function addToCart(itemKey) {
 }
 
 // ——————————————————————————————————————————————————————————
-// Ändra kvantitet eller ta bort rad
+// Change Quantity or Remove Item
 // ——————————————————————————————————————————————————————————
 function changeQuantity(id, delta) {
     let cart = getCookie("cart") || [];
-    cart = cart.map(item => {
-        if (item.id === id) {
-            const newQty = (item.quantity || 0) + delta;
-            return { ...item, quantity: newQty };
-        }
-        return item;
-    })
-        .filter(item => item.quantity > 0); // tar bort om qty ≤ 0
+    cart = cart
+        .map(item => item.id === id ? { ...item, quantity: item.quantity + delta } : item)
+        .filter(item => item.quantity > 0);
 
     setCookie("cart", cart, 1);
     updateCartBadge();
-    showCart();  // återrendera modalen
+    showCart();
 }
 
 // ——————————————————————————————————————————————————————————
-// Bygg och visa kundkorgs‐modal
+// Build and Show Cart Modal
 // ——————————————————————————————————————————————————————————
 function showCart() {
     const cart = getCookie("cart") || [];
@@ -88,49 +109,47 @@ function showCart() {
     if (!body) return;
 
     if (cart.length === 0) {
-        body.innerHTML = '<p>Your shopping cart is empty.</p>';
+        body.innerHTML = "<p>Your shopping cart is empty.</p>";
     } else {
         let html = '<ul class="list-group">';
         cart.forEach(item => {
-            const subtotal = (item.price * (item.quantity || 0)).toLocaleString("sv-SE");
+            const subtotal = (item.price * item.quantity).toLocaleString("sv-SE");
             html += `
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          <div>
-            ${item.name}
-            <div class="btn-group btn-group-sm ms-2" role="group">
-              <button class="btn btn-outline-secondary" onclick="changeQuantity(${item.id}, -1)">−</button>
-              <span class="px-2 align-middle">${item.quantity || 0}</span>
-              <button class="btn btn-outline-secondary" onclick="changeQuantity(${item.id}, +1)">+</button>
-            </div>
-          </div>
-          <span class="badge bg-primary">${subtotal} SEK</span>
-        </li>`;
+  <li class="list-group-item d-flex justify-content-between align-items-center">
+    <div>
+      <strong>${item.name}</strong>
+      <div class="btn-group btn-group-sm ms-2" role="group">
+        <button class="btn btn-outline-secondary" onclick="changeQuantity(${item.id}, -1)">−</button>
+        <span class="px-2">${item.quantity}</span>
+        <button class="btn btn-outline-secondary" onclick="changeQuantity(${item.id}, +1)">+</button>
+      </div>
+    </div>
+    <span class="badge bg-primary">${subtotal} SEK</span>
+  </li>`;
         });
         html += "</ul>";
 
         const total = cart
-            .reduce((sum, i) => sum + i.price * (i.quantity || 0), 0)
+            .reduce((sum, i) => sum + i.price * i.quantity, 0)
             .toLocaleString("sv-SE");
-        html += `
-      <div class="d-flex justify-content-between align-items-center mt-3 p-2 border-top">
-        <strong>Sum</strong>
-        <strong>${total} SEK</strong>
-      </div>`;
 
+        html += `
+  <div class="d-flex justify-content-between align-items-center mt-3 p-2 border-top">
+    <strong>Total</strong>
+    <strong>${total} SEK</strong>
+  </div>`;
         body.innerHTML = html;
     }
 
-    bootstrap.Modal.getOrCreateInstance(cartModalEl).show();
-
+    bootstrap.Modal.getOrCreateInstance(document.getElementById("cartModal")).show();
 }
 
 // ——————————————————————————————————————————————————————————
-// Initiera badge när sidan laddats
+// Init on page load & clean up
 // ——————————————————————————————————————————————————————————
 document.addEventListener("DOMContentLoaded", updateCartBadge);
-
-// När modalen göms – ta bort ev. kvarvarande backdrop
-const cartModalEl = document.getElementById('cartModal');
-cartModalEl.addEventListener('hidden.bs.modal', () => {
-    document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
-});
+document
+    .getElementById("cartModal")
+    .addEventListener("hidden.bs.modal", () =>
+        document.querySelectorAll(".modal-backdrop").forEach(el => el.remove())
+    );
