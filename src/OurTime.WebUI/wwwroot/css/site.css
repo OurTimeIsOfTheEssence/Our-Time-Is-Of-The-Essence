@@ -60,45 +60,77 @@ nav ul {
   display: flex;
   justify-content: center;
   gap: 2em;
-  font-size: 22px;
+  font-size: 26px;
 }
 
 nav a {
   color: rgb(247, 9, 9);
   text-decoration: none;
   font-weight: 600;
+  font-size: 26px;
 }
 
 nav a:hover {
   color: #C62828;
 }
 
-/* Justering för kundkorgsikon */
-nav a i {
-  font-size: 24px; /* Ändra storlek om du vill ha större ikon */
-  margin-right: 5px;
-  vertical-align: middle;
-  color: rgb(247, 9, 9); /* Färg på kundkorgsikonen */
+/* Stil för Login och Register-korten */
+.login-card,
+.register-card {
+  max-width: 1000px;
+  width: 70%; /* Justera denna för att göra dem bredare eller smalare */
+  margin: 40px auto;
+  padding: 40px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
 }
 
-nav a i:hover {
-  color: #C62828; /* Färg när musen hovrar */
+/* Justera input-fälten för bättre läsbarhet */
+.login-card .form-floating input,
+.register-card .form-floating input {
+  font-size: 1.5rem;
+  padding: 1rem;
 }
 
-/* Knappdesign */
-button {
+/* Justera textstorlek för etiketterna (Username, Email, Password) */
+.login-card .form-floating label,
+.register-card .form-floating label {
+  font-size: 1.3rem;
+}
+
+/* Förstora knappen specifikt för Login och Register */
+.login-card button,
+.register-card button {
+  font-size: 1.2rem;
+  padding: 0.75rem 1rem;
   background-color: #C62828;
-  color: white;
+  color: #ffffff;
   border: none;
-  padding: 0.8em 1.5em;
-  font-size: 18px;
   font-weight: bold;
-  cursor: pointer;
   transition: background-color 0.3s;
 }
 
-button:hover {
+.login-card button:hover,
+.register-card button:hover {
   background-color: #A61B1B;
+}
+
+/* Responsiv design - storlek justeras på mindre skärmar */
+@media (max-width: 1024px) {
+  .login-card,
+  .register-card {
+    max-width: 800px;
+    width: 80%;
+  }
+}
+
+@media (max-width: 768px) {
+  .login-card,
+  .register-card {
+    max-width: 600px;
+    width: 90%;
+  }
 }
 
 /* Footer */
@@ -171,15 +203,15 @@ footer {
   border-top: 1px solid #E5E5EA;
 }
 
-/* Harmonisera kassaknappen med Köp nu */
+/* Harmonize the checkout button with “Buy now” */
 #cartModal .modal-footer .btn-primary {
-  background-color: #dc3545 !important;
+  background-color: #28a745 !important;  /* changed to green */
   border: none !important;
   color: #fff !important;
 }
 
 #cartModal .modal-footer .btn-primary:hover {
-  background-color: #c82333 !important;
+  background-color: #218838 !important;  /* darker green on hover */
 }
 
 #cartModal .modal-footer {
@@ -204,19 +236,19 @@ footer {
   #cartModal .modal-dialog {
     margin: 1rem;
   }
-
   #cartModal .modal-content {
     box-shadow: none;
   }
 }
 
+/* Fly-animation “+1” indicator */
 .fly-number {
-    position: fixed;
-    z-index: 1000;
-    font-size: 1rem;
-    font-weight: bold;
-    color: #C62828;
-    transition: transform 0.8s ease-in, opacity 0.8s ease-in;
-    pointer-events: none;
+  position: fixed;
+  z-index: 1000;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #28a745; /* changed to green */
+  transition: transform 0.8s ease-in, opacity 0.8s ease-in;
+  pointer-events: none;
 }
 

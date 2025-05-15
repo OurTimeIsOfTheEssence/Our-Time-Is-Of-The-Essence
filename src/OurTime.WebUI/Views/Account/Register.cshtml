@@ -2,33 +2,26 @@
     ViewData["Title"] = "Register";
 }
 
-<div class="d-flex justify-content-center align-items-center" style="min-height:80vh;">
-    <div class="card shadow-sm" style="width:350px;">
-        <div class="card-body">
-            <h3 class="card-title text-center mb-4">Create a new account</h3>
-            <form asp-action="Register" method="post">
-                <div class="form-floating mb-3">
-                    <input type="text" name="username" class="form-control" id="floatingUsername" placeholder="Username">
-                    <label for="floatingUsername">Username</label>
-                </div>
-                <div class="form-floating mb-4">
-                    <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password">
-                    <label for="floatingPassword">Password</label>
-                </div>
-                <button type="submit" class="btn btn-success w-100">Register</button>
-            </form>
-            @if (!ViewData.ModelState.IsValid)
-            {
-                <div class="alert alert-danger mt-3">
-                    @foreach (var err in ViewData.ModelState.Values.SelectMany(v => v.Errors))
-                    {
-                        <div>@err.ErrorMessage</div>
-                    }
-                </div>
-            }
-            <div class="text-center mt-3">
-                <a asp-action="Login">Already have an account? Log in →</a>
+<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="card register-card shadow-lg" style="max-width: 1000px; width: 70%;">
+        <h3 class="card-title text-center mb-4">Create a new account</h3>
+        <form asp-action="Register" method="post">
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" name="username" placeholder="Username" required>
+                <label for="username">Username</label>
             </div>
-        </div>
+
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control" name="email" placeholder="Email" required>
+                <label for="email">Email</label>
+            </div>
+
+            <div class="form-floating mb-4">
+                <input type="password" class="form-control" name="password" placeholder="Password" required>
+                <label for="password">Password</label>
+            </div>
+            
+            <button type="submit" class="btn btn-primary w-100">Register</button>
+        </form>
     </div>
 </div>
