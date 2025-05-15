@@ -243,12 +243,12 @@ footer {
 
 /* Fly-animation “+1” indicator */
 .fly-number {
-  position: fixed;
-  z-index: 1000;
-  font-size: 1rem;
-  font-weight: bold;
-  color: #28a745; /* changed to green */
-  transition: transform 0.8s ease-in, opacity 0.8s ease-in;
-  pointer-events: none;
+    position: fixed;
+    z-index: 1000;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #C62828;
+    transition: transform 0.8s ease-in, opacity 0.8s ease-in;
+    pointer-events: none;
 }
 

@@ -22,7 +22,7 @@ const products = {
 
     Trailmaster: { id: 1, name: "OT Trailmaster", price: 49999 },
     Trek: { id: 2, name: "OT Trek", price: 89995 },
-    Velour: { id: 3, name: "OT Lynx", price: 29995 },
+    Lynx: { id: 3, name: "OT Lynx", price: 29995 },
     Vector: { id: 4, name: "OT Vector", price: 89999 }
 
 };
