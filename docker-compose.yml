@@ -1,0 +1,23 @@
+services:
+  mongodb:
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: "${MONGODB_PASSWORD}"
+    ports:
+      - "27017:27017"
+
+  mongo-express:
+    image: mongo-express
+    depends_on:
+      - mongodb
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: "${MONGODB_PASSWORD}"
+      ME_CONFIG_MONGODB_URL: mongodb://root:${MONGODB_PASSWORD}@mongodb:27017/
+    ports:
+      - "8081:8081"
+
+networks:
+  default:
+    name: ourtime_network
