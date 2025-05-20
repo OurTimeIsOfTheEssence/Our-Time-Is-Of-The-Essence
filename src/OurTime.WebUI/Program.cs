@@ -1,18 +1,28 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using OurTime.WebUI.Data;
-using Microsoft.OpenApi.Models;                     
+using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Swashbuckle.AspNetCore.SwaggerUI;
+using dotenv.net; // För .env-stöd
 
 var builder = WebApplication.CreateBuilder(args);
 
-// 1) Lägg till EF Core med din connection string
+DotEnv.Load(); // Ladda miljövariabler från .env
+
+// Lägg till EF Core med connection string från appsettings.json + .env-ersättning
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(
-        builder.Configuration.GetConnectionString("DefaultConnection")));
+        (builder.Configuration.GetConnectionString("DefaultConnection") ?? "")
+            .Replace("{AZURE_SQL_USER}", Environment.GetEnvironmentVariable("AZURE_SQL_USER") ?? "")
+            .Replace("{AZURE_SQL_PASSWORD}", Environment.GetEnvironmentVariable("AZURE_SQL_PASSWORD") ?? "")
+            .Replace("{AZURE_SQL_SERVER}", Environment.GetEnvironmentVariable("AZURE_SQL_SERVER") ?? "")
+            .Replace("{AZURE_SQL_DATABASE}", Environment.GetEnvironmentVariable("AZURE_SQL_DATABASE") ?? "")
+    ));
 
-// 2) Lägg till cookie‐baserad inloggning
+
+
+// Lägg till cookie-baserad inloggning
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
@@ -21,9 +31,8 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.ExpireTimeSpan = TimeSpan.FromHours(1);
     });
 
-// 3) Lägg till MVC
+// Lägg till MVC och Swagger
 builder.Services.AddControllersWithViews();
-
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -49,12 +58,11 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 
-// ── Lägg till *direkt efter* ditt MapControllerRoute
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-app.MapControllers();  
+app.MapControllers();
 
 app.UseAuthentication();
 app.UseAuthorization();
