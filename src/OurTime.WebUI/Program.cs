@@ -10,6 +10,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 DotEnv.Load(); // Ladda miljövariabler från .env
 
+builder.Services.AddApplicationInsightsTelemetry();
+
 // Lägg till EF Core med connection string från appsettings.json + .env-ersättning
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(
@@ -19,6 +21,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
             .Replace("{AZURE_SQL_SERVER}", Environment.GetEnvironmentVariable("AZURE_SQL_SERVER") ?? "")
             .Replace("{AZURE_SQL_DATABASE}", Environment.GetEnvironmentVariable("AZURE_SQL_DATABASE") ?? "")
     ));
+    
 
 
 
