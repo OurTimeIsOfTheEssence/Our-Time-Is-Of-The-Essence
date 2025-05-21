@@ -1,4 +1,4 @@
-﻿namespace OurTime.WebUI.Models
+﻿namespace OurTime.WebUI.Models.Cart
 {
     public class CartItem
     {

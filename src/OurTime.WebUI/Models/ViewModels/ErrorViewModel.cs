@@ -1,4 +1,4 @@
-namespace OurTime.WebUI.Models;
+namespace OurTime.WebUI.Models.ViewModels;
 
 public class ErrorViewModel
 {
