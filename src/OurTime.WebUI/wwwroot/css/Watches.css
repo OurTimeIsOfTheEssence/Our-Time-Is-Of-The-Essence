@@ -35,5 +35,41 @@
 .products a:hover {
     text-decoration: none; /* Förhindrar understrykning vid hover */
 }
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 0.5em;
+  margin-top: 1em;
+}
+
+.button-group button {
+  font-size: 1rem;
+  padding: 0.5em 1em;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Grön: More information */
+.button-group button:first-child {
+  background-color: #28a745;
+  color: white;
+}
+
+.button-group button:first-child:hover {
+  background-color: #218838;
+}
+
+/* Röd: Buy now */
+.button-group button:last-child {
+  background-color: #C62828;
+  color: white;
+}
+
+.button-group button:last-child:hover {
+  background-color: #A61B1B;
+}
+
 
   

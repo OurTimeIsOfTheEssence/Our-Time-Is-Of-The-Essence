@@ -1,57 +1,74 @@
-﻿@{
+﻿@model List<WatchViewModel>
+@{
     ViewData["Title"] = "Home";
 }
 
 @section Styles {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <link rel="stylesheet" href="~/css/index.css" asp-append-version="true" />
 }
 
 <div class="section-content">
     <h2>Time is of the Essence – wear it wisely</h2>
     <p>Explore our exclusive watches</p>
+    <h3 class="new-arrivals">New Arrivals</h3>
 </div>
 
-<main>
-    <section class="products section-content">
-        <!-- Vector-kort (huvudklockan på startsidan) -->
-        <article class="product-card index-product-card">
-            <!-- Klickbar bild + titel -->
-            <a asp-controller="Home" asp-action="Vector">
-                <img src="https://storageaccountblobb.blob.core.windows.net/images/VectorV1.png" alt="OT Vector" />
-
-                <h3>OT Vector</h3>
-            </a>
-            <p>Price: 89,999 SEK</p>
-
-            <div class="button-group">
-                <button class="toggle-info" onclick="toggleInfo('vector-info')">
-                    More information
-                </button>
-                <!-- Här är ändringen: skicka med `event` som första argument -->
-                <button type="button"
-                        class="buy-now-button"
-                        onclick="addToCart(event, 'Vector')">
-                    Buy now
-                </button>
+<div class="swiper mySwiper">
+    <div class="swiper-wrapper">
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            var watch = Model[i];
+            var infoId = "info-" + i;
+            <div class="swiper-slide">
+                <article class="product-card index-product-card">
+                    <img src="@watch.ImageUrl" alt="@watch.Name" />
+                    <h3>@watch.Name</h3>
+                    <p>Price: @watch.Price</p>
+                    <div class="button-group">
+                        <button type="button" onclick="toggleInfo('@infoId')">More information</button>
+                        <button type="button" class="buy-now-button" onclick="addToCart(event, '@watch.Name')">Buy now</button>
+                    </div>
+                    <div id="@infoId" class="product-info" style="max-height:0; overflow:hidden; transition:max-height 0.4s ease;">
+                        <p><strong>Description:</strong> @watch.Description</p>
+                        @if (watch.Features != null && watch.Features.Any())
+                        {
+                            <ul>
+                                @foreach (var feature in watch.Features)
+                                {
+                                    <li>@feature</li>
+                                }
+                            </ul>
+                        }
+                    </div>
+                </article>
             </div>
-
-            <!-- Dold beskrivning (visas med animation) -->
-            <div id="vector-info" class="product-info"
-                 style="max-height: 0; overflow: hidden; transition: max-height 0.4s ease;">
-                <p><strong>Description:</strong> The OT Vector is a masterpiece of engineering, combining lightweight titanium with precision Swiss movement. Its sleek, minimalist design is perfect for those who value both elegance and durability.</p>
-                <p><strong>Features:</strong></p>
-                <ul>
-                    <li>Material: Titanium case and bracelet</li>
-                    <li>Movement: Swiss automatic movement</li>
-                    <li>Crystal: Scratch-resistant sapphire crystal</li>
-                    <li>Water Resistance: 100 meters (10 ATM)</li>
-                    <li>Special Features: Luminous hands and markers, date display</li>
-                </ul>
-            </div>
-        </article>
-    </section>
-</main>
+        }
+    </div>
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+</div>
 
 @section Scripts {
-    <script src="~/js/cart.js" defer asp-append-version="true"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="~/js/cart.js" asp-append-version="true"></script>
+
+    <script>
+        const swiper = new Swiper(".mySwiper", {
+            slidesPerView: 3,
+            spaceBetween: 30,
+            centeredSlides: true,
+            loop: true,
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev"
+            }
+        });
+
+        function toggleInfo(id) {
+            const panel = document.getElementById(id);
+            panel.style.maxHeight = (panel.style.maxHeight && panel.style.maxHeight !== '0px') ? '0' : panel.scrollHeight + 'px';
+        }
+    </script>
 }
+

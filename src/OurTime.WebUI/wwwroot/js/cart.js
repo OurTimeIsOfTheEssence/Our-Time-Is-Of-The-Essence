@@ -16,16 +16,24 @@ function getCookie(name) {
 }
 
 // ——————————————————————————————————————————————————————————
-// Hard-coded Product Catalog
+
 // ——————————————————————————————————————————————————————————
 const products = {
-
     Trailmaster: { id: 1, name: "OT Trailmaster", price: 49999 },
-    Trek: { id: 2, name: "OT Trek", price: 89995 },
-    Lynx: { id: 3, name: "OT Lynx", price: 29995 },
-    Vector: { id: 4, name: "OT Vector", price: 89999 }
+    Trek:        { id: 2, name: "OT Trek",        price: 89995 },
+    Lynx:        { id: 3, name: "OT Lynx",        price: 29995 },
 
+    // Hårdkodade från Home
+    "OT Vector":    { id: 1001, name: "OT Vector",    price: 89999 },
+    "OT ASP.NET":   { id: 1002, name: "OT ASP.NET",   price: 12999 },
+    "OT Terra":     { id: 1003, name: "OT Terra",     price: 29999 },    
+    "OT Rose A1":   { id: 1005, name: "OT Rose A1",   price: 39999 },
+    "OT Lynx A2":   { id: 1006, name: "OT Lynx A2",   price: 24499 },
+    "OT Bohemian":  { id: 1007, name: "OT Bohemian",  price: 10999 }
 };
+
+  
+
 
 // ——————————————————————————————————————————————————————————
 // Update Cart Badge with Total Quantity

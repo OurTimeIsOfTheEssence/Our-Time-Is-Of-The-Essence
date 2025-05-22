@@ -1,29 +1,19 @@
-.products {
+.swiper {
+    width: 100%;
+    padding: 50px 0;
+}
+
+.swiper-slide {
     display: flex;
     justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    text-align: center;
-    margin: 0 auto;
-    padding: 2em 0;
 }
 
 .index-product-card {
     border: 1px solid #b02f2f;
     padding: 1em;
     text-align: center;
-    width: 400px; /* Samma som Watches */
-    background: rgba(224, 224, 224, 0.6);
-    transition: transform 0.3s ease;
-    margin-bottom: 2em;
-}
-
-
-.index-product-card {
-    border: 1px solid #b02f2f;
-    padding: 1em;
-    text-align: center;
-    width: 800px; /* Ändrad bredd för att matcha större bild */
+    width: 100%;
+    max-width: 800px;
     background: rgba(224, 224, 224, 0.6);
     transition: transform 0.3s ease;
     margin-bottom: 2em;
@@ -32,20 +22,85 @@
 .index-product-card img {
     width: 100%;
     height: auto;
-    max-width: 800px; /* Större bildbredd */
-    max-height: 800px; /* Större bildhöjd */
+    max-width: 800px;
+    max-height: 800px;
     object-fit: contain;
     display: block;
     margin: 0 auto;
 }
 
-}
 .products a {
-    text-decoration: none; /* Tar bort understrykningen */
-    color: inherit;        /* Behåller textens färg */
+    text-decoration: none;
+    color: inherit;
 }
 
 .products a:hover {
-    text-decoration: none; /* Förhindrar understrykning vid hover */
+    text-decoration: none;
 }
+.product-info {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+    text-align: left;
+    padding-top: 1em;
+}
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 0.5em;
+  margin-top: 1em;
+}
+
+.button-group button {
+  font-size: 1rem;
+  padding: 0.5em 1em;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Grön: More information */
+.button-group button:first-child {
+  background-color: #28a745;
+  color: white;
+}
+
+.button-group button:first-child:hover {
+  background-color: #218838;
+}
+
+/* Röd: Buy now */
+.button-group button:last-child {
+  background-color: #C62828;
+  color: white;
+}
+
+.button-group button:last-child:hover {
+  background-color: #A61B1B;
+}
+.new-arrivals {
+    font-size: 36px;        /* Större text */
+    font-weight: bold;
+    color: #28a745;
+    margin-top: 1em;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+.new-arrivals {
+    font-size: 36px;
+    font-weight: bold;
+    color: #28a745;
+    margin-top: 1em;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    animation: blink 1s linear 5; /* Blinkar 5 gånger (5 sekunder) */
+}
+
+
 
