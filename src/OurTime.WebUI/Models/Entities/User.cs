@@ -1,4 +1,4 @@
-﻿namespace OurTime.WebUI.Data
+﻿namespace OurTime.WebUI.Models.Entities
 {
     public class User
     {

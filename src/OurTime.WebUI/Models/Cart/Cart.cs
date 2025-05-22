@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace OurTime.WebUI.Models
+namespace OurTime.WebUI.Models.Cart
 {
     public class Cart
     {

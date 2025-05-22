@@ -1,36 +1,34 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using dotenv.net;                             // För .env-stöd (om du vill lagra hemligheter lokalt)
 using Microsoft.AspNetCore.Authentication.Cookies;
-using OurTime.WebUI.Data;
+using Microsoft.EntityFrameworkCore;          // Viktigt för UseSqlServer()
 using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.SwaggerGen;
-using Swashbuckle.AspNetCore.SwaggerUI;
-using dotenv.net; // För .env-stöd
-using OurTime.Infrastructure;
-using OurTime.Application;
+using OurTime.WebUI.Data;
+using OurTime.WebUI.Services;
+
+
+DotEnv.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 
-DotEnv.Load(); // Ladda miljövariabler från .env
-
 builder.Services.AddApplicationInsightsTelemetry();
 
-// Lägg till EF Core med connection string från appsettings.json + .env-ersättning
-// 1) Lägg till EF Core med din connection string
-builder.Services.AddApplication();
-builder.Services.AddInfrastructure(builder.Configuration);
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(
+
+// 1) EF Core mot Azure-databasen
+builder.Services.AddDbContext<ApplicationDbContext>(opt =>
+    opt.UseSqlServer(
+        // Hämta connection string från appsettings.json,
+        // ersätt sedan platshållare med miljövariabler.
         (builder.Configuration.GetConnectionString("DefaultConnection") ?? "")
             .Replace("{AZURE_SQL_USER}", Environment.GetEnvironmentVariable("AZURE_SQL_USER") ?? "")
             .Replace("{AZURE_SQL_PASSWORD}", Environment.GetEnvironmentVariable("AZURE_SQL_PASSWORD") ?? "")
             .Replace("{AZURE_SQL_SERVER}", Environment.GetEnvironmentVariable("AZURE_SQL_SERVER") ?? "")
             .Replace("{AZURE_SQL_DATABASE}", Environment.GetEnvironmentVariable("AZURE_SQL_DATABASE") ?? "")
-    ));
-    
+    )
+);
 
 
-
-// Lägg till cookie-baserad inloggning
+// 2) Cookie‐autentisering för MVC
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
@@ -39,41 +37,65 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.ExpireTimeSpan = TimeSpan.FromHours(1);
     });
 
-// Lägg till MVC och Swagger
-builder.Services.AddControllersWithViews();
+// 3) HttpClient för externa Review-API:t
+builder.Services.AddHttpClient<ReviewApiService>(client =>
+{
+    client.BaseAddress = new Uri(builder.Configuration["ExternalApis:ReviewEngine"]);
+    client.DefaultRequestHeaders.Add("Accept", "application/json");
+    client.DefaultRequestHeaders.Add("X-Api-Key", builder.Configuration["ExternalApis:ReviewEngineApiKey"]);
+});
+
+// 4) Registrera API‐controllers + Razor‐views
+builder.Services.AddControllers();          // [ApiController]–endpoints
+builder.Services.AddControllersWithViews(); // Razor‐views
+
+// 5) Swagger/OpenAPI för Watches API
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo
     {
-        Title = "Review API V1",
+        Title = "Watches API V1",
         Version = "v1"
     });
 });
 
-
 var app = builder.Build();
+
+// 6) Middleware: statiska filer, routing, auth
+app.UseStaticFiles();
+app.UseRouting();
+app.UseAuthentication();
+app.UseAuthorization();
+
+// 7) Proxy‐endpoint för externa ReviewEngine‐swagger
+
+app.MapGet("/swagger-external/swagger.json", async (IHttpClientFactory http) =>
+{
+    var client = http.CreateClient(nameof(ReviewApiService));
+    var json = await client.GetStringAsync("/v3/api-docs");
+    return Results.Content(json, "application/json");
+});
+
+// 8) Swagger + UI (ENDAST i Development)
 
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Review API V1");
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Watches API V1");
+        c.SwaggerEndpoint("/swagger-external/swagger.json", "ReviewEngine API");
+        c.RoutePrefix = "swagger";
     });
 }
 
-app.UseHttpsRedirection();
-app.UseStaticFiles();
-app.UseRouting();
 
+// 9) Map controllers + standard MVC‐route
+app.MapControllers();
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
-
-app.MapControllers();
-
-app.UseAuthentication();
-app.UseAuthorization();
+    pattern: "{controller=Home}/{action=Index}/{id?}"
+);
 
 app.Run();
