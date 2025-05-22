@@ -23,8 +23,15 @@ public static class DependencyInjection
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
 
-        var connectionString = configuration.GetConnectionString("DefaultConnection");
-        // Register DbContext with in-memory database
+        var raw = configuration.GetConnectionString("DefaultConnection") 
+          ?? ""; 
+
+        var connectionString = raw
+            .Replace("{AZURE_SQL_USER}",     Environment.GetEnvironmentVariable("AZURE_SQL_USER")     ?? "")
+            .Replace("{AZURE_SQL_PASSWORD}", Environment.GetEnvironmentVariable("AZURE_SQL_PASSWORD") ?? "")
+            .Replace("{AZURE_SQL_SERVER}",   Environment.GetEnvironmentVariable("AZURE_SQL_SERVER")   ?? "")
+            .Replace("{AZURE_SQL_DATABASE}", Environment.GetEnvironmentVariable("AZURE_SQL_DATABASE") ?? "");
+
         // In a real application, you'd use a real database
         services.AddDbContext<AppDbContext>(options =>
             options.UseSqlServer(connectionString));

@@ -15,6 +15,11 @@ namespace OurTime.WebUI.Controllers
         public IActionResult Index() => View();
         public IActionResult Privacy() => View();
         public IActionResult Watches() => View();
+        public IActionResult ShowCart()
+        {
+            return View();
+        }
+
         public IActionResult About() => View();
         public IActionResult Contact() => View();
 

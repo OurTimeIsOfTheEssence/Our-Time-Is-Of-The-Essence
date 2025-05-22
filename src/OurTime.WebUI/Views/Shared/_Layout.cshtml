@@ -7,48 +7,103 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/OurTime.WebUI.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    @RenderSection("Styles", required: false)
 </head>
+
 <body>
     <header>
         <div class="logo-container">
-            <img src="/images/OT.jpg" alt="Logotyp för OurTime" />
-        </div>
+            <img src="/images/OT.png.png" alt="Logotyp för OurTime" />
+        </div>       
 
-        <h1>OT Watches</h1>
-        <p class="slogan">Time You Can Wear</p>
         <nav>
             <ul>
                 <li><a asp-controller="Home" asp-action="Index">Home</a></li>
                 <li><a asp-controller="Home" asp-action="Watches">Watches</a></li>
                 <li><a asp-controller="Home" asp-action="About">About us</a></li>
                 <li><a asp-controller="Home" asp-action="Contact">Contact</a></li>
-                <li><a asp-controller="Home" asp-action="Privace">Privacy</a></li>
                 <li><a asp-controller="Catalog" asp-action="Index">Test</a></li>
                 <li><a asp-controller="Catalog" asp-action="Details">Test 2</a></li>
+                <li><a asp-controller="Home" asp-action="Privacy">Privacy</a></li>
+
                 @if (User.Identity?.IsAuthenticated == true)
                 {
-                    <li><span>Hej @User.Identity.Name!</span></li>
-                    <li><a asp-controller="Account" asp-action="Logout">Logga ut</a></li>
+                    <li><span>Hello, @User.Identity.Name!</span></li>
+                    <li><a asp-controller="Account" asp-action="Logout">Log out</a></li>
                 }
                 else
                 {
-                    <li><a asp-controller="Account" asp-action="Register">Registrera</a></li>
-                    <li><a asp-controller="Account" asp-action="Login">Logga in</a></li>
+                    <li><a asp-controller="Account" asp-action="Register">Register</a></li>
+                    <li><a asp-controller="Account" asp-action="Login">Log in</a></li>
                 }
 
+                <!-- Kundkorg med ikon -->
+                <li>
+                    <a href="#" onclick="showCart(); return false;">
+                        <i class="fas fa-cart-shopping"></i>
+                        <span id="cartCountBadge" class="badge bg-danger">0</span>
+                    </a>
+                </li>
             </ul>
         </nav>
-
     </header>
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
+    <footer>
+        <p>&copy; 2025 OurTime</p>
+    </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/cart.js" defer asp-append-version="true"></script>
+
+    <script>
+        function showCart() {
+            $('#cartModal').modal('show');
+        }
+
+        // Toggle-funktion för information
+        function toggleInfo(id) {
+            const info = document.getElementById(id);
+            const button = document.querySelector(`button[onclick="toggleInfo('${id}')"]`);
+            
+            // Om texten är öppen
+            if (info.style.maxHeight && info.style.maxHeight !== "0px") {
+                info.style.maxHeight = "0px";
+                button.textContent = "More information";
+            } 
+            // Om texten är stängd
+            else {
+                info.style.maxHeight = info.scrollHeight + "px";
+                button.textContent = "Less information";
+            }
+        }
+    </script>
+
     @await RenderSectionAsync("Scripts", required: false)
+
+    <!-- Modal för kundkorgen -->
+    <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="cartModalLabel">Your shopping-cart</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="cartModalBody"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <a href="#" class="btn btn-primary">Check out</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

@@ -2,32 +2,56 @@
     ViewData["Title"] = "Home";
 }
 
+@section Styles {
+    <link rel="stylesheet" href="~/css/index.css" asp-append-version="true" />
+}
+
+<div class="section-content">
+    <h2>Time is of the Essence – wear it wisely</h2>
+    <p>Explore our exclusive watches</p>
+</div>
+
 <main>
-    <section class="hero">
-        <h2>Time is of the Essence – wear it wisely</h2>
-        <p>Explore our exclusive watches</p>
-    </section>
-
-
-     <!-- Produkterna -->
-    <section class="products">
-        <!-- Trailmaster-kort -->
-        <article class="product-card">
+    <section class="products section-content">
+        <!-- Vector-kort (huvudklockan på startsidan) -->
+        <article class="product-card index-product-card">
             <!-- Klickbar bild + titel -->
             <a asp-controller="Home" asp-action="Vector">
-                <img src="@Url.Content("~/images/VectorV1.png")" alt="OT Vector" />
+                <img src="https://storageaccountblobb.blob.core.windows.net/images/VectorV1.png" alt="OT Vector" />
+
                 <h3>OT Vector</h3>
             </a>
-            <p>Pris: 49 999 SEK</p>
-            <!-- Klickbar knapp -->
-            <a asp-controller="Home" asp-action="Vector">
-                <button>More information</button>
-                <button>Buy now</button>
-            </a>
-        </article>
+            <p>Price: 89,999 SEK</p>
 
+            <div class="button-group">
+                <button class="toggle-info" onclick="toggleInfo('vector-info')">
+                    More information
+                </button>
+                <!-- Här är ändringen: skicka med `event` som första argument -->
+                <button type="button"
+                        class="buy-now-button"
+                        onclick="addToCart(event, 'Vector')">
+                    Buy now
+                </button>
+            </div>
+
+            <!-- Dold beskrivning (visas med animation) -->
+            <div id="vector-info" class="product-info"
+                 style="max-height: 0; overflow: hidden; transition: max-height 0.4s ease;">
+                <p><strong>Description:</strong> The OT Vector is a masterpiece of engineering, combining lightweight titanium with precision Swiss movement. Its sleek, minimalist design is perfect for those who value both elegance and durability.</p>
+                <p><strong>Features:</strong></p>
+                <ul>
+                    <li>Material: Titanium case and bracelet</li>
+                    <li>Movement: Swiss automatic movement</li>
+                    <li>Crystal: Scratch-resistant sapphire crystal</li>
+                    <li>Water Resistance: 100 meters (10 ATM)</li>
+                    <li>Special Features: Luminous hands and markers, date display</li>
+                </ul>
+            </div>
+        </article>
+    </section>
 </main>
 
-<footer>
-    <p>&copy; 2025 OurTime</p>
-</footer>
+@section Scripts {
+    <script src="~/js/cart.js" defer asp-append-version="true"></script>
+}
