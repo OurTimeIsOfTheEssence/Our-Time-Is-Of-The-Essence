@@ -5,12 +5,17 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using dotenv.net; // För .env-stöd
+using OurTime.Infrastructure;
+using OurTime.Application;
 
 var builder = WebApplication.CreateBuilder(args);
 
 DotEnv.Load(); // Ladda miljövariabler från .env
 
 // Lägg till EF Core med connection string från appsettings.json + .env-ersättning
+// 1) Lägg till EF Core med din connection string
+builder.Services.AddApplication();
+builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(
         (builder.Configuration.GetConnectionString("DefaultConnection") ?? "")
@@ -42,6 +47,7 @@ builder.Services.AddSwaggerGen(c =>
         Version = "v1"
     });
 });
+
 
 var app = builder.Build();
 
