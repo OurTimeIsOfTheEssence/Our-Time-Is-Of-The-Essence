@@ -1,10 +1,11 @@
-﻿namespace OurTime.WebUI.Models.Dtos;
-
-public class ReviewDto
+﻿namespace OurTime.WebUI.Models.Dtos
 {
-    public int Id { get; set; }
-    public int JinProductId { get; set; }
-    public int Rating { get; set; }
-    public string Comment { get; set; } = string.Empty;
-    public DateTime Date { get; set; } 
+    public class ReviewDto
+    {
+        public long ReviewId { get; set; }
+        public string ReviewerName { get; set; } = string.Empty;
+        public int Rating { get; set; }
+        public string Text { get; set; } = string.Empty;
+        public DateTime ReviewDate { get; set; }
+    }
 }

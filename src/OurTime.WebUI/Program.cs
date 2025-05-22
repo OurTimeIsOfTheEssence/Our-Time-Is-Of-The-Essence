@@ -17,9 +17,13 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 // 3) HttpClient för externa Review-API:t
 builder.Services.AddHttpClient<ReviewApiService>(client =>
 {
-    var url = builder.Configuration["ExternalApis:ReviewEngine"];
-    client.BaseAddress = new Uri(url);
+    client.BaseAddress = new Uri(builder.Configuration["ExternalApis:ReviewEngine"]);
     client.DefaultRequestHeaders.Add("Accept", "application/json");
+    // Här plockar du API-nyckeln ur konfigurationen:
+    client.DefaultRequestHeaders.Add(
+        "X-Api-Key",
+        builder.Configuration["ExternalApis:ReviewEngineApiKey"]
+    );
 });
 
 // 4) Registrera både API-controllers och Razor-views

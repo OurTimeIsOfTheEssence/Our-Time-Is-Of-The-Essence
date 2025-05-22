@@ -1,0 +1,17 @@
+﻿@model IEnumerable<OurTime.WebUI.Models.Entities.Watch>
+
+<h2>OT Watches</h2>
+<div class="watch-grid">
+    @foreach (var w in Model)
+    {
+        <article class="watch-card">
+            <img src="@w.ImageUrl" alt="@w.Name" />
+            <h3>@w.Name</h3>
+            <p>Price: @w.Price SEK</p>
+            <a asp-controller="WatchesMvc"
+               asp-action="Details"
+               asp-route-id="@w.Id"
+               class="btn">More information</a>
+        </article>
+    }
+</div>

@@ -1,7 +1,17 @@
-﻿namespace OurTime.WebUI.Models.Dtos;
+﻿// Models/Dtos/CreateReviewDto.cs
+using System.ComponentModel.DataAnnotations;
 
-public class CreateReviewDto
+namespace OurTime.WebUI.Models.Dtos
 {
-    public int Rating { get; set; }
-    public string Comment { get; set; } = string.Empty;
+    public class CreateReviewDto
+    {
+        [Required]
+        public string ReviewerName { get; set; } = string.Empty;
+
+        [Required, Range(1, 5)]
+        public int Rating { get; set; }
+
+        [Required, StringLength(1000)]
+        public string Text { get; set; } = string.Empty;
+    }
 }
