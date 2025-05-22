@@ -11,11 +11,10 @@ DotEnv.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddApplicationInsightsTelemetry();
 
 
-// ==================================================
 // 1) EF Core mot Azure-databasen
-// ==================================================
 builder.Services.AddDbContext<ApplicationDbContext>(opt =>
     opt.UseSqlServer(
         // Hämta connection string från appsettings.json,
@@ -28,9 +27,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(opt =>
     )
 );
 
-// ==================================================
+
 // 2) Cookie‐autentisering för MVC
-// ==================================================
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
@@ -39,9 +37,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.ExpireTimeSpan = TimeSpan.FromHours(1);
     });
 
-// ==================================================
 // 3) HttpClient för externa Review-API:t
-// ==================================================
 builder.Services.AddHttpClient<ReviewApiService>(client =>
 {
     client.BaseAddress = new Uri(builder.Configuration["ExternalApis:ReviewEngine"]);
@@ -49,15 +45,11 @@ builder.Services.AddHttpClient<ReviewApiService>(client =>
     client.DefaultRequestHeaders.Add("X-Api-Key", builder.Configuration["ExternalApis:ReviewEngineApiKey"]);
 });
 
-// ==================================================
 // 4) Registrera API‐controllers + Razor‐views
-// ==================================================
 builder.Services.AddControllers();          // [ApiController]–endpoints
 builder.Services.AddControllersWithViews(); // Razor‐views
 
-// ==================================================
 // 5) Swagger/OpenAPI för Watches API
-// ==================================================
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -70,17 +62,14 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
-// --------------------------------------------------
 // 6) Middleware: statiska filer, routing, auth
-// --------------------------------------------------
 app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-// --------------------------------------------------
 // 7) Proxy‐endpoint för externa ReviewEngine‐swagger
-// --------------------------------------------------
+
 app.MapGet("/swagger-external/swagger.json", async (IHttpClientFactory http) =>
 {
     var client = http.CreateClient(nameof(ReviewApiService));
@@ -88,9 +77,8 @@ app.MapGet("/swagger-external/swagger.json", async (IHttpClientFactory http) =>
     return Results.Content(json, "application/json");
 });
 
-// --------------------------------------------------
 // 8) Swagger + UI (ENDAST i Development)
-// --------------------------------------------------
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -102,9 +90,8 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-// --------------------------------------------------
+
 // 9) Map controllers + standard MVC‐route
-// --------------------------------------------------
 app.MapControllers();
 app.MapControllerRoute(
     name: "default",
