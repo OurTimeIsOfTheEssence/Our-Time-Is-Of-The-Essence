@@ -6,6 +6,7 @@ using OurTime.WebUI.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using OurTime.WebUI.Models.Entities;
 
 namespace OurTime.WebUI.Controllers
 {
