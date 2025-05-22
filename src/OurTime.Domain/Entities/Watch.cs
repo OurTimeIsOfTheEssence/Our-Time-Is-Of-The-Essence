@@ -15,20 +15,27 @@ public class Watch : Entity<int>
 
     public string? ImageUrl { get; set; } = null!;
 
-    public decimal? Price { get; set; } = null!;
+    public decimal Price { get; set; } = 0;
+    public string? Gender { get; set; } = string.Empty;
+    public int? Stock { get; set; } = 0;
+    public bool? IsCustom { get; set; } = false;
 
     private Watch()
     {
 
     }
 
-    public Watch(string name, string? imageUrl, decimal? price = null, string? model = null, string? description = null)
+    public Watch(string name, string? imageUrl, decimal price = 0, string? model = null, string? description = null, string? gender = "", int stock = 0, bool isCustom = false)
     {
         Name = name;
         ImageUrl = imageUrl;
         Price = price;
         Model = model;
         Description = description;
+        Gender = gender;
+        Stock = stock;
+        IsCustom = isCustom;
+        
     }
 
         public void UpdateDetails(string name, string description, string? imageUrl)

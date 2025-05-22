@@ -25,6 +25,12 @@ public class CatalogController : Controller
             var productViewModels = watches.Select(p => new ProductCardViewModel
             {
                 Name = p.Name,
+                Model = p.Model,
+                Id = p.Id,
+                ImageUrl = p.ImageUrl,
+                Description = p.Description,
+                Price = p.Price,
+                
             }).ToList();
 
             // Create the product catalog view model
@@ -53,7 +59,7 @@ public class CatalogController : Controller
         try
         {
             // Get the specific product from the service
-            var watch = await _catalogService.GetWatchByIdAsync(id + 1);
+            var watch = await _catalogService.GetWatchByIdAsync(id);
 
             // Return 404 if product not found
             if (watch is null)
@@ -64,7 +70,12 @@ public class CatalogController : Controller
             // Map domain entity to view model
             var viewModel = new ProductDetailsViewModel
             {
+                Id = watch.Id,
                 Name = watch.Name,
+                ImageUrl = watch.ImageUrl,
+                Description = watch.Description,
+                Price = watch.Price,
+
             };
 
             return View(viewModel);

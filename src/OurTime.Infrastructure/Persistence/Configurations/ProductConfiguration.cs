@@ -34,9 +34,18 @@ public class ProductConfiguration : IEntityTypeConfiguration<Watch>
 
         // Configure ImageUrl property - it's nullable
         builder.Property(p => p.ImageUrl)
-            .IsRequired(false); // NULL allowed
+            .IsRequired();
 
         // Add an index on the Name for faster lookups
         builder.HasIndex(p => p.Name);
+
+        builder.Property(p => p.Price)
+            .IsRequired();
+
+        builder.Property(p => p.IsCustom)
+            .IsRequired(false);
+
+        builder.Property(p => p.Gender)
+            .IsRequired(false);
     }
 }
