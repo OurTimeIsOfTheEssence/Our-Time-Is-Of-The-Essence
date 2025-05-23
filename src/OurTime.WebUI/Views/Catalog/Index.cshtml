@@ -1,83 +1,64 @@
+@model List<WatchViewModel>
 @{
     ViewData["Title"] = "Home";
 }
 
-@section Styles {
-    <link rel="stylesheet" href="/css/index.css" />
+<!-- Swiper CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
 
-
-}
-
-<div class="section-content">
-    <h2>Time is of the Essence – wear it wisely</h2>
-    <p>Explore our exclusive watches</p>
-    <h2 class="blinking-new-arrivals">NEW ARRIVALS</h2>
-</div
-
-<div class="carousel-wrapper">
-    <button class="carousel-arrow left" onclick="slideCarousel(-1)">‹</button>
-
-    <div class="carousel-track-container">
-        <div class="carousel-track" id="carousel">
-            @for (int i = 0; i < Model.Count; i++)
-            {
-                var watch = Model[i];
-                <article class="product-card index-product-card">
+<div class="swiper mySwiper">
+    <div class="swiper-wrapper">
+        @foreach (var watch in Model)
+        {
+            <div class="swiper-slide">
+                <div class="product-card">
                     <img src="@watch.ImageUrl" alt="@watch.Name" />
                     <h3>@watch.Name</h3>
-                    <p>Price: @watch.Price</p>
+                    <p>@watch.Description</p>
+                    <ul>
+                        @foreach (var feature in watch.Features)
+                        {
+                            <li>@feature</li>
+                        }
+                    </ul>
+                    <p class="price">@watch.Price</p>
                     <div class="button-group">
-                        <button onclick="toggleInfo('info-@i')">More information</button>
-                        <button class="buy-now-button" onclick="addToCart(event, '@watch.Name')">Buy now</button>
+                        <a href="@Url.Action("Details", "Watches", new { productName = watch.Name })" class="btn btn-success">Information</a>
+
+                        <!-- ✅ Uppdaterad Buy Now-knapp -->
+                        <form asp-controller="Cart" asp-action="AddToCart" method="post" style="display:inline;">
+                            <input type="hidden" name="productName" value="@watch.Name" />
+                            <button type="submit" class="btn btn-danger">Buy Now</button>
+                        </form>
                     </div>
-                    <div id="info-@i" class="product-info">
-                        <p><strong>Description:</strong> @watch.Description</p>
-                    </div>
-                </article>
-            }
-        </div>
+                </div>
+            </div>
+        }
     </div>
 
-    <button class="carousel-arrow right" onclick="slideCarousel(1)">›</button>
+    <!-- Swiper Navigation -->
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+    <!-- Swiper Pagination -->
+    <div class="swiper-pagination"></div>
 </div>
 
-@section Scripts {
-    <script>
-        window.addEventListener('DOMContentLoaded', () => {
-            let position = 0;
-            const visibleCards = 3;
-            const track = document.getElementById('carousel');
+<!-- Swiper JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
 
-            function slideCarousel(direction) {
-                const cardWidth = document.querySelector('.product-card').offsetWidth + 20;
-                const totalCards = track.children.length;
-                const maxPosition = totalCards - visibleCards;
-
-                position += direction;
-                if (position < 0) position = 0;
-                if (position > maxPosition) position = maxPosition;
-
-                track.style.transform = `translateX(-${position * cardWidth}px)`;
-            }
-
-            window.slideCarousel = slideCarousel;
-
-            window.toggleInfo = function (id) {
-                const el = document.getElementById(id);
-                if (el.style.maxHeight) {
-                    el.style.maxHeight = null;
-                } else {
-                    el.style.maxHeight = el.scrollHeight + 'px';
-                }
-            };
-
-            // Stoppa blinkningen efter 5 sekunder
-            setTimeout(() => {
-                const el = document.getElementById('new-arrivals');
-                if (el) {
-                    el.classList.remove('blinking-new-arrivals');
-                }
-            }, 5000);
-        });
-    </script>
-}
+<!-- Initialize Swiper -->
+<script>
+    var swiper = new Swiper(".mySwiper", {
+        slidesPerView: 1,
+        spaceBetween: 30,
+        loop: true,
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        },
+        navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+        },
+    });
+</script>
