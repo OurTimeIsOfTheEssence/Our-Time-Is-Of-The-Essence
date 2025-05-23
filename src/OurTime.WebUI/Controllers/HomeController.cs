@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OurTime.WebUI.Data;
 using OurTime.WebUI.Models.ViewModels;
+using OurTime.WebUI.Models;
 using OurTime.WebUI.Models.Dtos;
 using OurTime.WebUI.Services;
 using System.Diagnostics;
@@ -26,23 +27,94 @@ namespace OurTime.WebUI.Controllers
             _reviews = reviews;
         }
 
-        public IActionResult Index() => View();
+        // 👇 Din karusell på startsidan
+        public IActionResult Index()
+        {
+            var watches = new List<WatchViewModel>
+            {
+                new WatchViewModel
+                {
+                    Name = "OT ASP.NET",
+                    ImageUrl = "https://storageaccountblobb.blob.core.windows.net/images/Asp.net.png",
+                    Price = "12,999 SEK",
+                    Description = "A sleek, dark timepiece designed for developers and tech lovers.",
+                    Features = new List<string> {
+                        "Material: Stainless Steel",
+                        "Movement: Quartz",
+                        "Water Resistance: 30 meters"
+                    }
+                },
+                new WatchViewModel
+                {
+                    Name = "OT Terra",
+                    ImageUrl = "https://storageaccountblobb.blob.core.windows.net/images/Terra.png",
+                    Price = "29,999 SEK",
+                    Description = "Titanium case and automatic movement – built for adventurers.",
+                    Features = new List<string> {
+                        "Titanium shell", "Automatic movement", "Luminous dials"
+                    }
+                },
+                new WatchViewModel
+                {
+                    Name = "OT Rose A1",
+                    ImageUrl = "https://storageaccountblobb.blob.core.windows.net/images/Rose A1.png",
+                    Price = "39,999 SEK",
+                    Description = "Luxury rose gold with fine leather strap.",
+                    Features = new List<string> {
+                        "Rose gold case", "Elegant leather", "Swiss quartz"
+                    }
+                },
+                new WatchViewModel
+                {
+                    Name = "OT Lynx A2",
+                    ImageUrl = "https://storageaccountblobb.blob.core.windows.net/images/Lynx A2.png",
+                    Price = "24,499 SEK",
+                    Description = "Bold luminous hands, sporty yet elegant.",
+                    Features = new List<string> {
+                        "Sport design", "Luminous hands", "Waterproof"
+                    }
+                },
+                new WatchViewModel
+                {
+                    Name = "OT Bohemian",
+                    ImageUrl = "https://storageaccountblobb.blob.core.windows.net/images/Bohemian.png",
+                    Price = "10,999 SEK",
+                    Description = "Artistic and charming design for creative souls.",
+                    Features = new List<string> {
+                        "Creative dial", "Slim fit", "Matte finish"
+                    }
+                },
+                new WatchViewModel
+                {
+                    Name = "OT Vector",
+                    ImageUrl = "https://storageaccountblobb.blob.core.windows.net/images/VectorV1.png",
+                    Price = "89,999 SEK",
+                    Description = "The OT Vector is a masterpiece of engineering, combining lightweight titanium with precision Swiss movement.",
+                    Features = new List<string> {
+                        "Material: Titanium case and bracelet",
+                        "Movement: Swiss automatic movement",
+                        "Crystal: Scratch-resistant sapphire crystal",
+                        "Water Resistance: 100 meters (10 ATM)",
+                        "Special Features: Luminous hands and markers, date display"
+                    }
+                }
+            };
+
+            return View(watches);
+        }
+
         public IActionResult Privacy() => View();
         public IActionResult Watches() => View();
         public IActionResult ShowCart() => View();
         public IActionResult About() => View();
         public IActionResult Contact() => View();
 
-        // GET /Home/Reviews?productId=123
-        // GET /Home/Reviews?productId=123
         [HttpGet]
         public async Task<IActionResult> Reviews(int productId)
         {
-            // 1) Load the watch from our own database
             var product = await _db.Watches.FindAsync(productId);
             if (product == null) return NotFound();
 
-            // 2) Ensure the product exists in the Review Engine
             var requestDto = new ProductRequestDto
             {
                 ProductId = product.Id,
@@ -52,33 +124,28 @@ namespace OurTime.WebUI.Controllers
             };
             await _reviews.RegisterProductAsync(requestDto);
 
-            // 3) Fetch its reviews
             var reviews = (await _reviews.GetReviewsAsync(productId)).ToList();
 
-            // 4) Build and return the view model
             var vm = new ProductReviewsViewModel
             {
                 Product = product,
                 Reviews = reviews,
                 NewReview = new CreateReviewDto()
             };
-            return View(vm);  // will use Views/Home/Reviews.cshtml
+            return View(vm);
         }
 
-        // POST /Home/Reviews
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Reviews(int productId, ProductReviewsViewModel vm)
         {
             if (!ModelState.IsValid)
             {
-                // Re-load reviews and product if validation fails
                 vm.Reviews = (await _reviews.GetReviewsAsync(productId)).ToList();
                 vm.Product = await _db.Watches.FindAsync(productId) ?? throw new InvalidOperationException();
                 return View(vm);
             }
 
-            // Submit the new review
             var created = await _reviews.PostReviewAsync(productId, vm.NewReview);
             if (created == null)
             {
@@ -88,7 +155,6 @@ namespace OurTime.WebUI.Controllers
                 return View(vm);
             }
 
-            // Redirect back to GET to avoid duplicate posts
             return RedirectToAction(nameof(Reviews), new { productId });
         }
 
