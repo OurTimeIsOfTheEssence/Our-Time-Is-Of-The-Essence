@@ -1,89 +1,254 @@
+/* Gemensam styling för alla sidor (text och layout) */
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #FFFFFF;
-  color: #121212;
+  background-image: url('/images/Bakgrundsoft.jpg');
+  background-size: cover;
+  background-position: top right;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  color: #0f0f0f;
+  line-height: 1.6;
 }
 
+/* Header-styling */
 header {
-  background-color: #121212;
+  background-color: #070000;
   color: white;
-  padding: 1em;
+  padding: 0.3em 0;
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+header nav {
+  margin-top: 40px;
+}
+
+/* Gemensam styling för alla rubriker (centrerade och samma storlek) */
+h1, h2, h3, h4, h5, h6 {
+  text-align: center;
+  font-size: 36px;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+  color: #111111;
+  font-weight: 700;
+}
+
+/* Textcentrering och maxbredd för innehållet på alla sidor */
+.section-content {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2em;
+  color: #111111;
+}
+
+/* Specifik styling för paragrafer (brödtext) inom .section-content */
+.section-content p {
+  font-size: 24px;
+  line-height: 1.8;
+  color: #111111;
   text-align: center;
 }
 
-/* 🛠️ Flytta detta UTANFÖR header */
-.logo-container {
-  text-align: center;
-  margin-top: 20px;
-}
-
-.logo-container img {
-  max-width: 250px;
-  height: auto;
-}
-
+/* Gemensam styling för navigation */
 nav ul {
   list-style: none;
   padding: 0;
   display: flex;
   justify-content: center;
-  gap: 1em;
+  gap: 2em;
+  font-size: 26px;
 }
 
 nav a {
-  color: white;
+  color: rgb(247, 9, 9);
   text-decoration: none;
+  font-weight: 600;
+  font-size: 26px;
 }
 
 nav a:hover {
   color: #C62828;
 }
 
-.hero {
-  background-color: #F5F5F5;
-  text-align: center;
-  padding: 2em 1em;
+/* Stil för Login och Register-korten */
+.login-card,
+.register-card {
+  max-width: 1000px;
+  width: 70%; /* Justera denna för att göra dem bredare eller smalare */
+  margin: 40px auto;
+  padding: 40px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
 }
 
-.products {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 2em;
-  padding: 2em;
+/* Justera input-fälten för bättre läsbarhet */
+.login-card .form-floating input,
+.register-card .form-floating input {
+  font-size: 1.5rem;
+  padding: 1rem;
 }
 
-.product-card {
-  border: 1px solid #E0E0E0;
-  padding: 1em;
-  text-align: center;
-  width: 200px;
-  background: white;
+/* Justera textstorlek för etiketterna (Username, Email, Password) */
+.login-card .form-floating label,
+.register-card .form-floating label {
+  font-size: 1.3rem;
 }
 
-.product-card img {
-  width: 100%;
-  height: auto;
-}
-
-button {
+/* Förstora knappen specifikt för Login och Register */
+.login-card button,
+.register-card button {
+  font-size: 1.2rem;
+  padding: 0.75rem 1rem;
   background-color: #C62828;
-  color: white;
+  color: #ffffff;
   border: none;
-  padding: 0.5em 1em;
-  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
 }
 
-button:hover {
+.login-card button:hover,
+.register-card button:hover {
   background-color: #A61B1B;
 }
 
-footer {
-  background-color: #121212;
-  color: white;
-  text-align: center;
-  padding: 1em;
-  margin-top: 2em;
+/* Responsiv design - storlek justeras på mindre skärmar */
+@media (max-width: 1024px) {
+  .login-card,
+  .register-card {
+    max-width: 800px;
+    width: 80%;
+  }
 }
+
+@media (max-width: 768px) {
+  .login-card,
+  .register-card {
+    max-width: 600px;
+    width: 90%;
+  }
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 1.5em 0;
+  color: rgb(12, 12, 12);
+  margin-top: 2em;
+  font-size: 18px;
+  width: 100%;
+}
+
+/* Styling för kontaktinformationen (textstorlek och centrering) */
+.contact-info {
+  list-style: none;
+  padding: 0;
+  text-align: center;
+  font-size: 24px;
+  color: #111111;
+}
+
+.contact-info li {
+  margin-bottom: 0.5em;
+}
+
+.contact-info a {
+  text-decoration: none;
+  color: #C62828;
+  font-weight: bold;
+}
+
+.contact-info a:hover {
+  text-decoration: underline;
+  color: #A61B1B;
+}
+
+/* Kundkorgs-modal-styling */
+#cartModal .modal-content {
+  border-radius: 12px;
+  border: none;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+}
+
+#cartModal .modal-header {
+  border-bottom: none;
+  padding: 1.5rem 1.5rem 0.75rem;
+}
+
+#cartModal .modal-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+#cartModal .modal-body {
+  padding: 0.75rem 1.5rem 1.5rem;
+}
+
+#cartModalBody .list-group {
+  border: none;
+}
+
+#cartModalBody .list-group-item {
+  padding: 1rem 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#cartModalBody .list-group-item + .list-group-item {
+  border-top: 1px solid #E5E5EA;
+}
+
+/* Harmonize the checkout button with “Buy now” */
+#cartModal .modal-footer .btn-primary {
+  background-color: #28a745 !important;  /* changed to green */
+  border: none !important;
+  color: #fff !important;
+}
+
+#cartModal .modal-footer .btn-primary:hover {
+  background-color: #218838 !important;  /* darker green on hover */
+}
+
+#cartModal .modal-footer {
+  border-top: none;
+  padding: 0.5rem 1.5rem 1.5rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+#cartModal .modal-footer .btn-secondary {
+  background-color: #f2f2f7;
+  color: #000;
+  font-weight: 500;
+}
+
+#cartModal .modal-footer .btn-secondary:hover {
+  background-color: #e1e1e6;
+}
+
+@media (max-width: 576px) {
+  #cartModal .modal-dialog {
+    margin: 1rem;
+  }
+  #cartModal .modal-content {
+    box-shadow: none;
+  }
+}
+
+/* Fly-animation “+1” indicator */
+.fly-number {
+    position: fixed;
+    z-index: 1000;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #C62828;
+    transition: transform 0.8s ease-in, opacity 0.8s ease-in;
+    pointer-events: none;
+}
+

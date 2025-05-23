@@ -1,0 +1,98 @@
+﻿@{
+    ViewData["Title"] = "Watches";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/watches.css" asp-append-version="true" />
+}
+
+<div class="section-content">
+    <h2>OT Watches</h2>
+    <p>Explore our exclusive watch models below.</p>
+</div>
+
+<main>
+    <section class="products">
+
+        <!-- Trailmaster -->
+        <article class="product-card">
+            <img src="https://storageaccountblobb.blob.core.windows.net/images/Trailmaster%20A1.png"
+                 alt="OT Trailmaster" />
+            <h3>OT Trailmaster</h3>
+            <p>Price: 49,999 SEK</p>
+            <div class="button-group">
+                <button onclick="toggleInfo('trailmaster-info')">More information</button>
+                <button onclick="addToCart(event, 'Trailmaster')">Buy now</button>
+            </div>
+            <div id="trailmaster-info" class="product-info"
+                 style="max-height:0; overflow:hidden; transition:max-height 0.4s ease;">
+                <p><strong>Description:</strong> The OT Trailmaster is built for adventure with a durable stainless-steel case, 100 m water resistance, and a precision automatic movement.</p>
+                <ul>
+                    <li>Water resistance: 100 m (10 ATM)</li>
+                    <li>Case: 316L stainless steel</li>
+                    <li>Movement: Swiss automatic</li>
+                </ul>
+            </div>
+        </article>
+
+        <!-- Lynx -->
+        <article class="product-card">
+            <img src="https://storageaccountblobb.blob.core.windows.net/images/Lynx%20A1.png"
+                 alt="OT Lynx" />
+            <h3>OT Lynx</h3>
+            <p>Price: 29,999 SEK</p>
+            <div class="button-group">
+                <button onclick="toggleInfo('lynx-info')">More information</button>
+                <button onclick="addToCart(event, 'Lynx')">Buy now</button>
+            </div>
+            <div id="lynx-info" class="product-info"
+                 style="max-height:0; overflow:hidden; transition:max-height 0.4s ease;">
+                <p><strong>Description:</strong> The OT Lynx combines sleek Scandinavian design with a reliable quartz chronograph movement—perfect for everyday wear.</p>
+                <ul>
+                    <ul>
+                        <li>Water resistance: 100 m (10 ATM)</li>
+                        <li>Case diameter: 38 mm</li>
+                        <li>Movement: Japanese Miyota quartz</li>
+                    </ul>
+                </ul>
+            </div>
+        </article>
+
+        <!-- Trek -->
+        <article class="product-card">
+            <img src="https://storageaccountblobb.blob.core.windows.net/images/Trek%20A1.png"
+                 alt="OT Trek" />
+            <h3>OT Trek</h3>
+            <p>Price: 39,999 SEK</p>
+            <div class="button-group">
+                <button onclick="toggleInfo('trek-info')">More information</button>
+                <button onclick="addToCart(event, 'Trek')">Buy now</button>
+            </div>
+            <div id="trek-info" class="product-info"
+                 style="max-height:0; overflow:hidden; transition:max-height 0.4s ease;">
+                <p><strong>Description:</strong> The OT Trek is an adventure watch designed for the modern explorer. With a durable case, water resistance, and a precision movement, it is the perfect companion for your outdoor adventures.</p>
+                <ul>
+                    <li>Water Resistance: 100 m (10 ATM)</li>
+                    <li>Crystal: Scratch-resistant sapphire</li>
+                    <li>Movement: Precision automatic</li>
+                </ul>
+            </div>
+        </article>
+
+    </section>
+</main>
+
+@section Scripts {
+    <script src="~/js/cart.js" defer asp-append-version="true"></script>
+    <script>
+        // Toggle the info panel for any watch
+        function toggleInfo(id) {
+            const panel = document.getElementById(id);
+            if (panel.style.maxHeight && panel.style.maxHeight !== '0px') {
+                panel.style.maxHeight = '0';
+            } else {
+                panel.style.maxHeight = panel.scrollHeight + 'px';
+            }
+        }
+    </script>
+}

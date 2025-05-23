@@ -1,0 +1,51 @@
+﻿@{
+    ViewData["Title"] = "Kundkorg";
+}
+
+<main>
+    <!-- Samma hero-sektion som du har på andra sidor -->
+    <section class="hero">
+        <h2>Kundkorg</h2>
+        <p>Här är produkterna du valt.</p>
+    </section>
+
+    <section class="products" id="cart-items-container">
+        <!-- Vi fyller detta med JavaScript -->
+    </section>
+</main>
+
+<footer>
+    <p>&copy; 2025 OurTime</p>
+</footer>
+
+@section Scripts {
+    <script>
+        // Denna funktion finns redan i cart.js, men vi gör en som renderar HTML istället för alert
+        function renderCart() {
+          const container = document.getElementById('cart-items-container');
+          const cart = getCookie('cart') || [];
+
+          if (cart.length === 0) {
+            container.innerHTML = '<p>Din kundkorg är tom.</p>';
+            return;
+          }
+
+          let html = '';
+          cart.forEach(item => {
+            html += `
+              <article class="product-card">
+                <img src="https://storageaccountblobb.blob.core.windows.net/images/${item.name.replace('OT ', '')}.jpg" alt="${item.name}" />
+
+                <h3>${item.name}</h3>
+                <p>Pris: ${item.price} SEK</p>
+                <p>Antal: ${item.quantity}</p>
+              </article>
+            `;
+          });
+          container.innerHTML = html;
+        }
+
+        // Kör när sidan är laddad
+        document.addEventListener('DOMContentLoaded', renderCart);
+    </script>
+}

@@ -1,0 +1,23 @@
+﻿@{
+    ViewData["Title"] = "Log in";
+    var returnUrl = ViewData["ReturnUrl"] as string ?? "/";
+}
+
+<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="card login-card shadow-lg" style="max-width: 1000px; width: 70%;">
+        <h3 class="card-title text-center mb-4">Log in</h3>
+        <form asp-action="Login" method="post">
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" name="username" placeholder="Username" required autofocus>
+                <label for="username">Username</label>
+            </div>
+
+            <div class="form-floating mb-4">
+                <input type="password" class="form-control" name="password" placeholder="Password" required>
+                <label for="password">Password</label>
+            </div>
+            
+            <button type="submit" class="btn btn-primary w-100">Log in</button>
+        </form>
+    </div>
+</div>
