@@ -3,8 +3,10 @@ using dotenv.net;                             // För .env-stöd (om du vill lag
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;          // Viktigt för UseSqlServer()
 using Microsoft.OpenApi.Models;
+using OurTime.Infrastructure;
 using OurTime.WebUI.Data;
 using OurTime.WebUI.Services;
+using OurTime.Application;
 
 
 DotEnv.Load();
@@ -15,6 +17,8 @@ builder.Services.AddApplicationInsightsTelemetry();
 
 
 // 1) EF Core mot Azure-databasen
+builder.Services.AddApplication();
+builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddDbContext<ApplicationDbContext>(opt =>
     opt.UseSqlServer(
         // Hämta connection string från appsettings.json,
@@ -40,9 +44,9 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 // 3) HttpClient för externa Review-API:t
 builder.Services.AddHttpClient<ReviewApiService>(client =>
 {
-    client.BaseAddress = new Uri(builder.Configuration["ExternalApis:ReviewEngine"]);
+    client.BaseAddress = new Uri(Environment.GetEnvironmentVariable("REVIEW_ENGINE_URL"));
     client.DefaultRequestHeaders.Add("Accept", "application/json");
-    client.DefaultRequestHeaders.Add("X-Api-Key", builder.Configuration["ExternalApis:ReviewEngineApiKey"]);
+    client.DefaultRequestHeaders.Add("X-Api-Key", Environment.GetEnvironmentVariable("REVIEW_ENGINE_API_KEY"));
 });
 
 // 4) Registrera API‐controllers + Razor‐views
