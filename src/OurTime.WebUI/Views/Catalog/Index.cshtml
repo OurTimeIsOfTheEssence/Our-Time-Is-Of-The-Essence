@@ -1,60 +1,83 @@
-@model OurTime.WebUI.Models.Catalog.ProductCatalogViewModel
-
 @{
-    ViewData["Title"] = "OurTime - Products";
+    ViewData["Title"] = "Home";
 }
 
-<style>
-    .product-image {
-        object-fit: cover;
-        height: 200px;
-        width: 100%;
-    }
-</style>
+@section Styles {
+    <link rel="stylesheet" href="/css/index.css" />
 
-<div class="text-center">
-    <h1 class="display-4 mb-4">Product Catalog</h1>
-    <p class="lead mb-5">Browse our awesome merchandise below!</p>
+
+}
+
+<div class="section-content">
+    <h2>Time is of the Essence – wear it wisely</h2>
+    <p>Explore our exclusive watches</p>
+    <h2 class="blinking-new-arrivals">NEW ARRIVALS</h2>
+</div
+
+<div class="carousel-wrapper">
+    <button class="carousel-arrow left" onclick="slideCarousel(-1)">‹</button>
+
+    <div class="carousel-track-container">
+        <div class="carousel-track" id="carousel">
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                var watch = Model[i];
+                <article class="product-card index-product-card">
+                    <img src="@watch.ImageUrl" alt="@watch.Name" />
+                    <h3>@watch.Name</h3>
+                    <p>Price: @watch.Price</p>
+                    <div class="button-group">
+                        <button onclick="toggleInfo('info-@i')">More information</button>
+                        <button class="buy-now-button" onclick="addToCart(event, '@watch.Name')">Buy now</button>
+                    </div>
+                    <div id="info-@i" class="product-info">
+                        <p><strong>Description:</strong> @watch.Description</p>
+                    </div>
+                </article>
+            }
+        </div>
+    </div>
+
+    <button class="carousel-arrow right" onclick="slideCarousel(1)">›</button>
 </div>
 
-@if (Model.FeaturedProducts.Any())
-{
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-        @foreach (var product in Model.FeaturedProducts)
-        {
-            <div class="col">
-                <div class="card h-100 shadow-sm">
-                    @if (product.HasImage)
-                    {
-                        <img src="@product.ImageUrl" class="card-img-top product-image" alt="@product.Name">
-                    }
-                    else
-                    {
-                        <div class="card-img-top bg-light text-center p-5">
-                            <span class="text-muted">No image available</span>
-                        </div>
-                    }
-                    <div class="card-body">
-                        <h5 class="card-title">@product.Name</h5>
-                        <p class="card-text">@product.Description</p>
-                    </div>
-                    <div class="card-footer bg-white d-flex justify-content-between align-items-center">
-                        <span class="text-primary fw-bold">@product.Price</span>
-                        <div>
-                            <a asp-action="Details" asp-route-id="@product.Id" class="btn btn-outline-primary btn-sm">
-                                View Details
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        }
-    </div>
-}
-else
-{
-    <div class="alert alert-info text-center">
-        <h2>No products available</h2>
-        <p>Check back soon for our latest merchandise!</p>
-    </div>
+@section Scripts {
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            let position = 0;
+            const visibleCards = 3;
+            const track = document.getElementById('carousel');
+
+            function slideCarousel(direction) {
+                const cardWidth = document.querySelector('.product-card').offsetWidth + 20;
+                const totalCards = track.children.length;
+                const maxPosition = totalCards - visibleCards;
+
+                position += direction;
+                if (position < 0) position = 0;
+                if (position > maxPosition) position = maxPosition;
+
+                track.style.transform = `translateX(-${position * cardWidth}px)`;
+            }
+
+            window.slideCarousel = slideCarousel;
+
+            window.toggleInfo = function (id) {
+                const el = document.getElementById(id);
+                if (el.style.maxHeight) {
+                    el.style.maxHeight = null;
+                } else {
+                    el.style.maxHeight = el.scrollHeight + 'px';
+                }
+            };
+
+            // Stoppa blinkningen efter 5 sekunder
+            setTimeout(() => {
+                const el = document.getElementById('new-arrivals');
+                if (el) {
+                    el.classList.remove('blinking-new-arrivals');
+                }
+            }, 5000);
+        });
+    </script>
 }
