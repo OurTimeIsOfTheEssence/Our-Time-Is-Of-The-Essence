@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using OurTime.WebUI.Models.Dtos;
@@ -10,37 +9,33 @@ namespace OurTime.WebUI.Services
     public class ReviewApiService
     {
         private readonly HttpClient _http;
-
         public ReviewApiService(HttpClient http) => _http = http;
 
-        public void ConfigureKey(string apiKey)
+        /// Hämtar alla recensioner för en extern produkt via ?productId=…
+
+        public async Task<IEnumerable<ReviewDto>> GetReviewsAsync(int extProductId)
         {
-            _http.DefaultRequestHeaders.Remove("X-Api-Key");
-            _http.DefaultRequestHeaders.Add("X-Api-Key", apiKey);
+            // OBS! Matcha externa swagger‐definitionen:
+            // GET /api/product/reviews?productId={extProductId}
+            var uri = $"api/product/reviews?productId={extProductId}";
+            var reviews = await _http.GetFromJsonAsync<IEnumerable<ReviewDto>>(uri);
+            return reviews ?? new ReviewDto[0];
         }
 
-        public void ConfigureBearer(string jwt)
+        /// Skapar en ny recension på /api/product/{id}/review
+        public async Task<bool> PostReviewAsync(int extProductId, CreateReviewDto dto)
         {
-            _http.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("Bearer", jwt);
+            var uri = $"api/product/{extProductId}/review";
+            var resp = await _http.PostAsJsonAsync(uri, dto);
+            return resp.IsSuccessStatusCode;
         }
 
-        public async Task<ProductDto> RegisterProductAsync(ProductRequestDto dto)
+        /// Registrerar en produkt: POST /api/product/save  (eller enligt extern swagger)
+        public async Task<int?> RegisterAndReturnIdAsync(ProductRequestDto dto)
         {
-            var resp = await _http.PostAsJsonAsync("/product/save", dto);
-            resp.EnsureSuccessStatusCode();
-            return await resp.Content.ReadFromJsonAsync<ProductDto>()!;
-        }
-
-        public Task<IEnumerable<ReviewDto>> GetReviewsAsync(int productId) =>
-            _http.GetFromJsonAsync<IEnumerable<ReviewDto>>($"/api/product/{productId}/review")
-                 ?? Task.FromResult<IEnumerable<ReviewDto>>(new List<ReviewDto>());
-
-        public async Task<ReviewDto?> PostReviewAsync(int productId, CreateReviewDto dto)
-        {
-            var resp = await _http.PostAsJsonAsync($"/api/product/{productId}/review", dto);
-            resp.EnsureSuccessStatusCode();
-            return await resp.Content.ReadFromJsonAsync<ReviewDto>();
+            var resp = await _http.PostAsJsonAsync("api/product/save", dto);
+            if (!resp.IsSuccessStatusCode) return null;
+            return await resp.Content.ReadFromJsonAsync<int>();
         }
     }
 }

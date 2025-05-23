@@ -1,0 +1,37 @@
+﻿@model OurTime.WebUI.Models.ViewModels.ProductReviewsViewModel
+
+@{
+    ViewData["Title"] = "Reviews – " + Model.Product.Name;
+}
+
+<h1>@Model.Product.Name</h1>
+
+<h2>⤓ RAW REVIEWS JSON ⤓</h2>
+<pre>
+    @Html.Raw(
+            System.Text.Json.JsonSerializer.Serialize(
+                Model.Reviews,
+                new System.Text.Json.JsonSerializerOptions { WriteIndented = true }
+            )
+        )
+</pre>
+
+<hr />
+
+<h2>Structured list</h2>
+@if (!Model.Reviews.Any())
+{
+    <p><em>No reviews yet.</em></p>
+}
+else
+{
+    <ul>
+        @foreach (var r in Model.Reviews)
+        {
+            <li>
+                <strong>@r.ReviewerName</strong> – @r.Rating/5 on @r.ReviewDate:
+                <br />@r.Text
+            </li>
+        }
+    </ul>
+}
