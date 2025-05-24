@@ -8,6 +8,8 @@ using OurTime.WebUI.Services;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Data.SqlClient;
+
 
 namespace OurTime.WebUI.Controllers
 {
@@ -16,18 +18,20 @@ namespace OurTime.WebUI.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _db;
         private readonly ReviewApiService _reviews;
+        private readonly IConfiguration _configuration;
 
         public HomeController(
             ILogger<HomeController> logger,
             ApplicationDbContext db,
-            ReviewApiService reviews)
+            ReviewApiService reviews,
+            IConfiguration configuration)
         {
             _logger = logger;
             _db = db;
             _reviews = reviews;
+            _configuration = configuration;
         }
 
-        // 👇 Din karusell på startsidan
         public IActionResult Index()
         {
             var watches = new List<WatchViewModel>
@@ -99,6 +103,31 @@ namespace OurTime.WebUI.Controllers
                     }
                 }
             };
+
+            // ✅ Ladda in klockor från StaticWatches i databasen
+            var connectionString = _configuration.GetConnectionString("StaticWatchConnection");
+            using (var connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                var command = new SqlCommand("SELECT * FROM StaticWatches", connection);
+                var reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    var featuresRaw = reader["Features"]?.ToString();
+                    var features = featuresRaw != null
+                        ? featuresRaw.Split(';', StringSplitOptions.RemoveEmptyEntries).Select(f => f.Trim()).ToList()
+                        : new List<string>();
+
+                    watches.Add(new WatchViewModel
+                    {
+                        Name = reader["Name"].ToString(),
+                        ImageUrl = reader["ImageUrl"].ToString(),
+                        Price = string.Format("{0:N0} SEK", reader["Price"]),
+                        Description = reader["Description"].ToString(),
+                        Features = features
+                    });
+                }
+            }
 
             return View(watches);
         }
