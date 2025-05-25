@@ -1,13 +1,16 @@
-﻿namespace OurTime.WebUI.Models.Dtos
+﻿using System;
+using System.Collections.Generic;
+
+namespace OurTime.WebUI.Models.Dtos
 {
     public class ProductDto
     {
-        public long ProductId { get; set; }
-        public string Name { get; set; } = string.Empty;
-        public string Category { get; set; } = string.Empty;
-        public double Rating { get; set; }
-        public TagDto[] Tags { get; set; } = Array.Empty<TagDto>();
-        public DateTime CreateDate { get; set; }
-        public ReviewDto[] Reviews { get; set; } = Array.Empty<ReviewDto>();
+        public int ProductId { get; set; }
+        public string Name { get; set; } = "";
+        public string Category { get; set; } = "";
+        public float Rating { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public List<TagDto> Tags { get; set; } = new();
+        public List<ReviewDto> Reviews { get; set; } = new();
     }
 }

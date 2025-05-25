@@ -252,3 +252,73 @@ footer {
     pointer-events: none;
 }
 
+/* ==========================================================================
+   Reviews page & carousel styling
+   ========================================================================== */
+
+/* ── REVIEW CARDS & IMAGES ───────────────────────────────────────────────── */
+
+.review-card {
+    /* white, softly-rounded card */
+    background-color: rgba(255, 255, 255, 0.85);
+    border: none;
+    border-radius: 0.75rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+    .review-card .card-body {
+        /* extra padding inside the card */
+        padding: 1.5rem;
+    }
+
+.product-img {
+    /* center & size the clock/product image */
+    display: block;
+    margin: 0 auto 1rem; /* center horizontally, space below */
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+/* ── STAR RATING SIZING ─────────────────────────────────────────────────── */
+
+.text-warning,
+.text-muted {
+    /* slightly bump up star size when used in carousel cards */
+    font-size: 1.2rem;
+    margin-right: 2px;
+}
+
+/* ── BOOSTRAP CAROUSEL ARROWS ──────────────────────────────────────────── */
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    /* force arrows to appear solid black */
+    filter: invert(0) !important;
+    width: 2rem;
+    height: 2rem;
+    background-color: transparent !important;
+}
+
+/* Optional: if you need a bit more contrast, you can use: */
+/* filter: invert(0) brightness(1.2) !important; */
+
+/* ── PREV/NEXT PRODUCT “ARROW” LINKS ────────────────────────────────────── */
+
+.review-arrow {
+    /* reuse same arrow look, but as simple text without border */
+    font-size: 2rem;
+    line-height: 1;
+    color: #000;
+    text-decoration: none;
+    user-select: none;
+}
+
+.review-prev {
+    /* nothing extra—flex container positions it left */
+}
+
+.review-next {
+    /* nothing extra—flex container positions it right */
+}

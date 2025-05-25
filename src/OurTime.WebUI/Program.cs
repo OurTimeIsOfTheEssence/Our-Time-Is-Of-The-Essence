@@ -26,14 +26,15 @@ var rawConn = builder.Configuration.GetConnectionString("DefaultConnection")!
     .Replace("{AZURE_SQL_PASSWORD}", Environment.GetEnvironmentVariable("AZURE_SQL_PASSWORD")!);
 
 builder.Services.AddDbContext<ApplicationDbContext>(opts =>
-    opts.UseSqlServer(
-        rawConn,
-        sql => sql.MigrationsAssembly("OurTime.WebUI")
-                  .EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null)
-    )
+    opts.UseSqlServer(rawConn, sql =>
+    {
+        sql.MigrationsAssembly("OurTime.WebUI");
+        sql.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null);
+        sql.CommandTimeout(60); // 60 sekunders timeout
+    })
 );
 
-// 2) Cookie‐auth
+// 2) Cookie‐baserad autentisering
 builder.Services
     .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(opts =>
@@ -43,7 +44,7 @@ builder.Services
         opts.ExpireTimeSpan = TimeSpan.FromHours(1);
     });
 
-// 3) AuthService (basic HttpClient för login + apiKey)
+// 3) AuthService (för inloggning + API‐key)
 builder.Services.AddHttpClient<AuthService>(client =>
 {
     client.BaseAddress = new Uri(Environment.GetEnvironmentVariable("REVIEW_ENGINE_URL")!);
@@ -51,7 +52,7 @@ builder.Services.AddHttpClient<AuthService>(client =>
         new MediaTypeWithQualityHeaderValue("application/json"));
 });
 
-// 4) ReviewApiService + Auth‐handler
+// 4) ReviewApiService + JWT/API‐key‐handler
 builder.Services.AddTransient<ReviewApiAuthHandler>();
 
 builder.Services.AddHttpClient<ReviewApiService>(client =>
@@ -71,21 +72,22 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
-// Middleware
+// 6) Middleware‐pipeline
 app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-// 6) Proxy av externa swagger
+// 7) Proxy för externa ReviewEngine-swagger
 app.MapGet("/swagger-external/swagger.json", async (IHttpClientFactory http) =>
 {
     var json = await http
-        .CreateClient(nameof(ReviewApiService))
-        .GetStringAsync("/v3/api-docs");
+                 .CreateClient(nameof(ReviewApiService))
+                 .GetStringAsync("/v3/api-docs");
     return Results.Content(json, "application/json");
 });
 
+// 8) Swagger UI (endast i Dev)
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

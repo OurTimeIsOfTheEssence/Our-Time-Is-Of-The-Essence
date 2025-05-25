@@ -1,37 +1,152 @@
 ﻿@model OurTime.WebUI.Models.ViewModels.ProductReviewsViewModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @{
     ViewData["Title"] = "Reviews – " + Model.Product.Name;
+    var avg = Model.Reviews.Any()
+        ? (int)Math.Round(Model.Reviews.Average(r => r.Rating))
+        : 0;
 }
 
-<h1>@Model.Product.Name</h1>
+<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 
-<h2>⤓ RAW REVIEWS JSON ⤓</h2>
-<pre>
-    @Html.Raw(
-            System.Text.Json.JsonSerializer.Serialize(
-                Model.Reviews,
-                new System.Text.Json.JsonSerializerOptions { WriteIndented = true }
-            )
-        )
-</pre>
+<div class="container my-5">
+    <h1 class="text-center mb-4">@Model.Product.Name</h1>
 
-<hr />
-
-<h2>Structured list</h2>
-@if (!Model.Reviews.Any())
-{
-    <p><em>No reviews yet.</em></p>
-}
-else
-{
-    <ul>
-        @foreach (var r in Model.Reviews)
+    <!-- ← Prev / Next product -->
+    <div class="d-flex justify-content-between mb-4">
+        @* Previous product *@
+        @if (Model.Product.Id > 1)
         {
-            <li>
-                <strong>@r.ReviewerName</strong> – @r.Rating/5 on @r.ReviewDate:
-                <br />@r.Text
-            </li>
+            <a asp-action="Reviews"
+               asp-route-productId="@(Model.Product.Id - 1)"
+               class="text-decoration-none review-arrow review-prev">
+                ←
+            </a>
         }
-    </ul>
+        else
+        {
+            <span></span>
+        }
+
+        @* Next product *@
+        <a asp-action="Reviews"
+           asp-route-productId="@(Model.Product.Id + 1)"
+           class="text-decoration-none review-arrow review-next">
+            →
+        </a>
+    </div>
+
+    @if (Model.Reviews.Any())
+    {
+        <div class="text-center mb-4 average-rating">
+            <strong>Average Rating:</strong>
+            @for (var i = 1; i <= 5; i++)
+            {
+                <span class="@(i <= avg ? "text-warning" : "text-muted")">
+                    @(i <= avg ? "★" : "☆")
+                </span>
+            }
+            <span class="ms-2 text-muted">(@Model.Reviews.Count() reviews)</span>
+        </div>
+
+        <div id="reviewsCarousel" class="carousel slide mb-4" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                @for (var idx = 0; idx < Model.Reviews.Count; idx++)
+                {
+                    var r = Model.Reviews[idx];
+                    <div class="carousel-item @(idx == 0 ? "active" : "")">
+                        <div class="row justify-content-center">
+                            <div class="col-12 col-md-8 col-lg-6 mx-auto">
+                                <div class="card review-card bg-light shadow-sm h-100 text-center p-4">
+                                    <img src="https://storageaccountblobb.blob.core.windows.net/images/Blossom.png"
+                                         alt="Product image"
+                                         class="product-img" />
+
+                                    <h5 class="card-title">@r.ReviewerName</h5>
+                                    @* THIS is the only date—no time! *@
+                                    <small class="text-muted">@r.ReviewDate.ToString("yyyy-MM-dd")</small>
+
+                                    <div class="my-2">
+                                        @for (int i = 1; i <= 5; i++)
+                                        {
+                                            <span class="@(i <= r.Rating ? "text-warning" : "text-muted")">
+                                                @(i <= r.Rating ? "★" : "☆")
+                                            </span>
+                                        }
+                                        <small class="ms-2 text-muted">(@r.Rating/5)</small>
+                                    </div>
+
+                                    <p class="card-text">@r.Text</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            @* black arrows for carousel *@
+            <button class="carousel-control-prev" type="button"
+                    data-bs-target="#reviewsCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon dark-arrow" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button"
+                    data-bs-target="#reviewsCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon dark-arrow" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    }
+    else
+    {
+        <p class="text-center text-muted"><em>No reviews yet.</em></p>
+    }
+
+    <hr class="my-5" />
+
+    <section>
+        <h2 class="h5 mb-3 text-center">Write a new review</h2>
+        <form asp-action="Reviews" method="post" class="row g-3 justify-content-center">
+            <input type="hidden" name="productId" value="@Model.Product.Id" />
+
+            <div class="col-md-6">
+                <label asp-for="NewReview.ReviewerName" class="form-label">Your name</label>
+                <input asp-for="NewReview.ReviewerName" class="form-control" />
+                <span asp-validation-for="NewReview.ReviewerName" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-3">
+                <label asp-for="NewReview.Rating" class="form-label">Rating</label>
+                <select asp-for="NewReview.Rating" class="form-select">
+                    @for (int i = 1; i <= 5; i++)
+                    {
+                        <option value="@i">@i</option>
+                    }
+                </select>
+                <span asp-validation-for="NewReview.Rating" class="text-danger"></span>
+            </div>
+
+            <div class="col-12">
+                <label asp-for="NewReview.Text" class="form-label">Review</label>
+                <textarea asp-for="NewReview.Text" class="form-control" rows="4"></textarea>
+                <span asp-validation-for="NewReview.Text" class="text-danger"></span>
+            </div>
+
+            <div class="col-12 text-center">
+                <button type="submit" class="btn btn-primary px-5">Submit review</button>
+            </div>
+        </form>
+    </section>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        var carousel = document.getElementById('reviewsCarousel');
+        carousel.addEventListener('mouseenter', () =>
+          bootstrap.Carousel.getInstance(carousel).pause());
+        carousel.addEventListener('mouseleave', () =>
+          bootstrap.Carousel.getInstance(carousel).cycle());
+    </script>
 }

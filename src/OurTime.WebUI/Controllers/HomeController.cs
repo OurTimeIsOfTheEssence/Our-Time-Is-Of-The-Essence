@@ -33,15 +33,7 @@ namespace OurTime.WebUI.Controllers
         public IActionResult ShowCart() => View();
         public IActionResult About() => View();
         public IActionResult Contact() => View();
-
-        [HttpGet]
-        public async Task<IActionResult> Watches()
-        {
-            var watches = await _db.Watches
-                                   .OrderBy(w => w.Name)
-                                   .ToListAsync();
-            return View(watches);
-        }
+        public IActionResult Watches() => View();
 
         [HttpGet]
         public async Task<IActionResult> Reviews(int productId)
