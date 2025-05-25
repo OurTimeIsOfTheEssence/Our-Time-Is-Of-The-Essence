@@ -1,5 +1,4 @@
-﻿// Services/AuthService.cs
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace OurTime.WebUI.Services

@@ -30,7 +30,7 @@ namespace OurTime.WebUI.Controllers
             _reviews = reviews;
         }
 
-        // 👇 Din karusell på startsidan
+        //Karusell på startsidan
         public IActionResult Index()
         {
             var watches = new List<WatchViewModel>

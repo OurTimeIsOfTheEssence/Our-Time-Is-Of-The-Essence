@@ -1,5 +1,4 @@
-﻿// Services/Dtos/LoginResponseDto.cs
-namespace OurTime.WebUI.Services.Dtos
+﻿namespace OurTime.WebUI.Services.Dtos
 {
     public class LoginResponseDto
     {

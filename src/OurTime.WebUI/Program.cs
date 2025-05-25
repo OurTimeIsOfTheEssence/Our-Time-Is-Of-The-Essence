@@ -9,7 +9,7 @@ using OurTime.Infrastructure;
 using OurTime.WebUI.Data;
 using OurTime.WebUI.Services;
 
-DotEnv.Load(); // loads your .env into Environment.GetEnvironmentVariable
+DotEnv.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 
