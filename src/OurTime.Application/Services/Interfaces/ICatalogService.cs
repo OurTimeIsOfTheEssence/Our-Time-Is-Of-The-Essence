@@ -20,4 +20,7 @@ public interface ICatalogService
     /// <param name="id">The product ID</param>
     /// <returns>The product if found, null otherwise</returns>
     Task<Watch?> GetWatchByIdAsync(int id);
+
+    Task AddWatchAsync(Watch watch);
+    Task DeleteWatchAsync(Watch watch);
 }

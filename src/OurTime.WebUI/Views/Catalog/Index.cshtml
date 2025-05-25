@@ -1,64 +1,105 @@
-@model List<WatchViewModel>
+@model OurTime.WebUI.Models.Catalog.ProductCatalogViewModel
+
 @{
-    ViewData["Title"] = "Home";
+    ViewData["Title"] = "OurTime - Products";
 }
 
-<!-- Swiper CSS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+@section Styles {
+    <link rel="stylesheet" href="~/css/watches.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/index.css" asp-append-version="true" />
+}
 
-<div class="swiper mySwiper">
-    <div class="swiper-wrapper">
-        @foreach (var watch in Model)
-        {
-            <div class="swiper-slide">
-                <div class="product-card">
-                    <img src="@watch.ImageUrl" alt="@watch.Name" />
-                    <h3>@watch.Name</h3>
-                    <p>@watch.Description</p>
-                    <ul>
-                        @foreach (var feature in watch.Features)
-                        {
-                            <li>@feature</li>
-                        }
-                    </ul>
-                    <p class="price">@watch.Price</p>
-                    <div class="button-group">
-                        <a href="@Url.Action("Details", "Watches", new { productName = watch.Name })" class="btn btn-success">Information</a>
-
-                        <!-- ✅ Uppdaterad Buy Now-knapp -->
-                        <form asp-controller="Cart" asp-action="AddToCart" method="post" style="display:inline;">
-                            <input type="hidden" name="productName" value="@watch.Name" />
-                            <button type="submit" class="btn btn-danger">Buy Now</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        }
-    </div>
-
-    <!-- Swiper Navigation -->
-    <div class="swiper-button-next"></div>
-    <div class="swiper-button-prev"></div>
-    <!-- Swiper Pagination -->
-    <div class="swiper-pagination"></div>
+<div class="section-content">
+    <h2>OT Watches</h2>
+    <p>Explore our exclusive watch models below.</p>
 </div>
 
-<!-- Swiper JS -->
-<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+<main>
+    <section class="products">
 
-<!-- Initialize Swiper -->
-<script>
-    var swiper = new Swiper(".mySwiper", {
-        slidesPerView: 1,
-        spaceBetween: 30,
-        loop: true,
-        pagination: {
-            el: ".swiper-pagination",
-            clickable: true,
-        },
-        navigation: {
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev",
-        },
-    });
-</script>
+        @foreach (var product in Model.FeaturedProducts)
+        {
+            <article class="product-card index-product-card">
+                @if (product.HasImage)
+                {
+                <img src="@product.ImageUrl" alt="@product.Name" />
+                }
+                <h3>@product.Name</h3>
+                <p>Price: @product.Price</p>
+                <div class="button-group">
+                    <button onclick="toggleInfo('@product.Name')">More information</button>
+                    <button onclick="addToCart(event, '@product.Name')">Buy now</button>
+                </div>
+                <div id="@product.Name" class="product-info">
+                    <p><strong>Description:</strong> @product.Description</p>
+                    <p><strong>Model:</strong> @product.Model</p>
+                </div>
+                @if (User.Identity?.IsAuthenticated == true)
+                {   
+                    <form asp-action="DeleteProduct" method="post" class="delete-form">
+                        <input type="hidden" name="Id" value="@product.Id" />
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                }
+            </article>
+        }
+    </section>
+
+@if (User.Identity?.IsAuthenticated == true)
+{
+    <div class="container mt-4">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Add a New Product</h4>
+            </div>
+            <div class="card-body">
+                <form asp-action="AddProduct" method="post">
+                    <div class="mb-3">
+                        <label for="Name" class="form-label">Product Name</label>
+                        <input type="text" class="form-control" name="Name" id="Name" required />
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="ImageUrl" class="form-label">Image URL</label>
+                        <input type="text" class="form-control" name="ImageUrl" id="ImageUrl" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="Price" class="form-label">Price</label>
+                        <input type="number" class="form-control" name="Price" id="Price" step="0.01" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="Model" class="form-label">Model</label>
+                        <input type="text" class="form-control" name="Model" id="Model" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="Description" class="form-label">Description</label>
+                        <textarea class="form-control" name="Description" id="Description" rows="3"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-success">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+}
+
+
+
+</main>
+
+@section Scripts {
+    <script src="~/js/cart.js" defer asp-append-version="true"></script>
+    <script>
+        function toggleInfo(id) {
+            const panel = document.getElementById(id);
+            if (panel.style.maxHeight && panel.style.maxHeight !== '0px') {
+                panel.style.maxHeight = '0';
+            } else {
+                panel.style.maxHeight = panel.scrollHeight + 'px';
+            }
+        }
+    </script>
+}

@@ -78,4 +78,9 @@ public class Repository<TEntity, TId> : IRepository<TEntity, TId>
         _dbSet.Remove(entity);
         return Task.CompletedTask;
     }
+
+    public virtual async Task SaveChangesAsync()
+    {
+        await _context.SaveChangesAsync();
+    }
 }

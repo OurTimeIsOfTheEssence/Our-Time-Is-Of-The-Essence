@@ -32,4 +32,18 @@ public class CatalogService : ICatalogService
     {
         return await _watchRepository.GetByIdAsync(id);
     }
+
+    public async Task AddWatchAsync(Watch watch)
+    {
+        await _watchRepository.AddAsync(watch);
+        await _watchRepository.SaveChangesAsync();
+    }
+
+    public async Task DeleteWatchAsync(Watch watch)
+    {
+
+            await _watchRepository.RemoveAsync(watch);
+            await _watchRepository.SaveChangesAsync();
+    }   
+
 }

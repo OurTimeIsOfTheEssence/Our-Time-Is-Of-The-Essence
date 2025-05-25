@@ -20,12 +20,10 @@
         <nav>
             <ul>
                 <li><a asp-controller="Home" asp-action="Index">Home</a></li>
-                <li><a asp-controller="Home" asp-action="Watches">Watches</a></li>
+                <li><a asp-controller="Catalog" asp-action="Index">Watches</a></li>
                 <li><a asp-controller="Home" asp-action="Reviews" asp-route-productId="1">Reviews</a></li>
                 <li><a asp-controller="Home" asp-action="About">About us</a></li>
                 <li><a asp-controller="Home" asp-action="Contact">Contact</a></li>
-                <li><a asp-controller="Catalog" asp-action="Index">Test</a></li>
-                <li><a asp-controller="Catalog" asp-action="Details">Test 2</a></li>
                 <li><a asp-controller="Home" asp-action="Privacy">Privacy</a></li>
 
                 @if (User.Identity?.IsAuthenticated == true)

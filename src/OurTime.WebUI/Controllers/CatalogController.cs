@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using OurTime.Application.Services.Interfaces;
+using OurTime.Domain.Entities;
 using OurTime.WebUI.Models.Catalog;
+using OurTime.WebUI.Models.Dtos;
 
 namespace OurTime.WebUI.Controllers;
 
@@ -12,6 +14,7 @@ public class CatalogController : Controller
     {
         _catalogService = catalogService;
     }
+
 
     // GET: Catalog
     public async Task<IActionResult> Index()
@@ -30,7 +33,7 @@ public class CatalogController : Controller
                 ImageUrl = p.ImageUrl,
                 Description = p.Description,
                 Price = p.Price,
-                
+
             }).ToList();
 
             // Create the product catalog view model
@@ -52,42 +55,32 @@ public class CatalogController : Controller
             return View("Error");
         }
     }
-
-    // GET: Store/Details/5
-    public async Task<IActionResult> Details(int id)
+    [HttpPost]
+    public async Task<IActionResult> AddProduct(WatchDto watch)
     {
-        try
-        {
-            // Get the specific product from the service
-            var watch = await _catalogService.GetWatchByIdAsync(id);
+        var _watch = new Watch(
+            name: watch.Name,
+            imageUrl: watch.ImageUrl,
+            price: watch.Price,
+            model: watch.Model,
+            description: watch.Description
+        );
 
-            // Return 404 if product not found
-            if (watch is null)
-            {
-                return NotFound();
-            }
-
-            // Map domain entity to view model
-            var viewModel = new ProductDetailsViewModel
-            {
-                Id = watch.Id,
-                Name = watch.Name,
-                ImageUrl = watch.ImageUrl,
-                Description = watch.Description,
-                Price = watch.Price,
-
-            };
-
-            return View(viewModel);
-        }
-        catch (Exception ex)
-        {
-            // Log the exception
-            Console.WriteLine($"Error in ProductDetails: {ex.Message}");
-
-            // Show an error message to the user
-            ViewBag.ErrorMessage = "An error occurred while loading the product. Please try again later.";
-            return View("Error");
-        }
+        await _catalogService.AddWatchAsync(_watch);
+        return RedirectToAction("Index", "Catalog");
     }
+
+
+    [HttpPost]
+    public async Task<IActionResult> DeleteProduct(int Id)
+    {
+        Watch watch = await _catalogService.GetWatchByIdAsync(Id);
+        if (watch == null)
+        {
+            return NotFound();
+        }
+        await _catalogService.DeleteWatchAsync(watch);
+
+        return RedirectToAction("Index", "Catalog");
+    }   
 }

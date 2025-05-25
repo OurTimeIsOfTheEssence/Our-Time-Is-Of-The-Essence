@@ -12,4 +12,5 @@ public interface IRepository<TEntity, TId>
     Task AddAsync(TEntity entity);
     Task UpdateAsync(TEntity entity);
     Task RemoveAsync(TEntity entity);
+    Task SaveChangesAsync();
 }
