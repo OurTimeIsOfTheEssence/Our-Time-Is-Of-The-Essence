@@ -18,7 +18,7 @@ namespace OurTime.WebUI.Controllers
             _db = db;
         }
 
-        // REGISTER
+        // ----- REGISTER -----
         [HttpGet]
         public IActionResult Register()
         {
@@ -28,6 +28,7 @@ namespace OurTime.WebUI.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(string username, string password)
         {
+            // Kontrollera inmatning
             if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
             {
                 ModelState.AddModelError("", "Användarnamn och lösenord krävs");
@@ -41,7 +42,7 @@ namespace OurTime.WebUI.Controllers
                 return View();
             }
 
-            // Spara ny user 
+            // Spara ny user (OBS: i en riktig app måste du hash:a lösen!)
             _db.Users.Add(new User
             {
                 Username = username,
@@ -49,10 +50,11 @@ namespace OurTime.WebUI.Controllers
             });
             await _db.SaveChangesAsync();
 
+            // Skicka vidare till login-sidan
             return RedirectToAction("Login");
         }
 
-        // LOGIN
+        // ----- LOGIN -----
         [HttpGet]
         public IActionResult Login(string returnUrl = null)
         {
@@ -84,7 +86,7 @@ namespace OurTime.WebUI.Controllers
             return View();
         }
 
-        // LOGOUT
+        // ----- LOGOUT -----
 
         public async Task<IActionResult> Logout()
         {

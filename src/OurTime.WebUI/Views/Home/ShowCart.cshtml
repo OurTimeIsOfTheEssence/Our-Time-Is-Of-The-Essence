@@ -3,12 +3,14 @@
 }
 
 <main>
+    <!-- Samma hero-sektion som du har på andra sidor -->
     <section class="hero">
         <h2>Kundkorg</h2>
         <p>Här är produkterna du valt.</p>
     </section>
 
     <section class="products" id="cart-items-container">
+        <!-- Vi fyller detta med JavaScript -->
     </section>
 </main>
 
@@ -18,6 +20,7 @@
 
 @section Scripts {
     <script>
+        // Denna funktion finns redan i cart.js, men vi gör en som renderar HTML istället för alert
         function renderCart() {
           const container = document.getElementById('cart-items-container');
           const cart = getCookie('cart') || [];
@@ -42,6 +45,7 @@
           container.innerHTML = html;
         }
 
+        // Kör när sidan är laddad
         document.addEventListener('DOMContentLoaded', renderCart);
     </script>
 }

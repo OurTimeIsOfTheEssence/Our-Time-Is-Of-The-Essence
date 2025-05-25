@@ -34,7 +34,7 @@ namespace OurTime.WebUI.Controllers
             return Ok(list);
         }
 
-        // GET api/watches
+        // GET api/watches/5
         [HttpGet("{id}")]
         public async Task<ActionResult<WatchDto>> GetById(int id)
         {
@@ -75,7 +75,7 @@ namespace OurTime.WebUI.Controllers
             return CreatedAtAction(nameof(GetById), new { id = dto.Id }, dto);
         }
 
-        // PUT api/watches
+        // PUT api/watches/5
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] WatchDto dto)
         {
@@ -102,7 +102,7 @@ namespace OurTime.WebUI.Controllers
             return NoContent();
         }
 
-        // DELETE api/watches
+        // DELETE api/watches/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

@@ -1,109 +1,105 @@
-using System;
-using System.Net.Http.Headers;
-using dotenv.net;
+﻿using System;
+using dotenv.net;                             // För .env-stöd (om du vill lagra hemligheter lokalt)
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;          // Viktigt för UseSqlServer()
 using Microsoft.OpenApi.Models;
-using OurTime.Application;
 using OurTime.Infrastructure;
 using OurTime.WebUI.Data;
 using OurTime.WebUI.Services;
+using OurTime.Application;
 
-// Ladda in miljövariabler från .env
+
 DotEnv.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 
-// 1) Core services, Application + Infrastructure layers
-builder.Services.AddHttpContextAccessor();
 builder.Services.AddApplicationInsightsTelemetry();
+
+
+// 1) EF Core mot Azure-databasen
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
-
-// 2) Build raw connection string with placeholders replaced by env vars
-var rawConn = builder.Configuration.GetConnectionString("DefaultConnection")!
-    .Replace("{AZURE_SQL_SERVER}",   Environment.GetEnvironmentVariable("AZURE_SQL_SERVER")!)
-    .Replace("{AZURE_SQL_DATABASE}", Environment.GetEnvironmentVariable("AZURE_SQL_DATABASE")!)
-    .Replace("{AZURE_SQL_USER}",     Environment.GetEnvironmentVariable("AZURE_SQL_USER")!)
-    .Replace("{AZURE_SQL_PASSWORD}", Environment.GetEnvironmentVariable("AZURE_SQL_PASSWORD")!);
-
-// 2b) Läs connection string för StaticWatches (ADO.NET)
-var staticWatchConnection = Environment.GetEnvironmentVariable("STATICWATCH_CONNECTION");
-
-// 3) EF Core → Azure SQL, migrations in this project, retry + 60s timeout
-builder.Services.AddDbContext<ApplicationDbContext>(opts =>
-    opts.UseSqlServer(rawConn, sql =>
-    {
-        sql.MigrationsAssembly("OurTime.WebUI");
-        sql.EnableRetryOnFailure(maxRetryCount: 5, maxRetryDelay: TimeSpan.FromSeconds(10), errorNumbersToAdd: null);
-        sql.CommandTimeout(60);
-    })
+builder.Services.AddDbContext<ApplicationDbContext>(opt =>
+    opt.UseSqlServer(
+        // Hämta connection string från appsettings.json,
+        // ersätt sedan platshållare med miljövariabler.
+        (builder.Configuration.GetConnectionString("DefaultConnection") ?? "")
+            .Replace("{AZURE_SQL_USER}", Environment.GetEnvironmentVariable("AZURE_SQL_USER") ?? "")
+            .Replace("{AZURE_SQL_PASSWORD}", Environment.GetEnvironmentVariable("AZURE_SQL_PASSWORD") ?? "")
+            .Replace("{AZURE_SQL_SERVER}", Environment.GetEnvironmentVariable("AZURE_SQL_SERVER") ?? "")
+            .Replace("{AZURE_SQL_DATABASE}", Environment.GetEnvironmentVariable("AZURE_SQL_DATABASE") ?? "")
+    )
 );
 
-// 4) Cookie‐based auth for MVC
-builder.Services
-    .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(opts =>
+
+// 2) Cookie‐autentisering för MVC
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
     {
-        opts.LoginPath       = "/Account/Login";
-        opts.LogoutPath      = "/Account/Logout";
-        opts.ExpireTimeSpan  = TimeSpan.FromHours(1);
+        options.LoginPath = "/Account/Login";
+        options.LogoutPath = "/Account/Logout";
+        options.ExpireTimeSpan = TimeSpan.FromHours(1);
     });
 
-// 5) AuthService: simple HttpClient for login + API-key generation
-builder.Services.AddHttpClient<AuthService>(client =>
-{
-    client.BaseAddress = new Uri(Environment.GetEnvironmentVariable("REVIEW_ENGINE_URL")!);
-    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-});
-
-// 6) ReviewApiService + handler that injects JWT & API-key on each request
-builder.Services.AddTransient<ReviewApiAuthHandler>();
+// 3) HttpClient för externa Review-API:t
 builder.Services.AddHttpClient<ReviewApiService>(client =>
 {
-    client.BaseAddress = new Uri(Environment.GetEnvironmentVariable("REVIEW_ENGINE_URL")!);
-    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-})
-.AddHttpMessageHandler<ReviewApiAuthHandler>();
+    client.BaseAddress = new Uri(Environment.GetEnvironmentVariable("REVIEW_ENGINE_URL"));
+    client.DefaultRequestHeaders.Add("Accept", "application/json");
+    client.DefaultRequestHeaders.Add("X-Api-Key", Environment.GetEnvironmentVariable("REVIEW_ENGINE_API_KEY"));
+});
 
-// 7) MVC + Swagger/OpenAPI
-builder.Services.AddControllersWithViews();
+// 4) Registrera API‐controllers + Razor‐views
+builder.Services.AddControllers();          // [ApiController]–endpoints
+builder.Services.AddControllersWithViews(); // Razor‐views
+
+// 5) Swagger/OpenAPI för Watches API
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "OurTime.WebUI", Version = "v1" });
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "Watches API V1",
+        Version = "v1"
+    });
 });
 
 var app = builder.Build();
 
-// 8) Middleware
+// 6) Middleware: statiska filer, routing, auth
 app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-// 9) Proxy external ReviewEngine swagger JSON
+// 7) Proxy‐endpoint för externa ReviewEngine‐swagger
+
 app.MapGet("/swagger-external/swagger.json", async (IHttpClientFactory http) =>
 {
-    var json = await http
-        .CreateClient(nameof(ReviewApiService))
-        .GetStringAsync("/v3/api-docs");
+    var client = http.CreateClient(nameof(ReviewApiService));
+    var json = await client.GetStringAsync("/v3/api-docs");
     return Results.Content(json, "application/json");
 });
 
-// 10) Swagger UI in Development
+// 8) Swagger + UI (ENDAST i Development)
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json",           "OurTime.WebUI v1");
-        c.SwaggerEndpoint("/swagger-external/swagger.json",     "ReviewEngine API");
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Watches API V1");
+        c.SwaggerEndpoint("/swagger-external/swagger.json", "ReviewEngine API");
         c.RoutePrefix = "swagger";
     });
 }
 
+
+// 9) Map controllers + standard MVC‐route
 app.MapControllers();
-app.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}"
+);
 
 app.Run();
