@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using System.Data.SqlClient;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -30,7 +31,6 @@ namespace OurTime.WebUI.Controllers
             _reviews = reviews;
         }
 
-        //Karusell på startsidan
         public IActionResult Index()
         {
             var watches = new List<WatchViewModel>
@@ -103,6 +103,36 @@ namespace OurTime.WebUI.Controllers
                 }
             };
 
+            var connStr = Environment.GetEnvironmentVariable("STATICWATCH_CONNECTION");
+            if (!string.IsNullOrWhiteSpace(connStr))
+            {
+                using var connection = new SqlConnection(connStr);
+                connection.Open();
+
+                var command = new SqlCommand("SELECT Name, ImageUrl, Price, Description, Features FROM StaticWatches", connection);
+                using var reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    var features = new List<string>();
+                    var raw = reader["Features"]?.ToString();
+                    if (!string.IsNullOrWhiteSpace(raw))
+                    {
+                        features = raw.Split(';', StringSplitOptions.RemoveEmptyEntries)
+                                      .Select(f => f.Trim()).ToList();
+                    }
+
+                    watches.Add(new WatchViewModel
+                    {
+                        Name = reader["Name"].ToString(),
+                        ImageUrl = reader["ImageUrl"].ToString(),
+                        Price = string.Format("{0:N0} SEK", reader["Price"]),
+                        Description = reader["Description"].ToString(),
+                        Features = features
+                    });
+                }
+            }
+
             return View(watches);
         }
 
@@ -122,10 +152,10 @@ namespace OurTime.WebUI.Controllers
             {
                 var dto = new ProductRequestDto
                 {
-                    ProductId   = 0,
-                    Name        = product.Name,
-                    Category    = product.Model,
-                    Tags        = new[] {
+                    ProductId = 0,
+                    Name = product.Name,
+                    Category = product.Model,
+                    Tags = new[] {
                         new TagDto { Id = 3, Name = "watch" },
                         new TagDto { Id = 4, Name = "timepiece" }
                     },
@@ -140,19 +170,19 @@ namespace OurTime.WebUI.Controllers
                 await _db.SaveChangesAsync();
             }
 
-            var extId  = product.ExternalProductId.Value;
+            var extId = product.ExternalProductId.Value;
             var reviews = (await _reviews.GetReviewsAsync((int)extId)).ToList();
 
             var vm = new ProductReviewsViewModel
             {
-                Product   = product,
-                Reviews   = reviews,
+                Product = product,
+                Reviews = reviews,
                 NewReview = new CreateReviewDto()
             };
             return View(vm);
         }
 
-         [HttpPost]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Reviews(int productId, ProductReviewsViewModel vm)
         {
