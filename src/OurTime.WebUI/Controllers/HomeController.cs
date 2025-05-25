@@ -1,13 +1,16 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using OurTime.WebUI.Data;
-using OurTime.WebUI.Models.ViewModels;
-using OurTime.WebUI.Models;
-using OurTime.WebUI.Models.Dtos;
-using OurTime.WebUI.Services;
-using System.Diagnostics;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using OurTime.WebUI.Data;
+using OurTime.WebUI.Models;
+using OurTime.WebUI.Models.Dtos;
+using OurTime.WebUI.Models.ViewModels;
+using OurTime.WebUI.Services;
 
 namespace OurTime.WebUI.Controllers
 {
@@ -104,10 +107,10 @@ namespace OurTime.WebUI.Controllers
         }
 
         public IActionResult Privacy() => View();
-        public IActionResult Watches() => View();
         public IActionResult ShowCart() => View();
         public IActionResult About() => View();
         public IActionResult Contact() => View();
+        public IActionResult Watches() => View();
 
         [HttpGet]
         public async Task<IActionResult> Reviews(int productId)
@@ -115,43 +118,64 @@ namespace OurTime.WebUI.Controllers
             var product = await _db.Watches.FindAsync(productId);
             if (product == null) return NotFound();
 
-            var requestDto = new ProductRequestDto
+            if (product.ExternalProductId == null)
             {
-                ProductId = product.Id,
-                Name = product.Name,
-                Category = product.Model,
-                Tags = new[] { "watch", "timepiece" }
-            };
-            await _reviews.RegisterProductAsync(requestDto);
+                var dto = new ProductRequestDto
+                {
+                    ProductId   = 0,
+                    Name        = product.Name,
+                    Category    = product.Model,
+                    Tags        = new[] {
+                        new TagDto { Id = 3, Name = "watch" },
+                        new TagDto { Id = 4, Name = "timepiece" }
+                    },
+                    CustomerId = 1
+                };
 
-            var reviews = (await _reviews.GetReviewsAsync(productId)).ToList();
+                var newId = await _reviews.RegisterAndReturnIdAsync(dto);
+                if (newId == null)
+                    return StatusCode(502, "Could not register product with ReviewEngine.");
+
+                product.ExternalProductId = newId.Value;
+                await _db.SaveChangesAsync();
+            }
+
+            var extId  = product.ExternalProductId.Value;
+            var reviews = (await _reviews.GetReviewsAsync((int)extId)).ToList();
 
             var vm = new ProductReviewsViewModel
             {
-                Product = product,
-                Reviews = reviews,
+                Product   = product,
+                Reviews   = reviews,
                 NewReview = new CreateReviewDto()
             };
             return View(vm);
         }
 
-        [HttpPost]
+         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Reviews(int productId, ProductReviewsViewModel vm)
         {
+            var product = await _db.Watches.FindAsync(productId);
+            if (product == null) return NotFound();
+            if (product.ExternalProductId == null)
+                return BadRequest("Product missing ExternalProductId.");
+
+            var extId = product.ExternalProductId.Value;
+
             if (!ModelState.IsValid)
             {
-                vm.Reviews = (await _reviews.GetReviewsAsync(productId)).ToList();
-                vm.Product = await _db.Watches.FindAsync(productId) ?? throw new InvalidOperationException();
+                vm.Reviews = (await _reviews.GetReviewsAsync((int)extId)).ToList();
+                vm.Product = product;
                 return View(vm);
             }
 
-            var created = await _reviews.PostReviewAsync(productId, vm.NewReview);
+            var created = await _reviews.PostReviewAsync((int)extId, vm.NewReview);
             if (created == null)
             {
                 ModelState.AddModelError("", "Could not save your review.");
-                vm.Reviews = (await _reviews.GetReviewsAsync(productId)).ToList();
-                vm.Product = await _db.Watches.FindAsync(productId) ?? throw new InvalidOperationException();
+                vm.Reviews = (await _reviews.GetReviewsAsync((int)extId)).ToList();
+                vm.Product = product;
                 return View(vm);
             }
 
@@ -159,8 +183,8 @@ namespace OurTime.WebUI.Controllers
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error() =>
-            View(new ErrorViewModel
+        public IActionResult Error()
+            => View(new ErrorViewModel
             {
                 RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
             });
