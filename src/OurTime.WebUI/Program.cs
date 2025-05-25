@@ -9,6 +9,7 @@ using OurTime.Infrastructure;
 using OurTime.WebUI.Data;
 using OurTime.WebUI.Services;
 
+
 DotEnv.Load();
 
 var builder = WebApplication.CreateBuilder(args);
