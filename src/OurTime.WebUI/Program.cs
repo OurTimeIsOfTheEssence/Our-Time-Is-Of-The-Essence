@@ -10,6 +10,7 @@ using OurTime.WebUI.Services;
 using OurTime.Domain.Entities;
 using OurTime.Infrastructure.Persistence;
 
+// Ladda in miljövariabler från .env
 DotEnv.Load();
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,6 +27,9 @@ var rawConn = builder.Configuration.GetConnectionString("DefaultConnection")!
     .Replace("{AZURE_SQL_DATABASE}", Environment.GetEnvironmentVariable("AZURE_SQL_DATABASE")!)
     .Replace("{AZURE_SQL_USER}",     Environment.GetEnvironmentVariable("AZURE_SQL_USER")!)
     .Replace("{AZURE_SQL_PASSWORD}", Environment.GetEnvironmentVariable("AZURE_SQL_PASSWORD")!);
+
+// 2b) Läs connection string för StaticWatches (ADO.NET)
+var staticWatchConnection = Environment.GetEnvironmentVariable("STATICWATCH_CONNECTION");
 
 // 3) EF Core → Azure SQL, migrations in this project, retry + 60s timeout
 builder.Services.AddDbContext<AppDbContext>(opts =>
