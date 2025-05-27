@@ -1,13 +1,14 @@
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Diagnostics;
-using System.Data.SqlClient;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using OurTime.WebUI.Data;
+using OurTime.Domain.Entities;
+using OurTime.Infrastructure.Persistence;    // <- AppDbContext
 using OurTime.WebUI.Models;
 using OurTime.WebUI.Models.Dtos;
 using OurTime.WebUI.Models.ViewModels;
@@ -18,12 +19,12 @@ namespace OurTime.WebUI.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly ApplicationDbContext _db;
+        private readonly AppDbContext _db;
         private readonly ReviewApiService _reviews;
 
         public HomeController(
             ILogger<HomeController> logger,
-            ApplicationDbContext db,
+            AppDbContext db,
             ReviewApiService reviews)
         {
             _logger = logger;
@@ -103,31 +104,35 @@ namespace OurTime.WebUI.Controllers
                 }
             };
 
+            // Hämta fler från en statisk tabell om miljövariabeln finns
             var connStr = Environment.GetEnvironmentVariable("STATICWATCH_CONNECTION");
             if (!string.IsNullOrWhiteSpace(connStr))
             {
                 using var connection = new SqlConnection(connStr);
                 connection.Open();
 
-                var command = new SqlCommand("SELECT Name, ImageUrl, Price, Description, Features FROM StaticWatches", connection);
+                using var command = new SqlCommand(
+                    "SELECT Name, ImageUrl, Price, Description, Features FROM StaticWatches",
+                    connection
+                );
                 using var reader = command.ExecuteReader();
 
                 while (reader.Read())
                 {
-                    var features = new List<string>();
-                    var raw = reader["Features"]?.ToString();
-                    if (!string.IsNullOrWhiteSpace(raw))
-                    {
-                        features = raw.Split(';', StringSplitOptions.RemoveEmptyEntries)
-                                      .Select(f => f.Trim()).ToList();
-                    }
+                    var rawFeatures = reader["Features"]?.ToString();
+                    var features = string.IsNullOrWhiteSpace(rawFeatures)
+                        ? new List<string>()
+                        : rawFeatures
+                            .Split(';', StringSplitOptions.RemoveEmptyEntries)
+                            .Select(f => f.Trim())
+                            .ToList();
 
                     watches.Add(new WatchViewModel
                     {
-                        Name = reader["Name"].ToString(),
-                        ImageUrl = reader["ImageUrl"].ToString(),
+                        Name = reader["Name"]?.ToString() ?? string.Empty,
+                        ImageUrl = reader["ImageUrl"]?.ToString() ?? string.Empty,
                         Price = string.Format("{0:N0} SEK", reader["Price"]),
-                        Description = reader["Description"].ToString(),
+                        Description = reader["Description"]?.ToString() ?? string.Empty,
                         Features = features
                     });
                 }
@@ -155,7 +160,8 @@ namespace OurTime.WebUI.Controllers
                     ProductId = 0,
                     Name = product.Name,
                     Category = product.Model,
-                    Tags = new[] {
+                    Tags = new[]
+                    {
                         new TagDto { Id = 3, Name = "watch" },
                         new TagDto { Id = 4, Name = "timepiece" }
                     },
@@ -170,8 +176,8 @@ namespace OurTime.WebUI.Controllers
                 await _db.SaveChangesAsync();
             }
 
-            var extId = product.ExternalProductId.Value;
-            var reviews = (await _reviews.GetReviewsAsync((int)extId)).ToList();
+            var extId = product.ExternalProductId!.Value;
+            var reviews = (await _reviews.GetReviewsAsync(extId)).ToList();
 
             var vm = new ProductReviewsViewModel
             {
@@ -179,11 +185,11 @@ namespace OurTime.WebUI.Controllers
                 Reviews = reviews,
                 NewReview = new CreateReviewDto()
             };
+
             return View(vm);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> Reviews(int productId, ProductReviewsViewModel vm)
         {
             var product = await _db.Watches.FindAsync(productId);
@@ -195,16 +201,16 @@ namespace OurTime.WebUI.Controllers
 
             if (!ModelState.IsValid)
             {
-                vm.Reviews = (await _reviews.GetReviewsAsync((int)extId)).ToList();
+                vm.Reviews = (await _reviews.GetReviewsAsync(extId)).ToList();
                 vm.Product = product;
                 return View(vm);
             }
 
-            var created = await _reviews.PostReviewAsync((int)extId, vm.NewReview);
+            var created = await _reviews.PostReviewAsync(extId, vm.NewReview);
             if (created == null)
             {
                 ModelState.AddModelError("", "Could not save your review.");
-                vm.Reviews = (await _reviews.GetReviewsAsync((int)extId)).ToList();
+                vm.Reviews = (await _reviews.GetReviewsAsync(extId)).ToList();
                 vm.Product = product;
                 return View(vm);
             }
