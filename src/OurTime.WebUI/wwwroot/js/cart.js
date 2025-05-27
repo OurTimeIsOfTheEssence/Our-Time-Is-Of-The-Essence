@@ -5,7 +5,9 @@
         document.cookie = `${name}=${encodeURIComponent(JSON.stringify(value))};expires=${expires};path=/`;
     }
     function getCookie(name) {
-        const match = document.cookie.split(';').map(c => c.trim())
+        const match = document.cookie
+            .split(';')
+            .map(c => c.trim())
             .find(c => c.startsWith(name + '='));
         if (!match) return null;
         return JSON.parse(decodeURIComponent(match.substring(name.length + 1)));
@@ -37,11 +39,12 @@
         const prod = productsById[productId];
         if (!prod) return console.error('Unknown product', productId);
 
-        // “+1” fly animation
+        // +1 fly-animation
         const btn = evt.currentTarget;
         const badge = document.getElementById('cartCountBadge');
         const fly = document.createElement('span');
-        fly.className = 'fly-number'; fly.textContent = '+1';
+        fly.className = 'fly-number';
+        fly.textContent = '+1';
         document.body.appendChild(fly);
         const b = btn.getBoundingClientRect(), c = badge.getBoundingClientRect();
         fly.style.left = `${b.left + b.width / 2}px`;
@@ -52,7 +55,7 @@
         fly.style.opacity = '0';
         fly.addEventListener('transitionend', () => fly.remove());
 
-        // update cookie
+        // uppdatera cookie
         const cart = getCookie('cart') || [];
         const found = cart.find(i => i.id === prod.id);
         if (found) found.quantity++;
@@ -78,12 +81,14 @@
         const cart = getCookie('cart') || [];
         const body = document.getElementById('cartModalBody');
         if (!body) return;
+
         if (cart.length === 0) {
-            body.innerHTML = '<p>Your shopping cart is empty.</p>';
+            body.innerHTML = '<p>Din kundvagn är tom.</p>';
         } else {
             let html = '<ul class="list-group">';
             cart.forEach(i => {
-                const sub = (i.price * i.quantity).toLocaleString('en-US');
+                const sub = (i.price * i.quantity)
+                    .toLocaleString('sv-SE');
                 html += `
 <li class="list-group-item d-flex justify-content-between align-items-center">
   <div>
@@ -94,17 +99,23 @@
       <button class="btn btn-outline-secondary" onclick="changeQuantity(${i.id}, +1)">+</button>
     </div>
   </div>
-  <span class="badge bg-primary">${sub} USD</span>
+  <span class="badge bg-primary">${sub} SEK</span>
 </li>`;
             });
             html += '</ul>';
-            const total = cart.reduce((s, i) => s + i.price * i.quantity, 0)
-                .toLocaleString('en-US');
-            html += `<div class="d-flex justify-content-between align-items-center mt-3 p-2 border-top">
-  <strong>Total</strong><strong>${total} USD</strong>
+
+            const total = cart
+                .reduce((sum, i) => sum + i.price * i.quantity, 0)
+                .toLocaleString('sv-SE');
+            html += `
+<div class="d-flex justify-content-between align-items-center mt-3 p-2 border-top">
+  <strong>Total</strong>
+  <strong>${total} SEK</strong>
 </div>`;
+
             body.innerHTML = html;
         }
+
         bootstrap.Modal.getOrCreateInstance(
             document.getElementById('cartModal')
         ).show();
