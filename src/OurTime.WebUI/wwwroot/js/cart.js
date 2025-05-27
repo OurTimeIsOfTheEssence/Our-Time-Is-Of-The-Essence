@@ -29,8 +29,8 @@
     // —— Cart badge updater ——
     function updateCartBadge() {
         const cart = getCookie('cart') || [];
-        const total = cart.reduce((sum, i) => sum + (i.quantity || 0), 0);
-        document.getElementById('cartCountBadge').innerText = total;
+        const totalQty = cart.reduce((sum, i) => sum + (i.quantity || 0), 0);
+        document.getElementById('cartCountBadge').innerText = totalQty;
     }
 
     // —— Add one item ——
@@ -55,7 +55,7 @@
         fly.style.opacity = '0';
         fly.addEventListener('transitionend', () => fly.remove());
 
-        // uppdatera cookie
+        // update cookie
         const cart = getCookie('cart') || [];
         const found = cart.find(i => i.id === prod.id);
         if (found) found.quantity++;
@@ -83,12 +83,13 @@
         if (!body) return;
 
         if (cart.length === 0) {
-            body.innerHTML = '<p>Din kundvagn är tom.</p>';
+            body.innerHTML = '<p>Your shopping cart is empty.</p>';
         } else {
             let html = '<ul class="list-group">';
             cart.forEach(i => {
+                // subtotal formatted en-US, suffix SEK
                 const sub = (i.price * i.quantity)
-                    .toLocaleString('sv-SE');
+                    .toLocaleString('en-US');
                 html += `
 <li class="list-group-item d-flex justify-content-between align-items-center">
   <div>
@@ -104,9 +105,10 @@
             });
             html += '</ul>';
 
+            // total formatted en-US, suffix SEK
             const total = cart
                 .reduce((sum, i) => sum + i.price * i.quantity, 0)
-                .toLocaleString('sv-SE');
+                .toLocaleString('en-US');
             html += `
 <div class="d-flex justify-content-between align-items-center mt-3 p-2 border-top">
   <strong>Total</strong>
