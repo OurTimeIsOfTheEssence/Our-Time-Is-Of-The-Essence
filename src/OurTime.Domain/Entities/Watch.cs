@@ -53,7 +53,6 @@ public class Watch : Entity<int>
         IsCustom = isCustom;
     }
 
-    // -------- NY ÖVERLASTNING: bara kärnfält —--------
     public Watch(
         string name,
         string imageUrl,
@@ -75,7 +74,7 @@ public class Watch : Entity<int>
     { }
 
     /// <summary>
-    /// Enkel ctor bara för seed/test.
+    /// Ctor only for seedtest.
     /// </summary>
     public Watch(
       string name,
