@@ -17,7 +17,7 @@ En enkel webbapplikation för klockor, byggd med C# och ASP.NET Core MVC. Här k
 Öppna en terminal (PowerShell / CMD) och skriv:
 
 ```bash
-git clone https://github.com/yourusername/OurTime.git
+git clone https://github.com/OurTimeIsOfTheEssence/Our-Time-Is-Of-The-Essence.git
 cd OurTime/src/OurTime.WebUI
 ```
 
@@ -54,7 +54,13 @@ I samma mapp (`OurTime.WebUI`) kör du:
 dotnet run
 ```
 
-Öppna sedan webbläsaren på [https://localhost:5001](https://localhost:5001) eller [http://localhost:5000](http://localhost:5000).
+Öppna sedan webbläsaren på:
+
+- **HTTPS**: `https://localhost:<PORTNUMMER>`
+- **HTTP**:  `http://localhost:<PORTNUMMER>`
+
+(där `<PORTNUMMER>` är det som står i din konsol under “Now listening on…” när du kör `dotnet run`)
+
 
 ---
 
