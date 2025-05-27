@@ -2,18 +2,18 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
-using OurTime.WebUI.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using OurTime.WebUI.Models.Entities;
+using OurTime.Domain.Entities;
+using OurTime.Infrastructure.Persistence;  // för ApplicationDbContext
 
 namespace OurTime.WebUI.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly ApplicationDbContext _db;
-        public AccountController(ApplicationDbContext db)
+        private readonly AppDbContext _db;
+        public AccountController(AppDbContext db)
         {
             _db = db;
         }

@@ -5,6 +5,9 @@ namespace OurTime.Domain.Entities;
 
 public class Watch : Entity<int>
 {
+    public int? ExternalProductId { get; set; }
+    public int CustomerId { get; private set; }
+
     public int Id { get; set; }
 
     public string? Model { get; set; } 
@@ -25,8 +28,21 @@ public class Watch : Entity<int>
 
     }
 
-    public Watch(string name, string? imageUrl, decimal price = 0, string? model = null, string? description = null, string? gender = "", int stock = 0, bool isCustom = false)
+    public Watch(
+        int? externalProductId,
+        int customerId,
+        string name,
+        string imageUrl,
+        decimal price,
+        string model,
+        string description,
+        string gender,
+        int stock,
+        bool isCustom = false
+    )
     {
+        ExternalProductId = externalProductId;
+        CustomerId = customerId;
         Name = name;
         ImageUrl = imageUrl;
         Price = price;
@@ -35,10 +51,49 @@ public class Watch : Entity<int>
         Gender = gender;
         Stock = stock;
         IsCustom = isCustom;
-        
     }
 
-        public void UpdateDetails(string name, string description, string? imageUrl)
+    public Watch(
+        string name,
+        string imageUrl,
+        decimal price,
+        string model,
+        string description
+    ) : this(
+        externalProductId: null,
+        customerId: 0,
+        name: name,
+        imageUrl: imageUrl,
+        price: price,
+        model: model,
+        description: description,
+        gender: string.Empty,
+        stock: 0,
+        isCustom: false
+    )
+    { }
+
+    /// <summary>
+    /// Ctor only for seedtest.
+    /// </summary>
+    public Watch(
+      string name,
+      string description,
+      string imageUrl
+    ) : this(
+        externalProductId: null,
+        customerId: 0,
+        name: name,
+        imageUrl: imageUrl,
+        price: 0m,
+        model: string.Empty,
+        description: description,
+        gender: string.Empty,
+        stock: 0,
+        isCustom: false
+    )
+    { }
+    public void UpdateDetails(string name, string description, string? imageUrl)
     {
 
         // Update properties after all validation passes

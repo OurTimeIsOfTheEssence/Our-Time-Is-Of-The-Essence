@@ -6,8 +6,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using OurTime.Application;
 using OurTime.Infrastructure;
-using OurTime.WebUI.Data;
 using OurTime.WebUI.Services;
+using OurTime.Domain.Entities;
+using OurTime.Infrastructure.Persistence;
 
 // Ladda in miljövariabler från .env
 DotEnv.Load();
@@ -31,7 +32,7 @@ var rawConn = builder.Configuration.GetConnectionString("DefaultConnection")!
 var staticWatchConnection = Environment.GetEnvironmentVariable("STATICWATCH_CONNECTION");
 
 // 3) EF Core → Azure SQL, migrations in this project, retry + 60s timeout
-builder.Services.AddDbContext<ApplicationDbContext>(opts =>
+builder.Services.AddDbContext<AppDbContext>(opts =>
     opts.UseSqlServer(rawConn, sql =>
     {
         sql.MigrationsAssembly("OurTime.WebUI");

@@ -1,5 +1,5 @@
-﻿using OurTime.WebUI.Models.Entities;
-using OurTime.WebUI.Models.Dtos;
+﻿using OurTime.WebUI.Models.Dtos;
+using OurTime.Domain.Entities;
 
 namespace OurTime.WebUI.Models.ViewModels
 {

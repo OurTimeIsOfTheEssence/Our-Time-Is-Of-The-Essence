@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using OurTime.WebUI.Data;
 using OurTime.WebUI.Models.Dtos;
-using OurTime.WebUI.Models.Entities;
 using OurTime.WebUI.Models.ViewModels;
 using OurTime.WebUI.Services;
+using OurTime.Infrastructure.Persistence; 
+using OurTime.Domain.Entities;
 
 namespace OurTime.WebUI.Controllers
 {
@@ -12,8 +12,8 @@ namespace OurTime.WebUI.Controllers
     [Route("api/[controller]")]
     public class WatchesController : ControllerBase
     {
-        private readonly ApplicationDbContext _db;
-        public WatchesController(ApplicationDbContext db) => _db = db;
+        private readonly AppDbContext _db;
+        public WatchesController(AppDbContext db) => _db = db;
 
         // GET api/watches
         [HttpGet]
@@ -59,14 +59,13 @@ namespace OurTime.WebUI.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var entity = new Watch
-            {
-                Name = dto.Name,
-                Model = dto.Model,
-                Price = dto.Price,
-                Description = dto.Description,
-                ImageUrl = dto.ImageUrl
-            };
+            var entity = new Watch(
+             dto.Name,
+             dto.Model,
+             dto.Price,
+             dto.Description,
+             dto.ImageUrl
+);
 
             _db.Watches.Add(entity);
             await _db.SaveChangesAsync();
@@ -86,15 +85,13 @@ namespace OurTime.WebUI.Controllers
             var exists = await _db.Watches.AnyAsync(w => w.Id == id);
             if (!exists) return NotFound();
 
-            var entity = new Watch
-            {
-                Id = dto.Id,
-                Name = dto.Name,
-                Model = dto.Model,
-                Price = dto.Price,
-                Description = dto.Description,
-                ImageUrl = dto.ImageUrl
-            };
+            var entity = new Watch(
+              dto.Name,
+              dto.Model,
+              dto.Price,
+              dto.Description,
+              dto.ImageUrl
+);
 
             _db.Entry(entity).State = EntityState.Modified;
             await _db.SaveChangesAsync();

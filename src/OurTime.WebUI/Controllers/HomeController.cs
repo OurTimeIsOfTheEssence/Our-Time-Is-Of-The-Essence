@@ -1,13 +1,14 @@
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Diagnostics;
-using System.Data.SqlClient;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using OurTime.WebUI.Data;
+using OurTime.Domain.Entities;
+using OurTime.Infrastructure.Persistence;    // <- AppDbContext
 using OurTime.WebUI.Models;
 using OurTime.WebUI.Models.Dtos;
 using OurTime.WebUI.Models.ViewModels;
@@ -18,12 +19,12 @@ namespace OurTime.WebUI.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly ApplicationDbContext _db;
+        private readonly AppDbContext _db;
         private readonly ReviewApiService _reviews;
 
         public HomeController(
             ILogger<HomeController> logger,
-            ApplicationDbContext db,
+            AppDbContext db,
             ReviewApiService reviews)
         {
             _logger = logger;
@@ -32,104 +33,106 @@ namespace OurTime.WebUI.Controllers
         }
 
         // Karusell på startsidan
-        public IActionResult Index()
-        {
-            var watches = new List<WatchViewModel>
-            {
-                new WatchViewModel
-                {
-                    Name = "OT ASP.NET",
-                    ImageUrl = "https://storageaccountblobb.blob.core.windows.net/images/Asp.net.png",
-                    Price = "12,999 SEK",
-                    Description = "A sleek, dark timepiece designed for developers and tech lovers.",
-                    Features = new List<string> {
-                        "Material: Stainless Steel",
-                        "Movement: Quartz",
-                        "Water Resistance: 30 meters"
-                    }
-                },
-                new WatchViewModel
-                {
-                    Name = "OT Terra",
-                    ImageUrl = "https://storageaccountblobb.blob.core.windows.net/images/Terra.png",
-                    Price = "29,999 SEK",
-                    Description = "Titanium case and automatic movement – built for adventurers.",
-                    Features = new List<string> {
-                        "Titanium shell", "Automatic movement", "Luminous dials"
-                    }
-                },
-                new WatchViewModel
-                {
-                    Name = "OT Rose A1",
-                    ImageUrl = "https://storageaccountblobb.blob.core.windows.net/images/Rose A1.png",
-                    Price = "39,999 SEK",
-                    Description = "Luxury rose gold with fine leather strap.",
-                    Features = new List<string> {
-                        "Rose gold case", "Elegant leather", "Swiss quartz"
-                    }
-                },
-                new WatchViewModel
-                {
-                    Name = "OT Lynx A2",
-                    ImageUrl = "https://storageaccountblobb.blob.core.windows.net/images/Lynx A2.png",
-                    Price = "24,499 SEK",
-                    Description = "Bold luminous hands, sporty yet elegant.",
-                    Features = new List<string> {
-                        "Sport design", "Luminous hands", "Waterproof"
-                    }
-                },
-                new WatchViewModel
-                {
-                    Name = "OT Bohemian",
-                    ImageUrl = "https://storageaccountblobb.blob.core.windows.net/images/Bohemian.png",
-                    Price = "10,999 SEK",
-                    Description = "Artistic and charming design for creative souls.",
-                    Features = new List<string> {
-                        "Creative dial", "Slim fit", "Matte finish"
-                    }
-                },
-                new WatchViewModel
-                {
-                    Name = "OT Vector",
-                    ImageUrl = "https://storageaccountblobb.blob.core.windows.net/images/VectorV1.png",
-                    Price = "89,999 SEK",
-                    Description = "The OT Vector is a masterpiece of engineering, combining lightweight titanium with precision Swiss movement.",
-                    Features = new List<string> {
-                        "Material: Titanium case and bracelet",
-                        "Movement: Swiss automatic movement",
-                        "Crystal: Scratch-resistant sapphire crystal",
-                        "Water Resistance: 100 meters (10 ATM)",
-                        "Special Features: Luminous hands and markers, date display"
-                    }
-                }
-            };
+           public IActionResult Index()
+    {
+        var watches = new List<WatchViewModel>
+{
+    new WatchViewModel
+    {
+        Name = "OT ASP.NET",
+        ImageUrl = "https://storageaccountblobb.blob.core.windows.net/images/Asp.net.png",
+        Price = "12,999 SEK",
+        Description = "A sleek, dark timepiece designed for developers and tech lovers.",
+        Features = new List<string> {
+            "Material: Stainless Steel",
+            "Movement: Quartz",
+            "Water Resistance: 30 meters"
+        }
+    },
+    new WatchViewModel
+    {
+        Name = "OT Terra",
+        ImageUrl = "https://storageaccountblobb.blob.core.windows.net/images/Terra.png",
+        Price = "29,999 SEK",
+        Description = "Titanium case and automatic movement – built for adventurers.",
+        Features = new List<string> {
+            "Titanium shell", "Automatic movement", "Luminous dials"
+        }
+    },
+    new WatchViewModel
+    {
+        Name = "OT Rose A1",
+        ImageUrl = "https://storageaccountblobb.blob.core.windows.net/images/Rose A1.png",
+        Price = "39,999 SEK",
+        Description = "Luxury rose gold with fine leather strap.",
+        Features = new List<string> {
+            "Rose gold case", "Elegant leather", "Swiss quartz"
+        }
+    },
+    new WatchViewModel
+    {
+        Name = "OT Lynx A2",
+        ImageUrl = "https://storageaccountblobb.blob.core.windows.net/images/Lynx A2.png",
+        Price = "24,499 SEK",
+        Description = "Bold luminous hands, sporty yet elegant.",
+        Features = new List<string> {
+            "Sport design", "Luminous hands", "Waterproof"
+        }
+    },
+    new WatchViewModel
+    {
+        Name = "OT Bohemian",
+        ImageUrl = "https://storageaccountblobb.blob.core.windows.net/images/Bohemian.png",
+        Price = "10,999 SEK",
+        Description = "Artistic and charming design for creative souls.",
+        Features = new List<string> {
+            "Creative dial", "Slim fit", "Matte finish"
+        }
+    },
+    new WatchViewModel
+    {
+        Name = "OT Vector",
+        ImageUrl = "https://storageaccountblobb.blob.core.windows.net/images/VectorV1.png",
+        Price = "89,999 SEK",
+        Description = "The OT Vector is a masterpiece of engineering, combining lightweight titanium with precision Swiss movement.",
+        Features = new List<string> {
+            "Material: Titanium case and bracelet",
+            "Movement: Swiss automatic movement",
+            "Crystal: Scratch-resistant sapphire crystal",
+            "Water Resistance: 100 meters (10 ATM)",
+            "Special Features: Luminous hands and markers, date display"
+        }
+    }
+};
 
+            // Hämta fler från en statisk tabell om miljövariabeln finns
             var connStr = Environment.GetEnvironmentVariable("STATICWATCH_CONNECTION");
             if (!string.IsNullOrWhiteSpace(connStr))
             {
                 using var connection = new SqlConnection(connStr);
                 connection.Open();
 
-                var command = new SqlCommand("SELECT Name, ImageUrl, Price, Description, Features FROM StaticWatches", connection);
+                using var command = new SqlCommand(
+                    "SELECT Name, ImageUrl, Price, Description, Features FROM StaticWatches",
+                    connection);
                 using var reader = command.ExecuteReader();
 
                 while (reader.Read())
                 {
-                    var features = new List<string>();
-                    var raw = reader["Features"]?.ToString();
-                    if (!string.IsNullOrWhiteSpace(raw))
-                    {
-                        features = raw.Split(';', StringSplitOptions.RemoveEmptyEntries)
-                                      .Select(f => f.Trim())
-                                      .ToList();
-                    }
+                    var rawFeatures = reader["Features"]?.ToString();
+                    var features = string.IsNullOrWhiteSpace(rawFeatures)
+                        ? new List<string>()
+                        : rawFeatures
+                            .Split(';', StringSplitOptions.RemoveEmptyEntries)
+                            .Select(f => f.Trim())
+                            .ToList();
 
                     watches.Add(new WatchViewModel
                     {
-                        Name = reader["Name"].ToString(),
-                        ImageUrl = reader["ImageUrl"].ToString(),
+                        Name = reader["Name"]?.ToString() ?? string.Empty,
+                        ImageUrl = reader["ImageUrl"]?.ToString() ?? string.Empty,
                         Price = string.Format("{0:N0} SEK", reader["Price"]),
-                        Description = reader["Description"].ToString(),
+                        Description = reader["Description"]?.ToString() ?? string.Empty,
                         Features = features
                     });
                 }
@@ -157,7 +160,8 @@ namespace OurTime.WebUI.Controllers
                     ProductId = 0,
                     Name = product.Name,
                     Category = product.Model,
-                    Tags = new[] {
+                    Tags = new[]
+                    {
                         new TagDto { Id = 3, Name = "watch" },
                         new TagDto { Id = 4, Name = "timepiece" }
                     },
@@ -173,7 +177,7 @@ namespace OurTime.WebUI.Controllers
             }
 
             var extId = product.ExternalProductId.Value;
-            var reviews = (await _reviews.GetReviewsAsync((int)extId)).ToList();
+            var reviews = (await _reviews.GetReviewsAsync(extId)).ToList();
 
             var vm = new ProductReviewsViewModel
             {
@@ -181,6 +185,7 @@ namespace OurTime.WebUI.Controllers
                 Reviews = reviews,
                 NewReview = new CreateReviewDto()
             };
+
             return View(vm);
         }
 
@@ -197,16 +202,16 @@ namespace OurTime.WebUI.Controllers
 
             if (!ModelState.IsValid)
             {
-                vm.Reviews = (await _reviews.GetReviewsAsync((int)extId)).ToList();
+                vm.Reviews = (await _reviews.GetReviewsAsync(extId)).ToList();
                 vm.Product = product;
                 return View(vm);
             }
 
-            var created = await _reviews.PostReviewAsync((int)extId, vm.NewReview);
+            var created = await _reviews.PostReviewAsync(extId, vm.NewReview);
             if (created == null)
             {
                 ModelState.AddModelError("", "Could not save your review.");
-                vm.Reviews = (await _reviews.GetReviewsAsync((int)extId)).ToList();
+                vm.Reviews = (await _reviews.GetReviewsAsync(extId)).ToList();
                 vm.Product = product;
                 return View(vm);
             }
@@ -222,3 +227,4 @@ namespace OurTime.WebUI.Controllers
             });
     }
 }
+
